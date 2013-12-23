@@ -11,6 +11,7 @@ module.exports = function(grunt) {
                     'js/src/jquery.min.js',
                     'js/src/bootstrap.min.js',
                     'js/src/underscore-min.js',
+                    'js/src/bootstrap3-typeahead.min.js',
                     'js/src/mytory-moneybook.js'
                 ],
                 dest: 'js/production.js'
