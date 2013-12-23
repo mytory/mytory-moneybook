@@ -15,6 +15,14 @@ module.exports = function(grunt) {
                     'js/src/mytory-moneybook.js'
                 ],
                 dest: 'js/production.js'
+            },
+            dist: {
+                src: [
+                    'css/src/bootstrap.min.css',
+                    'css/src/bootstrap-theme.min.css',
+                    'css/src/mytory-moneybook.css'
+                ],
+                dest: 'css/production.css'
             }
         },
 
@@ -22,6 +30,14 @@ module.exports = function(grunt) {
             build: {
                 src: 'js/production.js',
                 dest: 'js/production.min.js'
+            }
+        },
+
+        cssmin: {
+            combine: {
+                files: {
+                    'css/production.min.css': ['css/production.css']
+                }
             }
         },
 
@@ -38,8 +54,8 @@ module.exports = function(grunt) {
 
         watch: {
             scripts: {
-                files: ['js/*.js', 'js/src/*.js'],
-                tasks: ['concat', 'uglify'],
+                files: ['js/*.js', 'js/src/*.js', 'css/src/*.css'],
+                tasks: ['concat', 'uglify', 'cssmin', 'imagemin'],
                 options: {
                     spawn: false
                 }
@@ -51,10 +67,11 @@ module.exports = function(grunt) {
     // 3. Where we tell Grunt we plan to use this plug-in.
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-    grunt.registerTask('default', ['concat', 'uglify', 'imagemin', 'watch']);
+    grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'imagemin', 'watch']);
 
 };
