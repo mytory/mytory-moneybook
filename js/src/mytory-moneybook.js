@@ -10,12 +10,17 @@ var MMB = {
         this.bind_menu_event();
     },
     set_lang: function(){
-        var user_lang = navigator.language || navigator.userLanguage;
+        var user_lang = navigator.language || navigator.userLanguage,
+            lang = 'en';
+
+        user_lang = user_lang.substr(0, 2).toLowerCase();
+
         if(user_lang == 'ko'){
-            $('body').append($('<script/>', {
-                src: 'lang/ko.js'
-            }));
+            lang = 'ko';
         }
+        $('body').append($('<script/>', {
+            src: 'lang/' + lang + '.js'
+        }));
     },
     pages: {
         'register': _.template($('#page-register').html()),
