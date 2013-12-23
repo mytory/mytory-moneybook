@@ -3,6 +3,7 @@ var polyglot = new Polyglot();
 var MMB = {
     initialize: function(){
         this.set_lang();
+        this.show_navbar();
         this.show_start_page();
         this.fill_today();
         this.provide_data_source();
@@ -19,6 +20,10 @@ var MMB = {
     pages: {
         'register': _.template($('#page-register').html()),
         'setting': _.template($('#page-setting').html())
+    },
+    show_navbar: function(){
+        var navbar_template = _.template($('#navbar').html());
+        $('#navbar-collapse').html(navbar_template());
     },
     show_page: function(page_name){
         $('.body').hide().html('').html(MMB.pages[page_name]()).fadeIn();
@@ -42,6 +47,7 @@ var MMB = {
             e.preventDefault();
             var page_name = $(this).data('page');
             that.show_page(page_name);
+            $('.navbar-toggle').click();
         });
     }
 };

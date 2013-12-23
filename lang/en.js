@@ -13,6 +13,8 @@ polyglot.extend({
     "Dining": "Dining",
     "Account": "Account",
     "My Wallet": "My Wallet",
-    "Account helper": "Enter new account, then that`ll be saved."
+    "Account helper": "Enter new account, then that`ll be saved.",
 
+    "Setting": "Setting",
+    "Language": "Language"
 });

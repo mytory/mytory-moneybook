@@ -13,5 +13,8 @@ polyglot.extend({
     "Dining": "저녁",
     "Account": "계좌",
     "My Wallet": "지갑",
-    "Account helper": "새 계좌를 입력하면 새로 계좌를 만들고 저장하게 됩니다."
+    "Account helper": "새 계좌를 입력하면 새로 계좌를 만들고 저장하게 됩니다.",
+
+    "Setting": "설정",
+    "Language": "언어"
 });
