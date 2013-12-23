@@ -16,19 +16,23 @@
 </head>
 <body>
 <nav class="navbar navbar-default" role="navigation">
-    <a class="navbar-brand" href=".">Mytory Moneybook</a>
-    <ul class="nav navbar-nav">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="menu">Menu<b class="caret"></b></a>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="menu">
-                <li role="presentation"><a role="menuitem" href="#register" data-page="register">Register</a></li>
-                <li role="presentation"><a role="menuitem" href="#calendar" data-page="calendar">Calendar</a></li>
-                <li role="presentation"><a role="menuitem" href="#statistics" data-page="statistics">Statistics</a></li>
-                <li class="divider"></li>
-                <li role="presentation"><a role="menuitem" href="#setting" data-page="setting">Setting</a></li>
-            </ul>
-        </li>
-    </ul>
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href=".">Mytory Moneybook</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="#register" data-page="register">Register</a></li>
+            <li><a href="#calendar" data-page="calendar">Calendar</a></li>
+            <li><a href="#statistics" data-page="statistics">Statistics</a></li>
+            <li><a href="#setting" data-page="setting">Setting</a></li>
+        </ul>
+    </div>
 </nav>
 <div class="body col-sm-12">
     <div class="page-register" role="page">

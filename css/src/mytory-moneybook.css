@@ -1,3 +1,6 @@
 [role=page] {
     display: none;
 }
+[role=page]:first-child {
+    display: block;
+}

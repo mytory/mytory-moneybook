@@ -19,7 +19,7 @@ var MMB = {
         $('.js-account').data('source', ['My Wallet', 'Hana Bank']);
     },
     bind_menu_event: function(){
-        $('[role=menuitem]').click(function(e){
+        $('[data-page]').click(function(e){
             e.preventDefault();
             var page_name = $(this).data('page');
             $('[role=page]').hide();
