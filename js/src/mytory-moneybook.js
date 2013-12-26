@@ -1,5 +1,13 @@
 var polyglot = new Polyglot();
 
+var MMBackbone = {
+    RegisterView: Backbone.View.extend({
+        render: function(){
+
+        }
+    })
+};
+
 var MMB = {
     initialize: function(){
         this.set_lang();
@@ -18,9 +26,8 @@ var MMB = {
         if(user_lang == 'ko'){
             lang = 'ko';
         }
-        $('body').append($('<script/>', {
-            src: 'lang/' + lang + '.js'
-        }));
+
+        polyglot.extend(Lang[lang]);
     },
     pages: {
         'register': _.template($('#page-register').html()),
@@ -52,7 +59,6 @@ var MMB = {
             e.preventDefault();
             var page_name = $(this).data('page');
             that.show_page(page_name);
-            $('.navbar-toggle').click();
         });
     }
 };
