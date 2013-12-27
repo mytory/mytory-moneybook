@@ -17,7 +17,9 @@ var Lang = {
         "Account helper": "Enter new account, then that`ll be saved.",
 
         "Setting": "Setting",
-        "Language": "Language"
+        "Language": "Language",
+        "App key": "App key",
+        "App secret": "App secret"
     },
     ko: {
         "Register": "등록",
@@ -37,6 +39,9 @@ var Lang = {
         "Account helper": "새 계좌를 입력하면 새로 계좌를 만들고 저장하게 됩니다.",
 
         "Setting": "설정",
-        "Language": "언어"
+        "Language": "언어",
+        "App key": "App key",
+        "App secret": "App secret"
+
     }
 };
