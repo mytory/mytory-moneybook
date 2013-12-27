@@ -18,6 +18,7 @@ var Lang = {
 
         "Setting": "Setting",
         "Language": "Language",
+        "Language change info": "Refresh to apply language.",
         "App key": "App key",
         "App secret": "App secret"
     },
@@ -40,6 +41,7 @@ var Lang = {
 
         "Setting": "설정",
         "Language": "언어",
+        "Language change info": "언어 설정을 변경한 뒤에는 새로고침해야 적용됩니다.",
         "App key": "App key",
         "App secret": "App secret"
 
