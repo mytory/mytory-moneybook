@@ -125,6 +125,19 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-2 control-label"><%= polyglot.t('Category depth') %></label>
+            <div class="col-sm-10">
+                <label class="radio-inline">
+                    <input type="radio" value="1" name="category_depth" <%= MMB.if_checked(category_depth, '1') %> >
+                    <%= polyglot.t('1 depth') %>
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" value="2" name="category_depth" <%= MMB.if_checked(category_depth, '2') %> >
+                    <%= polyglot.t('2 depth') %>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
             <label for="app-key" class="col-sm-2 control-label"><%= polyglot.t('App key') %></label>
             <div class="col-sm-10">
                 <input type="text" name="app_key" id="app-key" value=""/>

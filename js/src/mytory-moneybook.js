@@ -17,9 +17,9 @@ var MMB_Backbone = {
                 category_placeholder,
                 tmp;
 
-            tmp = _.random(0, MMB_Category[MMB.get_lang()].length - 1);
+            tmp = _.random(0, MMB.category.length - 1);
 
-            category_placeholder = MMB_Category[MMB.get_lang()][tmp];
+            category_placeholder = MMB.category[tmp];
 
             vars = {
                 today: today,
@@ -38,9 +38,10 @@ var MMB_Backbone = {
         render: function(){
             var vars;
             vars = {
-                language: MMB.get_lang()
+                language: MMB.get_lang(),
+                category_depth: MMB.get_category_depth()
             };
-            $('.body').hide().html('').html(this.template(vars)).fadeIn();
+            $('.body').hide().html(this.template(vars)).fadeIn();
         },
         save_setting: function(){
             var setting = {},
@@ -55,11 +56,13 @@ var MMB_Backbone = {
 var MMB = {
     initialize: function(){
         this.set_polyglot();
+        this.set_category();
         this.show_navbar();
         this.show_start_page();
         this.provide_data_source();
         this.bind_menu_event();
     },
+    category: null,
     lang: null,
     view_register: new MMB_Backbone.View_register(),
     view_setting: new MMB_Backbone.View_setting(),
@@ -100,7 +103,7 @@ var MMB = {
         this.show_page('register');
     },
     provide_data_source: function(){
-        $('.js-category').data('source', MMB_Category[this.get_lang()]);
+        $('.js-category').data('source', this.category);
         $('.js-account').data('source', ['My Wallet', 'Hana Bank']);
     },
     bind_menu_event: function(){
@@ -117,6 +120,31 @@ var MMB = {
         }else{
             return '';
         }
+    },
+    set_category: function(){
+        if(this.category){
+            return;
+        }
+        this.reset_category();
+    },
+    reset_category: function(){
+        var category_depth = this.get_category_depth();
+        if(category_depth == '1'){
+            this.category = _.filter(MMB_Category[this.get_lang()], function(entry){
+                return /.*:.*/.test(entry) == false;
+            });
+        }else{
+            this.category = _.filter(MMB_Category[this.get_lang()], function(entry){
+                return /.*:.*/.test(entry);
+            });
+        }
+    },
+    get_category_depth: function(){
+        var category_depth = localStorage.getItem('category_depth');
+        if(category_depth){
+            return category_depth;
+        }
+        return '2';
     }
 };
 

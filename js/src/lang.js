@@ -19,6 +19,9 @@ var Lang = {
         "Setting": "Setting",
         "Language": "Language",
         "Language change info": "Refresh to apply language.",
+        "Category depth": "Category depth",
+        "1 depth": "1 depth",
+        "1 depth": "2 depth",
         "App key": "App key",
         "App secret": "App secret"
     },
@@ -42,6 +45,9 @@ var Lang = {
         "Setting": "설정",
         "Language": "언어",
         "Language change info": "언어 설정을 변경한 뒤에는 새로고침해야 적용됩니다.",
+        "Category depth": "카테고리 단계",
+        "1 depth": "1단계",
+        "2 depth": "2단계",
         "App key": "App key",
         "App secret": "App secret"
     }
