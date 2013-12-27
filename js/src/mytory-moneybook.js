@@ -105,7 +105,7 @@ var MMB = {
     },
     provide_data_source: function(){
         $('.js-category').data('source', this.category);
-        $('.js-account').data('source', ['My Wallet', 'Hana Bank']);
+        $('.js-account').data('source', this.get_accounts());
     },
     bind_menu_event: function(){
         var that = this;
@@ -146,6 +146,9 @@ var MMB = {
             return category_depth;
         }
         return '2';
+    },
+    get_accounts: function(){
+        return ['My Wallet', '지갑'];
     }
 };
 
