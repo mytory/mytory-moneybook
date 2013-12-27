@@ -49,6 +49,7 @@ var MMB_Backbone = {
             _.each(value_obj, function(obj){
                 localStorage[obj.name] = obj.value;
             });
+            MMB.reset_category();
         }
     })
 };
