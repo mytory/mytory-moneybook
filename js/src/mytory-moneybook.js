@@ -13,9 +13,17 @@ var MMB_Backbone = {
             var date = new Date(),
                 month = date.getMonth() + 1,
                 today = date.getFullYear() + '-' + month + '-' + date.getDate(),
-                vars;
+                vars,
+                category_placeholder,
+                tmp;
+
+            tmp = _.random(0, MMB_Category[MMB.get_lang()].length - 1);
+
+            category_placeholder = MMB_Category[MMB.get_lang()][tmp];
+
             vars = {
-                today: today
+                today: today,
+                category_placeholder: category_placeholder
             };
             $('.body').hide().html(this.template(vars)).fadeIn();
         }
@@ -52,6 +60,7 @@ var MMB = {
         this.provide_data_source();
         this.bind_menu_event();
     },
+    lang: null,
     view_register: new MMB_Backbone.View_register(),
     view_setting: new MMB_Backbone.View_setting(),
     view_navbar: new MMB_Backbone.View_navbar(),
@@ -59,6 +68,11 @@ var MMB = {
         polyglot.extend(Lang[this.get_lang()]);
     },
     get_lang: function(){
+
+        if(this.lang){
+            return this.lang;
+        }
+
         var user_lang = navigator.language || navigator.userLanguage,
             lang = localStorage.getItem('language');
 
@@ -71,6 +85,9 @@ var MMB = {
                 lang = 'en';
             }
         }
+
+        this.lang = lang;
+
         return lang;
     },
     show_navbar: function(){
@@ -80,10 +97,10 @@ var MMB = {
         this['view_' + page_name].render();
     },
     show_start_page: function(){
-        this.show_page('setting');
+        this.show_page('register');
     },
     provide_data_source: function(){
-        $('.js-category').data('source', ['Food:Dining', 'Food:Morning']);
+        $('.js-category').data('source', MMB_Category[this.get_lang()]);
         $('.js-account').data('source', ['My Wallet', 'Hana Bank']);
     },
     bind_menu_event: function(){
