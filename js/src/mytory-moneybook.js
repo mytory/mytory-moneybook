@@ -1,12 +1,21 @@
 var polyglot = new Polyglot();
 
 var MMB_Backbone = {
+
     View_navbar: Backbone.View.extend({
         template: _.template($('#navbar').html()),
         render: function(){
             $('#navbar-collapse').html(this.template());
         }
     }),
+
+    View_need_config: Backbone.View.extend({
+        template: _.template($('#page-need-config').html()),
+        render: function(){
+            $('.body').html(this.template());
+        }
+    }),
+
     View_register: Backbone.View.extend({
         template: _.template($('#page-register').html()),
         render: function(){
@@ -28,6 +37,7 @@ var MMB_Backbone = {
             $('.body').hide().html(this.template(vars)).fadeIn();
         }
     }),
+
     View_setting: Backbone.View.extend({
         el: ".body",
         template: _.template($('#page-setting').html()),
@@ -65,9 +75,10 @@ var MMB = {
     },
     category: null,
     lang: null,
+    view_navbar: new MMB_Backbone.View_navbar(),
+    view_need_config: new MMB_Backbone.View_need_config(),
     view_register: new MMB_Backbone.View_register(),
     view_setting: new MMB_Backbone.View_setting(),
-    view_navbar: new MMB_Backbone.View_navbar(),
     set_polyglot: function(){
         polyglot.extend(Lang[this.get_lang()]);
     },
@@ -98,10 +109,16 @@ var MMB = {
         this.view_navbar.render();
     },
     show_page: function(page_name){
-        this['view_' + page_name].render();
+        if(MMB_Config || page_name == 'need_config'){
+            this['view_' + page_name].render();
+        }
     },
     show_start_page: function(){
-        this.show_page('register');
+        if( ! MMB_Config){
+            this.show_page('need_config');
+        }else{
+            this.show_page('register');
+        }
     },
     provide_data_source: function(){
         $('.js-category').data('source', this.category);
