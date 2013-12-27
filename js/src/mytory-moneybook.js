@@ -24,7 +24,9 @@ var MMB_Backbone = {
         template: _.template($('#page-setting').html()),
         render: function(){
             var vars;
-            vars = {};
+            vars = {
+                language: 'en'
+            };
             $('.body').hide().html('').html(this.template(vars)).fadeIn();
         }
     })
@@ -73,6 +75,13 @@ var MMB = {
             var page_name = $(this).data('page');
             that.show_page(page_name);
         });
+    },
+    if_checked: function(db_value, field_value){
+        if(db_value == field_value){
+            return ' checked ';
+        }else{
+            return '';
+        }
     }
 };
 
