@@ -16,6 +16,13 @@ var MMB_Backbone = {
         }
     }),
 
+    View_incorrect_setting: Backbone.View.extend({
+        template: _.template($('#page-incorrect-setting').html()),
+        render: function(){
+            $('.body').html(this.template());
+        }
+    }),
+
     View_register: Backbone.View.extend({
         template: _.template($('#page-register').html()),
         render: function(){
@@ -69,16 +76,33 @@ var MMB = {
         this.set_polyglot();
         this.set_category();
         this.show_navbar();
+        this.init_dropbox();
         this.show_start_page();
         this.provide_data_source();
         this.bind_menu_event();
     },
     category: null,
     lang: null,
+    dropbox_ok: false,
     view_navbar: new MMB_Backbone.View_navbar(),
     view_need_config: new MMB_Backbone.View_need_config(),
+    view_incorrect_setting: new MMB_Backbone.View_incorrect_setting(),
     view_register: new MMB_Backbone.View_register(),
     view_setting: new MMB_Backbone.View_setting(),
+    init_dropbox: function(){
+        var client = new Dropbox.Client({key: MMB_Config.app_key});
+
+        // Try to finish OAuth authorization.
+        client.authenticate({interactive: true}, function (error) {
+            if (error) {
+                alert('Authentication error: ' + error);
+            }
+        });
+
+        if (client.isAuthenticated()) {
+            this.dropbox_ok = true;
+        }
+    },
     set_polyglot: function(){
         polyglot.extend(Lang[this.get_lang()]);
     },
@@ -109,13 +133,15 @@ var MMB = {
         this.view_navbar.render();
     },
     show_page: function(page_name){
-        if(MMB_Config || page_name == 'need_config'){
+        if(MMB_Config && this.dropbox_ok || page_name == 'need_config' || page_name == 'incorrect_setting'){
             this['view_' + page_name].render();
         }
     },
     show_start_page: function(){
         if( ! MMB_Config){
             this.show_page('need_config');
+        }else if( ! this.dropbox_ok){
+            this.show_page('incorrect_setting');
         }else{
             this.show_page('register');
         }

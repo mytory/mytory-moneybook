@@ -3,6 +3,9 @@ var Lang = {
         "Need config": "You must create config.js file",
         "Config file create help": "Open config.sample.js, then fill your dropbox app key and secret. And rename config.sample.js to config.js",
 
+        "Incorrect setting": "Incorrect dropbox app_key",
+        "Incorrect setting help": "Your dropbox app_key is incorrect.",
+
         "Register": "Register",
         "Type": "Type",
         "Withdrawal": "Withdrawal",
@@ -31,6 +34,9 @@ var Lang = {
     ko: {
         "Need config": "config.js 파일을 만들어야 합니다",
         "Config file create help": "config.sample.js 파일을 열고 드롭박스 app key와 secret을 입력하세요. 그리고 나서 config.sample.js를 config.js로 바꾸세요.",
+
+        "Incorrect setting": "드롭박스 app key 오류",
+        "Incorrect setting help": "드롭박스 app key가 부정확합니다.",
 
         "Register": "등록",
         "Type": "종류",
