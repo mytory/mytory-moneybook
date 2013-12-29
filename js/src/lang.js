@@ -3,8 +3,14 @@ var Lang = {
         "Need config": "You must create config.js file",
         "Config file create help": "Open config.sample.js, then fill your dropbox app key and secret. And rename config.sample.js to config.js",
 
-        "Incorrect setting": "Incorrect dropbox app_key",
-        "Incorrect setting help": "Your dropbox app_key is incorrect.",
+        "Dropbox sign in": "Dropbox sign in",
+        "You need to sign in by dropbox account." : "You need to sign in by dropbox account.",
+        "Authentication error: ": "Authentication error: ",
+
+        "No network": "No network",
+        "You need to connect network.": "You need to connect network.",
+
+        "Sign out": "Sign out",
 
         "Register": "Register",
         "Type": "Type",
@@ -35,8 +41,14 @@ var Lang = {
         "Need config": "config.js 파일을 만들어야 합니다",
         "Config file create help": "config.sample.js 파일을 열고 드롭박스 app key와 secret을 입력하세요. 그리고 나서 config.sample.js를 config.js로 바꾸세요.",
 
-        "Incorrect setting": "드롭박스 app key 오류",
-        "Incorrect setting help": "드롭박스 app key가 부정확합니다.",
+        "Dropbox sign in": "드롭박스 로그인",
+        "You need to sign in by dropbox account." : "드롭박스로 로그인해야 합니다.",
+        "Authentication error: ": "인증 오류: ",
+
+        "No network": "인터넷 연결 안 됨",
+        "You need to connect network.": "인터넷에 연결돼 있는지 확인해 주세요.",
+
+        "Sign out": "로그아웃",
 
         "Register": "등록",
         "Type": "종류",

@@ -3,9 +3,26 @@ var polyglot = new Polyglot();
 var MMB_Backbone = {
 
     View_navbar: Backbone.View.extend({
+        el: '#navbar-collapse',
         template: _.template($('#navbar').html()),
+        events: {
+            "click .js-sign-out": "sign_out",
+            "click [data-page]": "render_page"
+        },
+        sign_out: function(e){
+            e.preventDefault();
+            if(MMB.dropbox_ok){
+                MMB.dropbox_client.signOut();
+                MMB.dropbox_ok = false;
+            }
+        },
         render: function(){
             $('#navbar-collapse').html(this.template());
+        },
+        render_page: function(e){
+            e.preventDefault();
+            var page_name = $(e.target).data('page');
+            MMB.show_page(page_name);
         }
     }),
 
@@ -16,8 +33,29 @@ var MMB_Backbone = {
         }
     }),
 
-    View_incorrect_setting: Backbone.View.extend({
-        template: _.template($('#page-incorrect-setting').html()),
+    View_no_network: Backbone.View.extend({
+        template: _.template($('#page-no-network').html()),
+        render: function(){
+            $('.body').html(this.template());
+        }
+    }),
+
+    View_dropbox_sign_in: Backbone.View.extend({
+        el: ".body",
+        template: _.template($('#page-dropbox-sign-in').html()),
+        events: {
+            "click .js-dropbox-sign-in": "dropbox_sign_in"
+        },
+        dropbox_sign_in: function(){
+            MMB.dropbox_client = new Dropbox.Client({key: MMB_Config.app_key});
+
+            // Try to finish OAuth authorization.
+            MMB.dropbox_client.authenticate({interactive: true}, function (error) {
+                if (error) {
+                    alert('Authentication error: ' + error);
+                }
+            });
+        },
         render: function(){
             $('.body').html(this.template());
         }
@@ -76,31 +114,37 @@ var MMB = {
         this.set_polyglot();
         this.set_category();
         this.show_navbar();
-        this.init_dropbox();
+        this.check_dropbox();
         this.show_start_page();
         this.provide_data_source();
-        this.bind_menu_event();
     },
     category: null,
     lang: null,
+    dropbox_client: null,
     dropbox_ok: false,
     view_navbar: new MMB_Backbone.View_navbar(),
     view_need_config: new MMB_Backbone.View_need_config(),
-    view_incorrect_setting: new MMB_Backbone.View_incorrect_setting(),
+    view_dropbox_sign_in: new MMB_Backbone.View_dropbox_sign_in(),
     view_register: new MMB_Backbone.View_register(),
     view_setting: new MMB_Backbone.View_setting(),
-    init_dropbox: function(){
-        var client = new Dropbox.Client({key: MMB_Config.app_key});
+    view_no_network: new MMB_Backbone.View_no_network(),
+    check_dropbox: function(){
+        try{
+            this.dropbox_client = new Dropbox.Client({key: MMB_Config.app_key});
 
-        // Try to finish OAuth authorization.
-        client.authenticate({interactive: true}, function (error) {
-            if (error) {
-                alert('Authentication error: ' + error);
+            // Try to finish OAuth authorization.
+            this.dropbox_client.authenticate({interactive: false}, function (error) {
+                if (error) {
+                    alert(polyglot.t('Authentication error: ') + error);
+                }
+            });
+
+            if(this.dropbox_client.isAuthenticated()){
+                this.dropbox_ok = true;
             }
-        });
 
-        if (client.isAuthenticated()) {
-            this.dropbox_ok = true;
+        }catch(e){
+
         }
     },
     set_polyglot: function(){
@@ -133,15 +177,22 @@ var MMB = {
         this.view_navbar.render();
     },
     show_page: function(page_name){
-        if(MMB_Config && this.dropbox_ok || page_name == 'need_config' || page_name == 'incorrect_setting'){
+        if(
+            MMB_Config && this.dropbox_ok ||
+                page_name == 'need_config' ||
+                page_name == 'dropbox_sign_in' ||
+                page_name == 'no_network'
+        ){
             this['view_' + page_name].render();
         }
     },
     show_start_page: function(){
         if( ! MMB_Config){
             this.show_page('need_config');
+        }else if( ! navigator.onLine){
+            this.show_page('no_network');
         }else if( ! this.dropbox_ok){
-            this.show_page('incorrect_setting');
+            this.show_page('dropbox_sign_in');
         }else{
             this.show_page('register');
         }
@@ -149,14 +200,6 @@ var MMB = {
     provide_data_source: function(){
         $('.js-category').data('source', this.category);
         $('.js-account').data('source', this.get_accounts());
-    },
-    bind_menu_event: function(){
-        var that = this;
-        $('[data-page]').click(function(e){
-            e.preventDefault();
-            var page_name = $(this).data('page');
-            that.show_page(page_name);
-        });
     },
     if_checked: function(db_value, field_value){
         if(db_value == field_value){

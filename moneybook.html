@@ -40,6 +40,7 @@
     <ul class="nav navbar-nav">
         <li><a href="#register" data-page="register"><%= polyglot.t('Register') %></a></li>
         <li><a href="#setting" data-page="setting"><%= polyglot.t('Setting') %></a></li>
+        <li><a href="#sign-out" data-page="dropbox_sign_in" class="js-sign-out"><%= polyglot.t('Sign out') %></a></li>
     </ul>
 </script>
 
@@ -152,12 +153,24 @@
     </div>
 </script>
 
-<script type="text/template" id="page-incorrect-setting">
+<script type="text/template" id="page-dropbox-sign-in">
     <div class="page-setting" role="page">
         <div class="page-header">
-            <h1><%= polyglot.t('Incorrect setting') %></h1>
+            <h1><%= polyglot.t('Dropbox sign in') %></h1>
         </div>
-        <p class="help-block"><%= polyglot.t('Incorrect setting help') %></p>
+        <p class="help-block"><%= polyglot.t('You need to sign in by dropbox account.') %></p>
+        <p>
+            <button class="js-dropbox-sign-in btn btn-primary"><%= polyglot.t('Dropbox sign in') %></button>
+        </p>
+    </div>
+</script>
+
+<script type="text/template" id="page-no-network">
+    <div class="page-setting" role="page">
+        <div class="page-header">
+            <h1><%= polyglot.t('No network') %></h1>
+        </div>
+        <p class="help-block"><%= polyglot.t('You need to connect network.') %></p>
     </div>
 </script>
 
