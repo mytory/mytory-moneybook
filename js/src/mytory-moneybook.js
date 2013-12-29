@@ -62,6 +62,7 @@ var MMB_Backbone = {
     }),
 
     View_register: Backbone.View.extend({
+        el: '.body',
         template: _.template($('#page-register').html()),
         render: function(){
             var date = new Date(),
@@ -80,6 +81,30 @@ var MMB_Backbone = {
                 category_placeholder: category_placeholder
             };
             $('.body').hide().html(this.template(vars)).fadeIn();
+            return this;
+        },
+        events: {
+            "submit .js-register-form": "register"
+        },
+        register: function(e){
+            e.preventDefault();
+            var data_arr = $('.js-register-form').serializeArray(),
+                data = {};
+            _.forEach(data_arr, function(entry){
+                data[entry.name] = entry.value;
+            });
+
+            // dropbox query
+            var datastoreManager = MMB.dropbox_client.getDatastoreManager();
+
+            datastoreManager.openDefaultDatastore(function (error, datastore) {
+                if (error) {
+                    alert('Error opening default datastore: ' + error);
+                }
+
+                var moneybook = datastore.getTable('moneybook');
+                var detail = moneybook.insert(data);
+            });
         }
     }),
 
