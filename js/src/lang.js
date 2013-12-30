@@ -33,7 +33,7 @@ var Lang = {
         "Language change info": "Refresh to apply language.",
         "Category depth": "Category depth",
         "1 depth": "1 depth",
-        "1 depth": "2 depth",
+        "2 depth": "2 depth",
         "App key": "App key",
         "App secret": "App secret"
     },
