@@ -40,6 +40,7 @@
     <ul class="nav navbar-nav">
         <li><a href="#register" data-page="register"><%= polyglot.t('Register') %></a></li>
         <li><a href="#setting" data-page="setting"><%= polyglot.t('Setting') %></a></li>
+        <li><a href="#import" data-page="import"><%= polyglot.t('Import') %></a></li>
         <li><a href="#sign-out" data-page="dropbox_sign_in" class="js-sign-out"><%= polyglot.t('Sign out') %></a></li>
     </ul>
 </script>
@@ -171,6 +172,15 @@
             <h1><%= polyglot.t('No network') %></h1>
         </div>
         <p class="help-block"><%= polyglot.t('You need to connect network.') %></p>
+    </div>
+</script>
+
+<script type="text/template" id="page-import">
+    <div class="page-import" role="page">
+        <div class="page-header">
+            <h1><%= polyglot.t('Import') %></h1>
+        </div>
+
     </div>
 </script>
 

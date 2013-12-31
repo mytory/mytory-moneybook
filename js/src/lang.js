@@ -10,6 +10,7 @@ var Lang = {
         "No network": "No network",
         "You need to connect network.": "You need to connect network.",
 
+        "Import": "Import",
         "Sign out": "Sign out",
 
         "Register": "Register",
@@ -48,6 +49,7 @@ var Lang = {
         "No network": "인터넷 연결 안 됨",
         "You need to connect network.": "인터넷에 연결돼 있는지 확인해 주세요.",
 
+        "Import": "가져오기",
         "Sign out": "로그아웃",
 
         "Register": "등록",

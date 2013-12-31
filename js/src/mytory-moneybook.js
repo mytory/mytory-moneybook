@@ -15,14 +15,17 @@ var MMB_Backbone = {
                 MMB.dropbox_client.signOut();
                 MMB.dropbox_ok = false;
             }
+            return this;
         },
         render: function(){
             $('#navbar-collapse').html(this.template());
+            return this;
         },
         render_page: function(e){
             e.preventDefault();
             var page_name = $(e.target).data('page');
-            MMB.show_page(page_name);
+            MMB.render(page_name);
+            return this;
         }
     }),
 
@@ -30,6 +33,7 @@ var MMB_Backbone = {
         template: _.template($('#page-need-config').html()),
         render: function(){
             $('.body').html(this.template());
+            return this;
         }
     }),
 
@@ -37,6 +41,7 @@ var MMB_Backbone = {
         template: _.template($('#page-no-network').html()),
         render: function(){
             $('.body').html(this.template());
+            return this;
         }
     }),
 
@@ -55,9 +60,11 @@ var MMB_Backbone = {
                     alert('Authentication error: ' + error);
                 }
             });
+            return this;
         },
         render: function(){
             $('.body').html(this.template());
+            return this;
         }
     }),
 
@@ -105,6 +112,7 @@ var MMB_Backbone = {
                 var moneybook = datastore.getTable('moneybook');
                 var detail = moneybook.insert(data);
             });
+            return this;
         }
     }),
 
@@ -122,6 +130,7 @@ var MMB_Backbone = {
                 category_depth: MMB.get_category_depth()
             };
             $('.body').hide().html(this.template(vars)).fadeIn();
+            return this;
         },
         save_setting: function(){
             var setting = {},
@@ -130,6 +139,17 @@ var MMB_Backbone = {
                 localStorage[obj.name] = obj.value;
             });
             MMB.reset_category();
+            return this;
+        }
+    }),
+
+    View_import: Backbone.View.extend({
+        el: ".body",
+        template: _.template($('#page-import').html()),
+        render: function(){
+            var vars = {};
+            $('.body').hide().html(this.template(vars)).fadeIn();
+            return this;
         }
     })
 };
@@ -138,21 +158,16 @@ var MMB = {
     initialize: function(){
         this.set_polyglot();
         this.set_category();
-        this.show_navbar();
         this.check_dropbox();
+        this.show_navbar();
         this.show_start_page();
         this.provide_data_source();
     },
+    pages: {},
     category: null,
     lang: null,
     dropbox_client: null,
     dropbox_ok: false,
-    view_navbar: new MMB_Backbone.View_navbar(),
-    view_need_config: new MMB_Backbone.View_need_config(),
-    view_dropbox_sign_in: new MMB_Backbone.View_dropbox_sign_in(),
-    view_register: new MMB_Backbone.View_register(),
-    view_setting: new MMB_Backbone.View_setting(),
-    view_no_network: new MMB_Backbone.View_no_network(),
     check_dropbox: function(){
         try{
             this.dropbox_client = new Dropbox.Client({key: MMB_Config.app_key});
@@ -199,27 +214,33 @@ var MMB = {
         return lang;
     },
     show_navbar: function(){
-        this.view_navbar.render();
+        this.render('navbar');
     },
-    show_page: function(page_name){
+    render: function(page_name){
+        console.log(page_name);
         if(
             MMB_Config && this.dropbox_ok ||
                 page_name == 'need_config' ||
                 page_name == 'dropbox_sign_in' ||
                 page_name == 'no_network'
         ){
-            this['view_' + page_name].render();
+            if(this.pages[page_name]){
+                this.pages[page_name].render();
+            }else{
+                this.pages[page_name] = new MMB_Backbone['View_' + page_name];
+                this.pages[page_name].render();
+            }
         }
     },
     show_start_page: function(){
         if( ! MMB_Config){
-            this.show_page('need_config');
+            this.render('need_config');
         }else if( ! navigator.onLine){
-            this.show_page('no_network');
+            this.render('no_network');
         }else if( ! this.dropbox_ok){
-            this.show_page('dropbox_sign_in');
+            this.render('dropbox_sign_in');
         }else{
-            this.show_page('register');
+            this.render('register');
         }
     },
     provide_data_source: function(){
