@@ -156,12 +156,15 @@ var MMB_Backbone = {
 
 var MMB = {
     initialize: function(){
+        var network = false;
         this.set_polyglot();
         this.set_category();
-        this.check_dropbox();
-        this.show_navbar();
-        this.show_start_page();
-        this.provide_data_source();
+        network = this.check_dropbox();
+        if(network){
+            this.show_navbar();
+            this.show_start_page();
+            this.provide_data_source();
+        }
     },
     pages: {},
     category: null,
@@ -182,9 +185,11 @@ var MMB = {
             if(this.dropbox_client.isAuthenticated()){
                 this.dropbox_ok = true;
             }
+            return true;
 
         }catch(e){
-
+            this.render('no_network');
+            return false;
         }
     },
     set_polyglot: function(){
@@ -217,7 +222,6 @@ var MMB = {
         this.render('navbar');
     },
     render: function(page_name){
-        console.log(page_name);
         if(
             MMB_Config && this.dropbox_ok ||
                 page_name == 'need_config' ||
