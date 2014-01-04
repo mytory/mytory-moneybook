@@ -72,9 +72,7 @@ var MMB_Backbone = {
         el: '.body',
         template: _.template($('#page-register').html()),
         render: function(){
-            var date = new Date(),
-                month = date.getMonth() + 1,
-                today = date.getFullYear() + '-' + month + '-' + date.getDate(),
+            var today = moment().format('YYYY-MM-DD'),
                 vars,
                 category_placeholder,
                 tmp;

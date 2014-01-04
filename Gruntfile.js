@@ -15,6 +15,7 @@ module.exports = function(grunt) {
                     'js/src/bootstrap3-typeahead.min.js',
                     'js/src/polyglot.min.js',
                     'js/src/xls.js',
+                    'js/src/moment.min.js',
                     'js/src/lang.js',
                     'js/src/mytory-moneybook-category.js',
                     'js/src/mytory-moneybook.js'
