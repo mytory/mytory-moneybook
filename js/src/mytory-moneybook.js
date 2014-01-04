@@ -102,20 +102,7 @@ var MMB_Backbone = {
             });
 
             // dropbox query
-            if(MMB.moneybook){
-                inserted.push(MMB.moneybook.insert(data));
-            }else{
-                datastoreManager = MMB.dropbox_client.getDatastoreManager();
-
-                datastoreManager.openDefaultDatastore(function (error, datastore) {
-                    if (error) {
-                        alert('Error opening default datastore: ' + error);
-                    }
-
-                    MMB.moneybook = datastore.getTable('moneybook');
-                    inserted.push(MMB.moneybook.insert(data));
-                });
-            }
+            inserted.push(MMB.moneybook.insert(data));
             return this;
         }
     }),
@@ -155,6 +142,22 @@ var MMB_Backbone = {
             $('.body').hide().html(this.template(vars)).fadeIn();
             return this;
         }
+    }),
+
+    View_daily: Backbone.View.extend({
+        el: ".body",
+        template: _.template($('#page-daily').html()),
+        render: function(){
+            var vars,
+                today = moment().format('YYYY-MM-DD');
+
+            data = MMB.moneybook.query({date: today});
+            vars = {
+                data: data
+            };
+            $('.body').hide().html(this.template(vars)).fadeIn();
+            return this;
+        }
     })
 };
 
@@ -190,6 +193,18 @@ var MMB = {
             if(this.dropbox_client.isAuthenticated()){
                 this.dropbox_ok = true;
             }
+
+            // get datastore api
+            datastoreManager = MMB.dropbox_client.getDatastoreManager();
+
+            datastoreManager.openDefaultDatastore(function (error, datastore) {
+                if (error) {
+                    alert('Error opening default datastore: ' + error);
+                }
+
+                MMB.moneybook = datastore.getTable('moneybook');
+            });
+
             return true;
 
         }catch(e){

@@ -38,6 +38,7 @@
 
 <script type="text/template" id="navbar">
     <ul class="nav navbar-nav">
+        <li><a href="#daily" data-page="daily"><%= polyglot.t('Daily') %></a></li>
         <li><a href="#register" data-page="register"><%= polyglot.t('Register') %></a></li>
         <li><a href="#setting" data-page="setting"><%= polyglot.t('Setting') %></a></li>
         <li><a href="#import" data-page="import"><%= polyglot.t('Import') %></a></li>
@@ -181,6 +182,19 @@
             <h1><%= polyglot.t('Import') %></h1>
         </div>
 
+    </div>
+</script>
+
+<script type="text/template" id="page-daily">
+    <div class="page-daily" role="page">
+        <div class="page-header">
+            <h1><%= polyglot.t('Daily') %></h1>
+        </div>
+        <ul>
+            <% for(var i = 0; i < data.length ; i++){ %>
+                <li><%= data[i].get('memo') %>, <%= data[i].get('amount') %></li>
+            <% } %>
+        </ul>
     </div>
 </script>
 
