@@ -94,22 +94,28 @@ var MMB_Backbone = {
         register: function(e){
             e.preventDefault();
             var data_arr = $('.js-register-form').serializeArray(),
-                data = {};
+                data = {},
+                datastoreManager,
+                inserted = [];
             _.forEach(data_arr, function(entry){
                 data[entry.name] = entry.value;
             });
 
             // dropbox query
-            var datastoreManager = MMB.dropbox_client.getDatastoreManager();
+            if(MMB.moneybook){
+                inserted.push(MMB.moneybook.insert(data));
+            }else{
+                datastoreManager = MMB.dropbox_client.getDatastoreManager();
 
-            datastoreManager.openDefaultDatastore(function (error, datastore) {
-                if (error) {
-                    alert('Error opening default datastore: ' + error);
-                }
+                datastoreManager.openDefaultDatastore(function (error, datastore) {
+                    if (error) {
+                        alert('Error opening default datastore: ' + error);
+                    }
 
-                var moneybook = datastore.getTable('moneybook');
-                var detail = moneybook.insert(data);
-            });
+                    MMB.moneybook = datastore.getTable('moneybook');
+                    inserted.push(MMB.moneybook.insert(data));
+                });
+            }
             return this;
         }
     }),
@@ -169,6 +175,7 @@ var MMB = {
     lang: null,
     dropbox_client: null,
     dropbox_ok: false,
+    moneybook: null,
     check_dropbox: function(){
         try{
             this.dropbox_client = new Dropbox.Client({key: MMB_Config.app_key});
