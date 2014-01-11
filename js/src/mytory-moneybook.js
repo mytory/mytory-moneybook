@@ -192,18 +192,17 @@ var MMB = {
 
             if(this.dropbox_client.isAuthenticated()){
                 this.dropbox_ok = true;
+                // get datastore api
+                datastoreManager = MMB.dropbox_client.getDatastoreManager();
+
+                datastoreManager.openDefaultDatastore(function (error, datastore) {
+                    if (error) {
+                        alert('Error opening default datastore: ' + error);
+                    }
+
+                    MMB.moneybook = datastore.getTable('moneybook');
+                });
             }
-
-            // get datastore api
-            datastoreManager = MMB.dropbox_client.getDatastoreManager();
-
-            datastoreManager.openDefaultDatastore(function (error, datastore) {
-                if (error) {
-                    alert('Error opening default datastore: ' + error);
-                }
-
-                MMB.moneybook = datastore.getTable('moneybook');
-            });
 
             return true;
 
