@@ -141,6 +141,79 @@ var MMB_Backbone = {
             var vars = {};
             $('.body').hide().html(this.template(vars)).fadeIn();
             return this;
+        },
+        events: {
+            "dragenter .xls_drop_area": "drag_handle",
+            "dragover .xls_drop_area": "drag_handle",
+            "drop .xls_drop_area": "drop_process"
+        },
+        naver_xls_to_json: function (workbook) {
+            var result = {};
+            workbook.SheetNames.forEach(function(sheetName) {
+                var roa = XLS.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                if(roa.length > 0){
+                    result[sheetName] = roa;
+                }
+            });
+            return result;
+        },
+        xlsworker: function (data, cb) {
+            var worker = new Worker('js/xlsworker.js');
+            worker.onmessage = function(e) {
+                switch(e.data.t) {
+                    case 'ready': break;
+                    case 'e': console.error(e.data.d);
+                    case 'xls': cb(e.data.d); break;
+                }
+            };
+            worker.postMessage(data);
+        },
+        drop_process: function(e){
+            var that = this,
+                files,
+                i,
+                f;
+            e.originalEvent.stopPropagation();
+            e.originalEvent.preventDefault();
+            
+            files = e.originalEvent.dataTransfer.files;
+            for (i = 0, f = files[i]; i != files.length; ++i) {
+                var reader = new FileReader();
+                var name = f.name;
+                reader.onload = function(e) {
+                    var data = e.target.result;
+                    if(typeof Worker !== 'undefined') {
+                        that.xlsworker(data, function (wb) {
+                            var output = "";
+                            output = JSON.stringify(that.to_json(wb), 2, 2);
+                            console.log(output);
+                        });
+                    } else {
+                        var cfb = XLS.CFB.read(data, {type: 'binary'});
+                        //var arr = String.fromCharCode.apply(null, new Uint8Array(data));
+                        //var cfb = XLS.CFB.read(btoa(arr), {type: 'base64'});
+                        var wb = XLS.parse_xlscfb(cfb);
+                        console.log(that.naver_xls_to_json(wb));
+                    }
+                };
+                reader.readAsBinaryString(f);
+                //reader.readAsArrayBuffer(f);
+            }
+        },
+        drag_handle: function(e) {
+            e.originalEvent.stopPropagation();
+            e.originalEvent.preventDefault();
+            e.originalEvent.dataTransfer.dropEffect = 'copy';
+        },
+        to_json: function (workbook){
+            var result = {};
+            workbook.SheetNames.forEach(function(sheetName) {
+                var roa = XLS.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+                if(roa.length > 0){
+                    result[sheetName] = roa;
+                }
+            });
+            return result;
         }
     }),
 
@@ -263,7 +336,7 @@ var MMB = {
         }else if( ! this.dropbox_ok){
             this.render('dropbox_sign_in');
         }else{
-            this.render('register');
+            this.render('import');
         }
     },
     provide_data_source: function(){

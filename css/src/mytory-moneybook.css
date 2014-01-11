@@ -4,3 +4,11 @@
 [role=page]:first-child {
     display: block;
 }
+.xls_drop_area {
+    width: 100%;
+    padding: 50px 0;
+    text-align: center;
+    border: 1px solid #ddd;
+    color: #999;
+    font-size: 2em;
+}
