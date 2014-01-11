@@ -10,7 +10,6 @@ var Lang = {
         "No network": "No network",
         "You need to connect network.": "You need to connect network.",
 
-        "Import": "Import",
         "Sign out": "Sign out",
 
         "Register": "Register",
@@ -36,7 +35,15 @@ var Lang = {
         "1 depth": "1 depth",
         "2 depth": "2 depth",
         "App key": "App key",
-        "App secret": "App secret"
+        "App secret": "App secret",
+
+        "Daily": "Daily",
+
+        "Import": "Import",
+        "Excel type": "Excel type",
+        "Naver Moneybook": "Naver Moneybook",
+        "Drop xls file to below.": "Drop xls file to below."
+
     },
     ko: {
         "Need config": "config.js 파일을 만들어야 합니다",
@@ -49,7 +56,6 @@ var Lang = {
         "No network": "인터넷 연결 안 됨",
         "You need to connect network.": "인터넷에 연결돼 있는지 확인해 주세요.",
 
-        "Import": "가져오기",
         "Sign out": "로그아웃",
 
         "Register": "등록",
@@ -75,6 +81,13 @@ var Lang = {
         "1 depth": "1단계",
         "2 depth": "2단계",
         "App key": "App key",
-        "App secret": "App secret"
+        "App secret": "App secret",
+
+        "Daily": "일간",
+
+        "Import": "가져오기",
+        "Excel type": "엑셀 종류",
+        "Naver Moneybook": "네이버 가계부",
+        "Drop xls file to below.": "엑셀 파일을 여기다 떨구세요."
     }
 };
