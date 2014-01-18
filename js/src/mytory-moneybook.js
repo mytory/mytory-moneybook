@@ -95,7 +95,6 @@ var MMB_Backbone = {
             e.preventDefault();
             var data_arr = $('.js-register-form').serializeArray(),
                 data = {},
-                datastoreManager,
                 inserted = [];
             _.forEach(data_arr, function(entry){
                 data[entry.name] = entry.value;
@@ -147,16 +146,6 @@ var MMB_Backbone = {
             "dragover .xls_drop_area": "drag_handle",
             "drop .xls_drop_area": "drop_process"
         },
-        naver_xls_to_json: function (workbook) {
-            var result = {};
-            workbook.SheetNames.forEach(function(sheetName) {
-                var roa = XLS.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-                if(roa.length > 0){
-                    result[sheetName] = roa;
-                }
-            });
-            return result;
-        },
         xlsworker: function (data, cb) {
             var worker = new Worker('js/xlsworker.js');
             worker.onmessage = function(e) {
@@ -183,22 +172,80 @@ var MMB_Backbone = {
                 reader.onload = function(e) {
                     var data = e.target.result;
                     if(typeof Worker !== 'undefined') {
-                        that.xlsworker(data, function (wb) {
-                            var output = "";
-                            output = JSON.stringify(that.to_json(wb), 2, 2);
-                            console.log(output);
-                        });
+                        that.xlsworker(data, that.process_wb);
                     } else {
                         var cfb = XLS.CFB.read(data, {type: 'binary'});
                         //var arr = String.fromCharCode.apply(null, new Uint8Array(data));
                         //var cfb = XLS.CFB.read(btoa(arr), {type: 'base64'});
                         var wb = XLS.parse_xlscfb(cfb);
-                        console.log(that.naver_xls_to_json(wb));
+                        that.process_wb(wb);
                     }
                 };
                 reader.readAsBinaryString(f);
                 //reader.readAsArrayBuffer(f);
             }
+        },
+        process_wb: function (wb) {
+            var that = MMB.pages.import;
+            var output = that.to_csv(wb),
+                rows;
+
+            rows = output.split('\n');
+
+            console.log(rows[2]);
+            console.log(typeof rows[2]);
+            console.log(rows[2].length);
+
+            if(rows[2].trim() == '"지출 현황"'){
+                that.import_naver_withdrawal(rows);
+            }else if(rows[2].trim() == '"지출 현황"'){
+                that.import_naver_deposit(rows);
+            }else{
+                alert("네이버에서 다운받은 엑셀이 아닌 것 같습니다.");
+            }
+        },
+        import_naver_withdrawal: function (rows){
+            var sheet1 = [],
+                sheet2 = [],
+                data = [],
+                inserted = [];
+
+            _.forEach(rows, function(row){
+                if(/[0-9]{4}년[0-9]{1,2}월[0-9]{1,2}일/.test(row)){
+                    sheet1.push(row.replace(/"/g, '').split('\t'));
+                }
+            });
+
+            _.forEach(sheet1, function(row){
+                if(row[3] !== '' && /[0-9]+/.test(row[3].replace(/,/g, ''))){
+                    sheet2.push(row);
+                }
+            });
+
+            _.forEach(sheet2, function(row){
+                if(/이체\/대체>/.test(row[7])){
+                    return true;
+                }
+                data.push({
+                    behavior_type: 'withdrawal',
+                    memo: row[2],
+                    amount: parseInt(row[3].replace(/,/g, '')) + parseInt(row[4].replace(/,/g, '')),
+                    account: (row[5] == '' ? '내 지갑' : row[5]),
+                    category: row[7].replace(/>/g, ':'),
+                    date: row[0].replace(/[년월]/g, '-').replace(/일/, '')
+                });
+            });
+
+            _.forEach(data, function(row){
+                inserted.push(MMB.moneybook.insert(row));
+            });
+
+            console.log(inserted);
+
+            return this;
+        },
+        import_naver_deposit: function (rows){
+
         },
         drag_handle: function(e) {
             e.originalEvent.stopPropagation();
@@ -214,6 +261,18 @@ var MMB_Backbone = {
                 }
             });
             return result;
+        },
+        to_csv: function (workbook) {
+            var result = [];
+            workbook.SheetNames.forEach(function(sheetName) {
+                var csv = XLS.utils.make_csv(workbook.Sheets[sheetName]);
+                if(csv.length > 0){
+                    result.push("SHEET: " + sheetName);
+                    result.push("");
+                    result.push(csv);
+                }
+            });
+            return result.join("\n");
         }
     }),
 

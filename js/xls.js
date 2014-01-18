@@ -5030,7 +5030,8 @@ function sheet_to_csv(sheet) {
 				}
 				row.push(String(val.v).replace(/\\n/g,"\n").replace(/\\t/g,"\t").replace(/\\\\/g,"\\").replace(/\\\"/g,"\"\""));
 			}
-			out += row.join(",") + "\n";
+			// out += row.join(",") + "\n";
+			out += row.join("\t") + "\n"; // modified by mytory. , to \t.
 		}
 	}
 	return out;
