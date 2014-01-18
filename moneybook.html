@@ -205,11 +205,21 @@
         <div class="page-header">
             <h1><%= polyglot.t('Daily') %></h1>
         </div>
-        <ul>
-            <% for(var i = 0; i < data.length ; i++){ %>
-                <li><%= data[i].get('memo') %>, <%= data[i].get('amount') %></li>
-            <% } %>
-        </ul>
+        <% _.forEach(week_data, function(data){
+
+            %><h2><%= data.date %></h2><%
+
+            var list = data.list;
+            if(data.list.length == 0){
+                %><p>사용 내역이 없습니다.</p><%
+                return true;
+            }
+            %><ul><%
+                for(var i = 0; i < list.length ; i++){ %>
+                <li><%= polyglot.t(list[i].get('behavior_type')) %>, <%= list[i].get('memo') %>, <%= list[i].get('amount') %>, <%= list[i].get('category') %></li>
+                <% }
+            %></ul><%
+        }); %>
     </div>
 </script>
 

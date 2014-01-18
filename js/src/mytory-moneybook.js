@@ -281,14 +281,35 @@ var MMB_Backbone = {
         template: _.template($('#page-daily').html()),
         render: function(){
             var vars,
-                today = moment().format('YYYY-MM-DD');
+                that = this,
+                i,
+                week_data = [],
+                list,
+                date;
 
-            data = MMB.moneybook.query({date: today});
-            vars = {
-                data: data
-            };
-            $('.body').hide().html(this.template(vars)).fadeIn();
-            return this;
+            if(MMB.moneybook){
+                for(i = 0; i < 7; i++){
+                    date = moment().subtract('days', i).format('YYYY-MM-DD');
+                    list = MMB.moneybook.query({date: date});
+                    week_data.push({
+                        date: date,
+                        list: list
+                    });
+                }
+
+                vars = {
+                    week_data: week_data
+                };
+                $('.body').hide().html(this.template(vars)).fadeIn();
+
+                return this;
+
+            }else{
+                setTimeout(function(){
+                    that.render();
+                }, 500);
+            }
+
         }
     })
 };
@@ -301,8 +322,8 @@ var MMB = {
         network = this.check_dropbox();
         if(network){
             this.show_navbar();
-            this.show_start_page();
             this.provide_data_source();
+            this.show_start_page();
         }
     },
     pages: {},
@@ -395,7 +416,7 @@ var MMB = {
         }else if( ! this.dropbox_ok){
             this.render('dropbox_sign_in');
         }else{
-            this.render('import');
+            this.render('daily');
         }
     },
     provide_data_source: function(){

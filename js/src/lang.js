@@ -42,7 +42,9 @@ var Lang = {
         "Import": "Import",
         "Excel type": "Excel type",
         "Naver Moneybook": "Naver Moneybook",
-        "Drop xls file to below.": "Drop xls file to below."
+        "Drop xls file to below.": "Drop xls file to below.",
+
+        "withdrawal": "withdrawal"
 
     },
     ko: {
@@ -88,6 +90,8 @@ var Lang = {
         "Import": "가져오기",
         "Excel type": "엑셀 종류",
         "Naver Moneybook": "네이버 가계부",
-        "Drop xls file to below.": "엑셀 파일을 여기다 떨구세요."
+        "Drop xls file to below.": "엑셀 파일을 여기다 떨구세요.",
+
+        "withdrawal": "지출"
     }
 };
