@@ -224,18 +224,23 @@
                 <colgroup>
                     <col style="width: 65%"/>
                 </colgroup>
-                <% for(var i = 0; i < list.length ; i++){ %>
-                    <tr <%=list[i].get('behavior_type') == 'deposit' ? 'class="success"' : ''%>>
+                <% _.forEach(data.list, function(record){ %>
+                    <tr <%=record.get('behavior_type') == 'deposit' ? 'class="success"' : ''%>
+                            data-id="<%= record.getId() %>">
                         <td>
-                            <%= list[i].get('memo') %>
-                            <small class="weekly-category text-muted"><%= list[i].get('cat1') %>:<%= list[i].get('cat2') %></small>
+                            <%= record.get('memo') %>
+                            <small class="weekly-category text-muted"><%= record.get('cat1') %>:<%= record.get('cat2') %></small>
                         </td>
-                        <td class="text-right"><%= MMB.util.number_format(list[i].get('amount')) %></td>
+                        <td class="text-right" data-amount="<%= record.get('amount') %>">
+                            <%= MMB.util.number_format(record.get('amount')) %>
+                        </td>
                     </tr>
-                <% } %>
+                    <% }); %>
                 <tr>
                     <td><strong><%= polyglot.t('Sum') %></strong></td>
-                    <td class="text-right"><strong><%= MMB.util.number_format(data.sum[data.date]) %></strong></td>
+                    <td class="text-right">
+                        <strong><%= MMB.util.number_format(data.sum[data.date]) %></strong>
+                    </td>
                 </tr>
             </table><%
         }); %>
