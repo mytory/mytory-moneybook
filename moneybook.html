@@ -39,7 +39,7 @@
 
 <script type="text/template" id="navbar">
     <ul class="nav navbar-nav">
-        <li><a href="#daily" data-page="daily"><%= polyglot.t('Daily') %></a></li>
+        <li><a href="#weekly" data-page="weekly"><%= polyglot.t('Weekly') %></a></li>
         <li><a href="#register" data-page="register"><%= polyglot.t('Register') %></a></li>
         <li><a href="#setting" data-page="setting"><%= polyglot.t('Setting') %></a></li>
         <li><a href="#import" data-page="import"><%= polyglot.t('Import') %></a></li>
@@ -207,14 +207,14 @@
     </div>
 </script>
 
-<script type="text/template" id="page-daily">
-    <div class="page-daily" role="page">
+<script type="text/template" id="page-weekly">
+    <div class="page-weekly" role="page">
         <div class="page-header">
-            <h1><%= polyglot.t('Daily') %></h1>
+            <h1><%= polyglot.t('Weekly') %></h1>
         </div>
         <% _.forEach(week_data, function(data){
-
-            %><h2 class="daily-title"><%= data.date %></h2><%
+            var sum = 0;
+            %><h2 class="weekly-title"><%= data.date %></h2><%
 
             var list = data.list;
             if(data.list.length == 0){
@@ -223,18 +223,24 @@
             }
             %><table class="table table-striped">
                 <colgroup>
-                    <col style="width: 50%"/>
+                    <col style="width: 65%"/>
                 </colgroup>
-                <% for(var i = 0; i < list.length ; i++){ %>
+                <% for(var i = 0; i < list.length ; i++){
+                    sum += list[i].get('amount');
+                    %>
                     <tr <%=list[i].get('behavior_type') == 'deposit' ? 'class="success"' : ''%>>
                         <td>
                             <%= list[i].get('memo') %>
-                            <small class="daily-category text-muted"><%= list[i].get('cat1') %>:<%= list[i].get('cat2') %></small>
+                            <small class="weekly-category text-muted"><%= list[i].get('cat1') %>:<%= list[i].get('cat2') %></small>
                         </td>
-                        <td class="text-right"><%= list[i].get('amount') %></td>
+                        <td class="text-right"><%= MMB.util.number_format(list[i].get('amount')) %></td>
                     </tr>
-                <% }
-            %></table><%
+                <% } %>
+                <tr>
+                    <td><strong><%= polyglot.t('Sum') %></strong></td>
+                    <td class="text-right"><strong><%= MMB.util.number_format(sum) %></strong></td>
+                </tr>
+            </table><%
         }); %>
     </div>
 </script>

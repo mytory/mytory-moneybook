@@ -47,10 +47,11 @@ var Lang = {
         "Naver Moneybook": "Naver Moneybook",
         "Drop xls file to below.": "Drop xls file to below.",
 
-        // Daily
-        "Daily": "Daily",
+        // Weekly
+        "Weekly": "Weekly",
         "No content.": "No content.",
-        "withdrawal": "withdrawal"
+        "withdrawal": "withdrawal",
+        "Sum": "Sum"
 
     },
     ko: {
@@ -101,9 +102,10 @@ var Lang = {
         "Naver Moneybook": "네이버 가계부",
         "Drop xls file to below.": "엑셀 파일을 여기다 떨구세요.",
 
-        // Daily
-        "Daily": "일간",
+        // Weekly
+        "Weekly": "주간",
         "No content.": "사용 내역이 없습니다.",
-        "withdrawal": "지출"
+        "withdrawal": "지출",
+        "Sum": "합계"
     }
 };
