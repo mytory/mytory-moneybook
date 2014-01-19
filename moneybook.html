@@ -212,6 +212,13 @@
         <div class="page-header">
             <h1><%= polyglot.t('Weekly') %></h1>
         </div>
+        <div class="input-group">
+            <input type="date" class="form-control" value="<%= week_data[0].date %>">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+            </span>
+        </div><!-- /input-group -->
+
         <% _.forEach(week_data, function(data){ %>
             <h2 class="weekly-title"><%= data.date %></h2>
             <%

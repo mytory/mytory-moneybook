@@ -23,8 +23,8 @@ module.exports = function(grunt) {
             },
             dist2: {
                 src: [
-                    'css/src/bootstrap.min.css',
-                    'css/src/bootstrap-theme.min.css',
+                    'css/src/bootstrap.css',
+                    'css/src/bootstrap-theme.css',
                     'css/src/mytory-moneybook.css'
                 ],
                 dest: 'css/production.css'
