@@ -100,6 +100,15 @@ var MMB_Backbone = {
                 data[entry.name] = entry.value;
             });
 
+            data.year = data.date.substr(0, 4);
+            data.month = data.date.substr(5, 2);
+            data.day = data.date.substr(8, 2);
+            data.cat1 = data.category.split(':')[0];
+            data.cat2 = data.category.split(':')[1] ? data.category.split(':')[1] : '';
+
+            delete data.category;
+            delete data.date;
+
             // dropbox query
             inserted.push(MMB.moneybook.insert(data));
             return this;
@@ -241,8 +250,11 @@ var MMB_Backbone = {
                     memo: row[2],
                     amount: parseInt(row[3].replace(/,/g, '')) + parseInt(row[4].replace(/,/g, '')),
                     account: (row[5] == '' ? '내 지갑' : row[5]),
-                    category: row[7].replace(/>/g, ':'),
-                    date: row[0].replace(/[년월]/g, '-').replace(/일/, '')
+                    cat1: row[7].split('>')[0],
+                    cat2: row[7].split('>')[1] ? row[7].split('>')[1] : '',
+                    year: row[0].substr(0, 4),
+                    month: row[0].substr(5, 2),
+                    day: row[0].substr(8, 2)
                 });
             });
 
@@ -299,10 +311,13 @@ var MMB_Backbone = {
 
             if(MMB.moneybook){
                 for(i = 0; i < 7; i++){
-                    date = moment().subtract('days', i).format('YYYY-MM-DD');
-                    list = MMB.moneybook.query({date: date});
+                    list = MMB.moneybook.query({
+                        year: moment().subtract('days', i).format('YYYY'),
+                        month: moment().subtract('days', i).format('MM'),
+                        day: moment().subtract('days', i).format('DD')
+                    });
                     week_data.push({
-                        date: date,
+                        date: moment().subtract('days', i).format('YYYY-MM-DD'),
                         list: list
                     });
                 }

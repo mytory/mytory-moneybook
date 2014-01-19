@@ -214,18 +214,27 @@
         </div>
         <% _.forEach(week_data, function(data){
 
-            %><h2 class="date-title"><%= data.date %></h2><%
+            %><h2 class="daily-title"><%= data.date %></h2><%
 
             var list = data.list;
             if(data.list.length == 0){
                 %><p><%= polyglot.t('No content.') %></p><%
                 return true;
             }
-            %><ul><%
-                for(var i = 0; i < list.length ; i++){ %>
-                <li><%= polyglot.t(list[i].get('behavior_type')) %>, <%= list[i].get('memo') %>, <%= list[i].get('amount') %>, <%= list[i].get('category') %></li>
+            %><table class="table table-striped">
+                <colgroup>
+                    <col style="width: 50%"/>
+                </colgroup>
+                <% for(var i = 0; i < list.length ; i++){ %>
+                    <tr <%=list[i].get('behavior_type') == 'deposit' ? 'class="success"' : ''%>>
+                        <td>
+                            <%= list[i].get('memo') %>
+                            <small class="daily-category text-muted"><%= list[i].get('cat1') %>:<%= list[i].get('cat2') %></small>
+                        </td>
+                        <td class="text-right"><%= list[i].get('amount') %></td>
+                    </tr>
                 <% }
-            %></ul><%
+            %></table><%
         }); %>
     </div>
 </script>

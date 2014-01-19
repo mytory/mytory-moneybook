@@ -12,6 +12,9 @@
     color: #999;
     font-size: 2em;
 }
-.date-title {
+.daily-title {
     font-size: 1.2em;
+}
+.daily-category {
+    display: block;
 }
