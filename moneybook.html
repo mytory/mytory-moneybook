@@ -212,10 +212,9 @@
         <div class="page-header">
             <h1><%= polyglot.t('Weekly') %></h1>
         </div>
-        <% _.forEach(week_data, function(data){
-            var sum = 0;
-            %><h2 class="weekly-title"><%= data.date %></h2><%
-
+        <% _.forEach(week_data, function(data){ %>
+            <h2 class="weekly-title"><%= data.date %></h2>
+            <%
             var list = data.list;
             if(data.list.length == 0){
                 %><p><%= polyglot.t('No content.') %></p><%
@@ -225,9 +224,7 @@
                 <colgroup>
                     <col style="width: 65%"/>
                 </colgroup>
-                <% for(var i = 0; i < list.length ; i++){
-                    sum += list[i].get('amount');
-                    %>
+                <% for(var i = 0; i < list.length ; i++){ %>
                     <tr <%=list[i].get('behavior_type') == 'deposit' ? 'class="success"' : ''%>>
                         <td>
                             <%= list[i].get('memo') %>
@@ -238,7 +235,7 @@
                 <% } %>
                 <tr>
                     <td><strong><%= polyglot.t('Sum') %></strong></td>
-                    <td class="text-right"><strong><%= MMB.util.number_format(sum) %></strong></td>
+                    <td class="text-right"><strong><%= MMB.util.number_format(data.sum[data.date]) %></strong></td>
                 </tr>
             </table><%
         }); %>

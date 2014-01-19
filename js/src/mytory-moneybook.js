@@ -307,7 +307,8 @@ var MMB_Backbone = {
                 i,
                 week_data = [],
                 list,
-                date;
+                date,
+                sum = {};
 
             if(MMB.moneybook){
                 for(i = 0; i < 7; i++){
@@ -316,9 +317,18 @@ var MMB_Backbone = {
                         month: moment().subtract('days', i).format('MM'),
                         day: moment().subtract('days', i).format('DD')
                     });
+
+                    date = moment().subtract('days', i).format('YYYY-MM-DD');
+                    sum[date] = 0;
+
+                    _.forEach(list, function(record){
+                        sum[date] += record.get('amount');
+                    });
+
                     week_data.push({
-                        date: moment().subtract('days', i).format('YYYY-MM-DD'),
-                        list: list
+                        date: date,
+                        list: list,
+                        sum: sum
                     });
                 }
 
