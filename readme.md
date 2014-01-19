@@ -16,4 +16,19 @@ And, fill settings of app. You have to enter `moneybook.html` file dropbox publi
 
 ![](images/app-setting.png)
 
-In setting page, copy App key, App secret. Next, go to Mytory Moneybook's setting page. Enter App key and secret.
+In setting page, copy App key. Next, go to Mytory Moneybook's `config.js`. Enter App key.
+
+LICENSE
+-------
+
+Mytory Moneybook is under [GNU GENERAL PUBLIC LICENSE](http://www.gnu.org/licenses/gpl.html).
+
+Below is licenses of libraries.
+
+* Bootstrap3 : [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+* js-xls : [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+* polyglot : [their own LICENSE](https://github.com/airbnb/polyglot.js/blob/master/LICENSE)
+* momentjs : [MIT license](https://github.com/moment/moment#license)
+* jQuery : [MIT License](https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt)
+* Underscore : [MIT License](http://documentcloud.github.io/underscore/docs/underscore.html)
+* Backbone : [MIT License](http://backbonejs.org/docs/backbone.html)
