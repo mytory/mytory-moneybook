@@ -111,7 +111,8 @@ var MMB_Backbone = {
         template: _.template($('#page-setting').html()),
         events: {
             "click input" : "save_setting",
-            "blur" : "save_setting"
+            "blur" : "save_setting",
+            "click .js-delete-all-data": "delete_all_data"
         },
         render: function(){
             var vars;
@@ -130,6 +131,15 @@ var MMB_Backbone = {
             });
             MMB.reset_category();
             return this;
+        },
+        delete_all_data: function(){
+            if(confirm(polyglot.t("Really? You can't restore data."))){
+                var all_data = MMB.moneybook.query();
+                _.forEach(all_data, function(record){
+                    record.deleteRecord();
+                });
+                alert(polyglot.t("All data deleted."));
+            }
         }
     }),
 
@@ -332,6 +342,7 @@ var MMB = {
     dropbox_client: null,
     dropbox_ok: false,
     moneybook: null,
+    dropbox_datastore: null,
     check_dropbox: function(){
         try{
             this.dropbox_client = new Dropbox.Client({key: MMB_Config.app_key});
@@ -353,7 +364,8 @@ var MMB = {
                         alert('Error opening default datastore: ' + error);
                     }
 
-                    MMB.moneybook = datastore.getTable('moneybook');
+                    MMB.dropbox_datastore = datastore;
+                    MMB.moneybook = MMB.dropbox_datastore.getTable('moneybook');
                 });
             }
 

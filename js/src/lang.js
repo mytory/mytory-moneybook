@@ -28,6 +28,7 @@ var Lang = {
         "My Wallet": "My Wallet",
         "Account helper": "Enter new account, then that`ll be saved.",
 
+        // Setting
         "Setting": "Setting",
         "Language": "Language",
         "Language change info": "Refresh to apply language.",
@@ -36,14 +37,19 @@ var Lang = {
         "2 depth": "2 depth",
         "App key": "App key",
         "App secret": "App secret",
+        "Delete all data.": "Delete all data.",
+        "Really? You can't restore data.": "Really? You can't restore data.",
+        "All data deleted.": "All data deleted.",
 
-        "Daily": "Daily",
-
+        // Import
         "Import": "Import",
         "Excel type": "Excel type",
         "Naver Moneybook": "Naver Moneybook",
         "Drop xls file to below.": "Drop xls file to below.",
 
+        // Daily
+        "Daily": "Daily",
+        "No content.": "No content.",
         "withdrawal": "withdrawal"
 
     },
@@ -76,6 +82,7 @@ var Lang = {
         "My Wallet": "지갑",
         "Account helper": "새 계좌를 입력하면 새로 계좌를 만들고 저장하게 됩니다.",
 
+        // Setting
         "Setting": "설정",
         "Language": "언어",
         "Language change info": "언어 설정을 변경한 뒤에는 새로고침해야 적용됩니다.",
@@ -84,14 +91,19 @@ var Lang = {
         "2 depth": "2단계",
         "App key": "App key",
         "App secret": "App secret",
+        "Delete all data.": "전체 데이터 삭제",
+        "Really? You can't restore data.": "정말 모든 데이터를 날리겠습니까? 복구할 수 없습니다.",
+        "All data deleted.": "전체 데이터를 삭제했습니다.",
 
-        "Daily": "일간",
-
+        // Import
         "Import": "가져오기",
         "Excel type": "엑셀 종류",
         "Naver Moneybook": "네이버 가계부",
         "Drop xls file to below.": "엑셀 파일을 여기다 떨구세요.",
 
+        // Daily
+        "Daily": "일간",
+        "No content.": "사용 내역이 없습니다.",
         "withdrawal": "지출"
     }
 };
