@@ -5,8 +5,7 @@ var MMB_Router = Backbone.Router.extend({
 
     routes: {
         "": 'weekly',
-        "weekly": 'weekly',
-        "weekly/:date": 'weekly',
+        "weekly(/:date)": 'weekly',
         "register": 'register',
         "setting": 'setting',
         "import": 'import'
@@ -14,7 +13,9 @@ var MMB_Router = Backbone.Router.extend({
 
     weekly: function(date) {
 
-        if(date === undefined){
+        console.log(date);
+
+        if( ! date){
             date = moment().format('YYYY-MM-DD');
         }
 
