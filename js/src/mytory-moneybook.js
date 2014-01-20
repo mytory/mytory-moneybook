@@ -165,7 +165,7 @@ var MMB_Backbone = {
             var setting = {},
                 value_obj = $('.js-form-setting').serializeArray();
             _.each(value_obj, function(obj){
-                localStorage[obj.name] = obj.value;
+                MMB.set_setting(obj.name, obj.value);
             });
             MMB.reset_category();
             return this;
@@ -422,7 +422,7 @@ var MMB = {
     moneybook: null,
     datastore: {
         content: null,
-        account: null
+        etc: null
     },
     router: null,
     check_dropbox: function(){
@@ -447,7 +447,7 @@ var MMB = {
                     }
 
                     MMB.datastore.content = datastore.getTable('moneybook_content');
-                    MMB.datastore.account = datastore.getTable('moneybook_account');
+                    MMB.datastore.etc = datastore.getTable('moneybook_etc');
                 });
             }
 
@@ -461,6 +461,12 @@ var MMB = {
     set_polyglot: function(){
         polyglot.extend(Lang[this.get_lang()]);
     },
+    set_setting: function(item_name, value){
+        localStorage["setting_" + item_name] = value;
+    },
+    get_setting: function(item_name){
+        return localStorage.getItem('setting_' + item_name);
+    },
     get_lang: function(){
 
         if(this.lang){
@@ -468,7 +474,7 @@ var MMB = {
         }
 
         var user_lang = navigator.language || navigator.userLanguage,
-            lang = localStorage.getItem('language');
+            lang = this.get_setting('language');
 
         if(lang == null){
             user_lang = user_lang.substr(0, 2).toLowerCase();
@@ -550,10 +556,19 @@ var MMB = {
         return '2';
     },
     get_accounts: function(){
-        return ['My Wallet', '지갑'];
+        return JSON.parse(localStorage['account']);
     },
     register: function(data){
+        var account = JSON.parse(localStorage.getItem('account'));
 
+        if(account === null){
+            account = [];
+        }
+
+        if(_.indexOf(account, data.account) === -1){
+            account.push(data.account);
+            localStorage['account'] = JSON.stringify(account);
+        }
         return MMB.datastore.content.insert(data);
     }
 };
