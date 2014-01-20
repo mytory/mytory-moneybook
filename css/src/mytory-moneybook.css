@@ -4,13 +4,17 @@
 [role=page]:first-child {
     display: block;
 }
-.xls_drop_area {
+.xls-drop-area {
     width: 100%;
     padding: 50px 0;
     text-align: center;
     border: 1px solid #ddd;
     color: #999;
     font-size: 2em;
+}
+.dragging {
+    color: #000;
+    border-color: #000;
 }
 .weekly-title {
     font-size: 1.2em;

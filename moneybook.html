@@ -190,20 +190,24 @@
             <h1><%= polyglot.t('Import') %></h1>
         </div>
         <form class="form-horizontal js-form-setting" role="form">
-        <label class="col-sm-2 control-label"><%= polyglot.t('Excel type') %></label>
-            <div class="col-sm-10">
-                <label class="radio-inline">
-                    <input type="radio" value="1" name="excel_type" checked >
-                    <%= polyglot.t('Naver Moneybook') %>
-                </label>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><%= polyglot.t('Excel type') %></label>
+                <div class="col-sm-10">
+                    <label class="radio-inline">
+                        <input type="radio" value="1" name="excel_type" checked >
+                        <%= polyglot.t('Naver Moneybook') %>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label"><%= polyglot.t('Excel file') %></label>
+                <div class="col-sm-10">
+                    <div class="xls-drop-area">
+                        <%= polyglot.t('Drop xls file to below.') %>
+                    </div>
+                </div>
             </div>
         </form>
-
-        <p><%= polyglot.t('Drop xls file to below.') %></p>
-
-        <div class="xls_drop_area">
-            <%= polyglot.t('Drop xls file to below.') %>
-        </div>
     </div>
 </script>
 

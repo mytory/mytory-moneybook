@@ -139,7 +139,7 @@ var MMB_Backbone = {
             delete data.date;
 
             // dropbox query
-            inserted.push(MMB.moneybook.insert(data));
+            inserted.push(MMB.register(data));
             return this;
         }
     }),
@@ -172,7 +172,7 @@ var MMB_Backbone = {
         },
         delete_all_data: function(){
             if(confirm(polyglot.t("Really? You can't restore data."))){
-                var all_data = MMB.moneybook.query();
+                var all_data = MMB.datastore.content.query();
                 _.forEach(all_data, function(record){
                     record.deleteRecord();
                 });
@@ -190,9 +190,13 @@ var MMB_Backbone = {
             return this;
         },
         events: {
-            "dragenter .xls_drop_area": "drag_handle",
-            "dragover .xls_drop_area": "drag_handle",
-            "drop .xls_drop_area": "drop_process"
+            "dragenter .xls-drop-area": "drag_handle",
+            "dragover .xls-drop-area": "drag_handle",
+            "dragleave .xls-drop-area": "drag_leave",
+            "drop .xls-drop-area": "drop_process"
+        },
+        drag_leave: function(e){
+            $(e.target).removeClass('dragging');
         },
         xlsworker: function (data, cb) {
             var worker = new Worker('js/xlsworker.js');
@@ -206,6 +210,7 @@ var MMB_Backbone = {
             worker.postMessage(data);
         },
         drop_process: function(e){
+            $(e.target).removeClass('dragging');
             var that = this,
                 files,
                 i,
@@ -242,7 +247,7 @@ var MMB_Backbone = {
 
             if(rows[2].trim() == '"지출 현황"'){
                 that.import_naver_withdrawal(rows);
-            }else if(rows[2].trim() == '"지출 현황"'){
+            }else if(rows[2].trim() == '"수입 현황"'){
                 that.import_naver_deposit(rows);
             }else{
                 alert("네이버에서 다운받은 엑셀이 아닌 것 같습니다.");
@@ -284,7 +289,7 @@ var MMB_Backbone = {
             });
 
             _.forEach(data, function(row){
-                inserted.push(MMB.moneybook.insert(row));
+                inserted.push(MMB.register(row));
             });
 
             return this;
@@ -296,6 +301,7 @@ var MMB_Backbone = {
             e.originalEvent.stopPropagation();
             e.originalEvent.preventDefault();
             e.originalEvent.dataTransfer.dropEffect = 'copy';
+            $(e.target).addClass('dragging');
         },
         to_json: function (workbook){
             var result = {};
@@ -353,7 +359,7 @@ var MMB_Backbone = {
                 }
             }
 
-            if( ! MMB.moneybook){
+            if( ! MMB.datastore.content){
                 setTimeout(function(){
                     that.render(opts);
                 }, 500);
@@ -364,7 +370,7 @@ var MMB_Backbone = {
                         month: moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('MM'),
                         day: moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('DD')
                     };
-                    list = MMB.moneybook.query(query_opt);
+                    list = MMB.datastore.content.query(query_opt);
 
                     date = moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('YYYY-MM-DD');
                     day_of_the_week = moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('dd');
@@ -414,7 +420,10 @@ var MMB = {
     dropbox_client: null,
     dropbox_ok: false,
     moneybook: null,
-    dropbox_datastore: null,
+    datastore: {
+        content: null,
+        account: null
+    },
     router: null,
     check_dropbox: function(){
         try{
@@ -437,8 +446,8 @@ var MMB = {
                         alert('Error opening default datastore: ' + error);
                     }
 
-                    MMB.dropbox_datastore = datastore;
-                    MMB.moneybook = MMB.dropbox_datastore.getTable('moneybook');
+                    MMB.datastore.content = datastore.getTable('moneybook_content');
+                    MMB.datastore.account = datastore.getTable('moneybook_account');
                 });
             }
 
@@ -542,6 +551,10 @@ var MMB = {
     },
     get_accounts: function(){
         return ['My Wallet', '지갑'];
+    },
+    register: function(data){
+
+        return MMB.datastore.content.insert(data);
     }
 };
 

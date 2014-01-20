@@ -46,6 +46,7 @@ var Lang = {
         "Excel type": "Excel type",
         "Naver Moneybook": "Naver Moneybook",
         "Drop xls file to below.": "Drop xls file to below.",
+        "Excel file": "Excel file",
 
         // Weekly
         "Weekly": "Weekly",
@@ -101,6 +102,7 @@ var Lang = {
         "Excel type": "엑셀 종류",
         "Naver Moneybook": "네이버 가계부",
         "Drop xls file to below.": "엑셀 파일을 여기다 떨구세요.",
+        "Excel file": "엑셀 파일",
 
         // Weekly
         "Weekly": "주간",
