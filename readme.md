@@ -1,6 +1,16 @@
 Mytory Moneybook
 ================
 
+Notice
+-------
+
+This project is on develop.
+
+If you want to use, go to [mytory moneybook service page](https://dl.dropboxusercontent.com/u/15546257/moneybook/moneybook.html).
+
+Introduce
+---------
+
 Mytory Moneybook is simple and powerful webapp. You can use this app on web browser on desktop or smartphone.
 
 This app save data to dropbox. Set dropbox access, and use.
