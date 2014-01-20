@@ -18,3 +18,7 @@
 .weekly-category {
     display: block;
 }
+.weekly-day-of-the-week {
+    font-size: 0.9em;
+    color: #999;
+}

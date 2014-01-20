@@ -17,7 +17,8 @@ module.exports = function(grunt) {
                     'js/src/moment.min.js',
                     'js/src/lang.js',
                     'js/src/mytory-moneybook-category.js',
-                    'js/src/mytory-moneybook.js'
+                    'js/src/mytory-moneybook.js',
+                    'js/src/moment.ko.js'
                 ],
                 dest: 'js/production.js'
             },

@@ -224,7 +224,7 @@
         </div><!-- /input-group -->
 
         <% _.forEach(week_data, function(data){ %>
-            <h2 class="weekly-title"><%= data.date %></h2>
+            <h2 class="weekly-title"><%= data.date %> <span class="weekly-day-of-the-week">(<%= data.day_of_the_week %>)</span></h2>
             <%
             var list = data.list;
             if(data.list.length == 0){

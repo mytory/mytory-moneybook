@@ -344,6 +344,7 @@ var MMB_Backbone = {
                 week_data = [],
                 list,
                 date,
+                day_of_the_week,
                 sum = {};
 
             if(opts === undefined || opts.date === undefined){
@@ -366,6 +367,7 @@ var MMB_Backbone = {
                     list = MMB.moneybook.query(query_opt);
 
                     date = moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('YYYY-MM-DD');
+                    day_of_the_week = moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('dd');
                     sum[date] = 0;
 
                     _.forEach(list, function(record){
@@ -374,6 +376,7 @@ var MMB_Backbone = {
 
                     week_data.push({
                         date: date,
+                        day_of_the_week: day_of_the_week,
                         list: list,
                         sum: sum
                     });
