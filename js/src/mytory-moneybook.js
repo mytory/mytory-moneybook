@@ -13,9 +13,7 @@ var MMB_Router = Backbone.Router.extend({
 
     weekly: function(date) {
 
-        console.log(date);
-
-        if( ! date){
+        if(date === undefined || date === null){
             date = moment().format('YYYY-MM-DD');
         }
 
@@ -329,7 +327,7 @@ var MMB_Backbone = {
             "click .js-weekly-change-date": "change_date"
         },
         change_date: function(){
-            location.href = '#weekly/' + $('.js-weekly-basic-date').val()
+            MMB.router.navigate('weekly/' + $('.js-weekly-basic-date').val(), {trigger: true})
         },
         template: _.template($('#page-weekly').html()),
         render: function(opts){
