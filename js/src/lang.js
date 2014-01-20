@@ -27,6 +27,7 @@ var Lang = {
         "Account": "Account",
         "My Wallet": "My Wallet",
         "Account helper": "Enter new account, then that`ll be saved.",
+        "To account": "To account",
 
         // Setting
         "Setting": "Setting",
@@ -81,8 +82,9 @@ var Lang = {
         "Food": "식비",
         "Dining": "저녁",
         "Account": "계좌",
-        "My Wallet": "지갑",
+        "My Wallet": "내 지갑",
         "Account helper": "새 계좌를 입력하면 새로 계좌를 만들고 저장하게 됩니다.",
+        "To account": "이체할 계좌",
 
         // Setting
         "Setting": "설정",

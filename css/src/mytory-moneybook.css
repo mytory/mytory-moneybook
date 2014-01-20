@@ -26,3 +26,6 @@
     font-size: 0.9em;
     color: #999;
 }
+.transfer-item {
+    display: none;
+}

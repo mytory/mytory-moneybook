@@ -118,7 +118,8 @@ var MMB_Backbone = {
             return this;
         },
         events: {
-            "submit .js-register-form": "register"
+            "submit .js-register-form": "register",
+            "click [name=behavior_type]": "toggle_transfer_item"
         },
         register: function(e){
             e.preventDefault();
@@ -141,6 +142,15 @@ var MMB_Backbone = {
             // dropbox query
             inserted.push(MMB.register(data));
             return this;
+        },
+        toggle_transfer_item: function(e){
+            if($(e.target).val() === 'transfer'){
+                $('.js-transfer-item').find('input').prop('disabled', false);
+                $('.js-transfer-item').fadeIn();
+            }else{
+                $('.js-transfer-item').find('input').prop('disabled', true);
+                $('.js-transfer-item').fadeOut();
+            }
         }
     }),
 
@@ -173,6 +183,11 @@ var MMB_Backbone = {
         delete_all_data: function(){
             if(confirm(polyglot.t("Really? You can't restore data."))){
                 var all_data = MMB.datastore.content.query();
+                _.forEach(all_data, function(record){
+                    record.deleteRecord();
+                });
+
+                all_data = MMB.datastore.etc.query();
                 _.forEach(all_data, function(record){
                     record.deleteRecord();
                 });
@@ -559,16 +574,34 @@ var MMB = {
         return JSON.parse(localStorage['account']);
     },
     register: function(data){
-        var account = JSON.parse(localStorage.getItem('account'));
+        var account_record, account, account_string, new_account_record;
 
-        if(account === null){
+        account_record = MMB.datastore.etc.query({key: 'account'})[0];
+
+        if( ! account_record){
             account = [];
+        }else{
+            account = JSON.parse(account_record.get('value'));
         }
 
         if(_.indexOf(account, data.account) === -1){
             account.push(data.account);
-            localStorage['account'] = JSON.stringify(account);
+            account_string = JSON.stringify(account);
+            localStorage['account'] = account_string;
+            if(account_record){
+                account_record.update({
+                    value: account_string
+                });
+            }else{
+                MMB.datastore.etc.insert({
+                    key: 'account',
+                    value: account_string
+                });
+            }
         }
+
+        MMB.datastore.etc.insert();
+
         return MMB.datastore.content.insert(data);
     }
 };
