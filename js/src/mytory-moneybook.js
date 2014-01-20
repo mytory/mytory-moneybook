@@ -1,13 +1,49 @@
 var polyglot = new Polyglot();
 
+var MMB_Router = Backbone.Router.extend({
+
+
+    routes: {
+        "": 'weekly',
+        "weekly": 'weekly',
+        "weekly/:date": 'weekly',
+        "register": 'register',
+        "setting": 'setting',
+        "import": 'import'
+    },
+
+    weekly: function(date) {
+
+        if(date === undefined){
+            date = moment().format('YYYY-MM-DD');
+        }
+
+        MMB.render('weekly', {
+            date: date
+        });
+    },
+
+    register: function(){
+        MMB.render('register');
+    },
+
+    setting: function(){
+        MMB.render('setting');
+    },
+
+    import: function(){
+        MMB.render('import');
+    }
+
+});
+
 var MMB_Backbone = {
 
     View_navbar: Backbone.View.extend({
         el: '#navbar-collapse',
         template: _.template($('#navbar').html()),
         events: {
-            "click .js-sign-out": "sign_out",
-            "click [data-page]": "render_page"
+            "click .js-sign-out": "sign_out"
         },
         sign_out: function(e){
             e.preventDefault();
@@ -19,12 +55,6 @@ var MMB_Backbone = {
         },
         render: function(){
             $('#navbar-collapse').html(this.template());
-            return this;
-        },
-        render_page: function(e){
-            e.preventDefault();
-            var page_name = $(e.target).data('page');
-            MMB.render(page_name);
             return this;
         }
     }),
@@ -211,10 +241,6 @@ var MMB_Backbone = {
 
             rows = output.split('\n');
 
-            console.log(rows[2]);
-            console.log(typeof rows[2]);
-            console.log(rows[2].length);
-
             if(rows[2].trim() == '"지출 현황"'){
                 that.import_naver_withdrawal(rows);
             }else if(rows[2].trim() == '"지출 현황"'){
@@ -262,8 +288,6 @@ var MMB_Backbone = {
                 inserted.push(MMB.moneybook.insert(row));
             });
 
-            console.log(inserted);
-
             return this;
         },
         import_naver_deposit: function (rows){
@@ -300,25 +324,41 @@ var MMB_Backbone = {
 
     View_weekly: Backbone.View.extend({
         el: ".body",
+        events: {
+            "click .js-weekly-change-date": "change_date"
+        },
+        change_date: function(){
+            location.href = '#weekly/' + $('.js-weekly-basic-date').val()
+        },
         template: _.template($('#page-weekly').html()),
-        render: function(){
-            var vars,
-                that = this,
+        render: function(opts){
+            var that = this,
                 i,
                 week_data = [],
                 list,
                 date,
                 sum = {};
 
-            if(MMB.moneybook){
-                for(i = 0; i < 7; i++){
-                    list = MMB.moneybook.query({
-                        year: moment().subtract('days', i).format('YYYY'),
-                        month: moment().subtract('days', i).format('MM'),
-                        day: moment().subtract('days', i).format('DD')
-                    });
+            if(opts === undefined || opts.date === undefined){
+                opts = {
+                    date: moment().format('YYYY-MM-DD')
+                }
+            }
 
-                    date = moment().subtract('days', i).format('YYYY-MM-DD');
+            if( ! MMB.moneybook){
+                setTimeout(function(){
+                    that.render(opts);
+                }, 500);
+            }else{
+                for(i = 0; i < 7; i++){
+                    var query_opt = {
+                        year: moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('YYYY'),
+                        month: moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('MM'),
+                        day: moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('DD')
+                    };
+                    list = MMB.moneybook.query(query_opt);
+
+                    date = moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('YYYY-MM-DD');
                     sum[date] = 0;
 
                     _.forEach(list, function(record){
@@ -338,11 +378,6 @@ var MMB_Backbone = {
                 $('.body').hide().html(this.template(vars)).fadeIn();
 
                 return this;
-
-            }else{
-                setTimeout(function(){
-                    that.render();
-                }, 500);
             }
 
         }
@@ -355,10 +390,12 @@ var MMB = {
         this.set_polyglot();
         this.set_category();
         network = this.check_dropbox();
+        MMB.router = new MMB_Router();
+        Backbone.history.start();
+
         if(network){
             this.show_navbar();
             this.provide_data_source();
-            this.show_start_page();
         }
     },
     pages: {},
@@ -368,6 +405,7 @@ var MMB = {
     dropbox_ok: false,
     moneybook: null,
     dropbox_datastore: null,
+    router: null,
     check_dropbox: function(){
         try{
             this.dropbox_client = new Dropbox.Client({key: MMB_Config.app_key});
@@ -430,7 +468,7 @@ var MMB = {
     show_navbar: function(){
         this.render('navbar');
     },
-    render: function(page_name){
+    render: function(page_name, vars){
         if(
             MMB_Config && this.dropbox_ok ||
                 page_name == 'need_config' ||
@@ -438,10 +476,10 @@ var MMB = {
                 page_name == 'no_network'
         ){
             if(this.pages[page_name]){
-                this.pages[page_name].render();
+                this.pages[page_name].render(vars);
             }else{
                 this.pages[page_name] = new MMB_Backbone['View_' + page_name];
-                this.pages[page_name].render();
+                this.pages[page_name].render(vars);
             }
         }
     },
