@@ -324,10 +324,18 @@ var MMB_Backbone = {
     View_weekly: Backbone.View.extend({
         el: ".body",
         events: {
-            "click .js-weekly-change-date": "change_date"
+            "click .js-weekly-change-date": "change_date",
+            "click .js-weekly-change-days-btn": "change_days"
         },
         change_date: function(){
             MMB.router.navigate('weekly/' + $('.js-weekly-basic-date').val(), {trigger: true})
+        },
+        change_days: function(e){
+            var current = $('.js-weekly-basic-date').val(),
+                days = $(e.target).data('days'),
+                target_date = moment(current, 'YYYY-MM-DD').add('days', days).format('YYYY-MM-DD');
+
+            MMB.router.navigate('weekly/' + target_date, {trigger: true})
         },
         template: _.template($('#page-weekly').html()),
         render: function(opts){
