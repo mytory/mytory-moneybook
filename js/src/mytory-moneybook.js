@@ -2,7 +2,6 @@ var polyglot = new Polyglot();
 
 var MMB_Router = Backbone.Router.extend({
 
-
     routes: {
         "": 'weekly',
         "weekly(/:date)": 'weekly',
@@ -141,6 +140,7 @@ var MMB_Backbone = {
 
             // dropbox query
             inserted.push(MMB.register(data));
+
             return this;
         },
         toggle_transfer_item: function(e){
@@ -574,7 +574,21 @@ var MMB = {
         return JSON.parse(localStorage['account']);
     },
     register: function(data){
-        var account_record, account, account_string, new_account_record;
+
+        this.update_account_list(data.account);
+        if(data.to_account){
+            this.update_account_list(data.to_account);
+        }
+
+        this.update_account_info(data);
+
+        MMB.datastore.etc.insert();
+
+        return MMB.datastore.content.insert(data);
+    },
+
+    update_account_list: function(account_name){
+        var account_record, account, account_string;
 
         account_record = MMB.datastore.etc.query({key: 'account'})[0];
 
@@ -584,8 +598,8 @@ var MMB = {
             account = JSON.parse(account_record.get('value'));
         }
 
-        if(_.indexOf(account, data.account) === -1){
-            account.push(data.account);
+        if(_.indexOf(account, account_name) === -1){
+            account.push(account_name);
             account_string = JSON.stringify(account);
             localStorage['account'] = account_string;
             if(account_record){
@@ -599,11 +613,60 @@ var MMB = {
                 });
             }
         }
+    },
 
-        MMB.datastore.etc.insert();
+    update_account_info: function(data){
 
-        return MMB.datastore.content.insert(data);
+        var account_info, new_amount;
+
+        if(data.behavior_type === 'withdrawal' || data.behavior_type === 'transfer'){
+            data.amount = data.amount * -1;
+        }
+
+        account_info = this.datastore.etc.query({
+            key: 'account_info',
+            account_name: data.account
+        })[0];
+
+        if( ! account_info){
+            account_info = this.datastore.etc.insert({
+                key: 'account_info',
+                account_name: data.account,
+                amount: 0
+            });
+        }
+
+        new_amount = parseFloat(account_info.get('amount')) + parseFloat(data.amount);
+
+        account_info.update({
+            amount: new_amount
+        });
+
+        if(data.behavior_type === 'transfer'){
+            account_info = this.datastore.etc.query({
+                key: 'account_info',
+                account_name: data.to_account
+            })[0];
+
+            if( ! account_info){
+                account_info = this.datastore.etc.insert({
+                    key: 'account_info',
+                    account_name: data.to_account,
+                    amount: 0
+                });
+            }
+
+            new_amount = parseFloat(account_info.get('amount')) + parseFloat( data.amount * -1 );
+
+            account_info.update({
+                amount: new_amount
+            });
+        }
+
+        return this;
     }
+
+
 };
 
 MMB.util = {
