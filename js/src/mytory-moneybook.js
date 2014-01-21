@@ -274,9 +274,11 @@ var MMB_Backbone = {
 
             rows = output.split('\n');
 
-            if(rows[2].trim() == '"지출 현황"'){
+            console.log(rows[2]);
+
+            if(/지출 현황/.test(rows[2])){
                 that.import_naver_withdrawal(rows);
-            }else if(rows[2].trim() == '"수입 현황"'){
+            }else if(/수입 현황/.test(rows[2])){
                 that.import_naver_deposit(rows);
             }else{
                 alert("네이버에서 다운받은 엑셀이 아닌 것 같습니다.");
@@ -286,25 +288,22 @@ var MMB_Backbone = {
             var sheet1 = [],
                 sheet2 = [],
                 data = [],
-                inserted = [];
+                inserted = [],
+                item,
+                amount;
 
-            _.forEach(rows, function(row){
-                if(/[0-9]{4}년[0-9]{1,2}월[0-9]{1,2}일/.test(row)){
-                    sheet1.push(row.replace(/"/g, '').split('\t'));
-                }
-            });
+            sheet1 = this.get_content_rows(rows);
 
             _.forEach(sheet1, function(row){
-                if(row[3] !== '' && /[0-9]+/.test(row[3].replace(/,/g, ''))){
+                amount = row[3];
+
+                if(amount !== '' && /[0-9]+/.test(amount.replace(/,/g, ''))){
                     sheet2.push(row);
                 }
             });
 
             _.forEach(sheet2, function(row){
-                if(/이체\/대체>/.test(row[7])){
-                    return true;
-                }
-                data.push({
+                item = {
                     behavior_type: 'withdrawal',
                     memo: row[2],
                     amount: parseInt(row[3].replace(/,/g, '')) + parseInt(row[4].replace(/,/g, '')),
@@ -314,7 +313,12 @@ var MMB_Backbone = {
                     year: row[0].substr(0, 4),
                     month: row[0].substr(5, 2),
                     day: row[0].substr(8, 2)
-                });
+                };
+                if(/이체\/대체>/.test(row[7])){
+                    item.behavior_type = 'transfer';
+                    item.to_account = row[7].replace(/이체\/대체>/, '');
+                }
+                data.push(item);
             });
 
             _.forEach(data, function(row){
@@ -324,7 +328,53 @@ var MMB_Backbone = {
             return this;
         },
         import_naver_deposit: function (rows){
+            var sheet1,
+                sheet2 = [],
+                data = [],
+                inserted = [],
+                item,
+                amount;
 
+            sheet1 = this.get_content_rows(rows);
+
+            _.forEach(sheet1, function(row){
+                amount = row[2];
+
+                if(amount !== '' && /[0-9]+/.test(amount.replace(/,/g, ''))){
+                    sheet2.push(row);
+                }
+            });
+
+            _.forEach(sheet2, function(row){
+                item = {
+                    behavior_type: 'deposit',
+                    memo: row[1],
+                    amount: parseInt(row[2].replace(/,/g, '')),
+                    account: (row[3] == '' ? '내 지갑' : row[3]),
+                    cat1: row[4].split('>')[0],
+                    cat2: row[4].split('>')[1] ? row[4].split('>')[1] : '',
+                    year: row[0].substr(0, 4),
+                    month: row[0].substr(5, 2),
+                    day: row[0].substr(8, 2)
+                };
+                data.push(item);
+            });
+
+            _.forEach(data, function(row){
+                inserted.push(MMB.register(row));
+            });
+
+            return this;
+        },
+        get_content_rows: function(rows){
+            var sheet1 = [];
+
+            _.forEach(rows, function(row){
+                if(/[0-9]{4}년[0-9]{1,2}월[0-9]{1,2}일/.test(row)){
+                    sheet1.push(row.replace(/"/g, '').split('\t'));
+                }
+            });
+            return sheet1;
         },
         drag_handle: function(e) {
             e.originalEvent.stopPropagation();
@@ -442,6 +492,8 @@ var MMB = {
     },
     router: null,
     check_dropbox: function(){
+        var datastoreManager;
+
         try{
             this.dropbox_client = new Dropbox.Client({key: MMB_Config.app_key});
 
@@ -580,6 +632,11 @@ var MMB = {
     },
     register: function(data){
 
+        if(data.behavior_type === 'transfer'){
+            delete data.cat1;
+            delete data.cat2;
+        }
+
         this.update_account_list(data.account);
         if(data.to_account){
             this.update_account_list(data.to_account);
@@ -622,46 +679,48 @@ var MMB = {
 
     update_account_info: function(data){
 
-        var account_info, new_amount;
+        var account_info, new_amount, data2;
 
-        if(data.behavior_type === 'withdrawal' || data.behavior_type === 'transfer'){
-            data.amount = data.amount * -1;
+        data2 = _.clone(data);
+
+        if(data2.behavior_type === 'withdrawal' || data2.behavior_type === 'transfer'){
+            data2.amount = data2.amount * -1;
         }
 
         account_info = this.datastore.etc.query({
             key: 'account_info',
-            account_name: data.account
+            account_name: data2.account
         })[0];
 
         if( ! account_info){
             account_info = this.datastore.etc.insert({
                 key: 'account_info',
-                account_name: data.account,
+                account_name: data2.account,
                 amount: 0
             });
         }
 
-        new_amount = parseFloat(account_info.get('amount')) + parseFloat(data.amount);
+        new_amount = parseFloat(account_info.get('amount')) + parseFloat(data2.amount);
 
         account_info.update({
             amount: new_amount
         });
 
-        if(data.behavior_type === 'transfer'){
+        if(data2.behavior_type === 'transfer'){
             account_info = this.datastore.etc.query({
                 key: 'account_info',
-                account_name: data.to_account
+                account_name: data2.to_account
             })[0];
 
             if( ! account_info){
                 account_info = this.datastore.etc.insert({
                     key: 'account_info',
-                    account_name: data.to_account,
+                    account_name: data2.to_account,
                     amount: 0
                 });
             }
 
-            new_amount = parseFloat(account_info.get('amount')) + parseFloat( data.amount * -1 );
+            new_amount = parseFloat(account_info.get('amount')) + parseFloat( data2.amount * -1 );
 
             account_info.update({
                 amount: new_amount
