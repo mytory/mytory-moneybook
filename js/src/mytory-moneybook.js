@@ -413,14 +413,14 @@ var MMB_Backbone = {
             "click .js-weekly-change-days-btn": "change_days"
         },
         change_date: function(){
-            MMB.router.navigate('weekly/' + $('.js-weekly-basic-date').val(), {trigger: true})
+            location.href = '#weekly/' + $('.js-weekly-basic-date').val();
         },
         change_days: function(e){
             var current = $('.js-weekly-basic-date').val(),
                 days = $(e.target).data('days'),
                 target_date = moment(current, 'YYYY-MM-DD').add('days', days).format('YYYY-MM-DD');
 
-            MMB.router.navigate('weekly/' + target_date, {trigger: true})
+            location.href = '#weekly/' + target_date;
         },
         template: _.template($('#page-weekly').html()),
         render: function(opts){

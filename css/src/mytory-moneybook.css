@@ -29,3 +29,8 @@
 .transfer-item {
     display: none;
 }
+input[type=date] {
+    -webkit-appearance: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
