@@ -456,7 +456,9 @@ var MMB_Backbone = {
                     sum[date] = 0;
 
                     _.forEach(list, function(record){
-                        sum[date] += record.get('amount');
+                        if(record.get('behavior_type') === 'withdrawal'){
+                            sum[date] += record.get('amount');
+                        }
                     });
 
                     week_data.push({
