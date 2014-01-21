@@ -10,6 +10,19 @@ var MMB_Router = Backbone.Router.extend({
         "import": 'import'
     },
 
+    initialize: function(){
+        var network = false;
+        MMB.set_polyglot();
+        MMB.set_category();
+        network = MMB.check_dropbox();
+        Backbone.history.start();
+
+        if(network){
+            MMB.show_navbar();
+            MMB.provide_data_source();
+        }
+    },
+
     weekly: function(date) {
 
         if(date === undefined || date === null){
@@ -49,6 +62,7 @@ var MMB_Backbone = {
                 MMB.dropbox_client.signOut();
                 MMB.dropbox_ok = false;
             }
+            MMB.render('dropbox_sign_in');
             return this;
         },
         render: function(){
@@ -416,19 +430,6 @@ var MMB_Backbone = {
 };
 
 var MMB = {
-    initialize: function(){
-        var network = false;
-        this.set_polyglot();
-        this.set_category();
-        network = this.check_dropbox();
-        MMB.router = new MMB_Router();
-        Backbone.history.start();
-
-        if(network){
-            this.show_navbar();
-            this.provide_data_source();
-        }
-    },
     pages: {},
     category: null,
     lang: null,
@@ -464,9 +465,13 @@ var MMB = {
                     MMB.datastore.content = datastore.getTable('moneybook_content');
                     MMB.datastore.etc = datastore.getTable('moneybook_etc');
                 });
+                return true;
+
+            }else{
+                this.render('dropbox_sign_in');
+                return false;
             }
 
-            return true;
 
         }catch(e){
             this.render('no_network');
@@ -742,4 +747,4 @@ MMB.util = {
     }
 }
 
-MMB.initialize();
+MMB.router = new MMB_Router();
