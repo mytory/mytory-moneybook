@@ -274,8 +274,6 @@ var MMB_Backbone = {
 
             rows = output.split('\n');
 
-            console.log(rows[2]);
-
             if(/지출 현황/.test(rows[2])){
                 that.import_naver_withdrawal(rows);
             }else if(/수입 현황/.test(rows[2])){
@@ -639,14 +637,14 @@ var MMB = {
             delete data.cat2;
         }
 
+        // for auto complete
         this.update_account_list(data.account);
         if(data.to_account){
             this.update_account_list(data.to_account);
         }
 
-        this.update_account_info(data);
-
-        MMB.datastore.etc.insert();
+        // for statistics
+        this.update_statistics_info(data);
 
         return MMB.datastore.content.insert(data);
     },
@@ -679,59 +677,97 @@ var MMB = {
         }
     },
 
-    update_account_info: function(data){
+    update_statistics_info: function (data){
 
-        var account_info, new_amount, data2;
+        var account_info, new_amount,
+            update_targets = ['whole', 'account', 'cat1', 'cat2'],
+            update_ranges = ['whole', 'yearly', 'monthly'],
+            type_name,
+            data_withdrawal,
+            data_deposit,
+            range,
+            that = this;
 
-        data2 = _.clone(data);
+        _.forEach(update_ranges, function(entry){
 
-        if(data2.behavior_type === 'withdrawal' || data2.behavior_type === 'transfer'){
-            data2.amount = data2.amount * -1;
-        }
+            switch(entry){
+                case 'whole':
+                    range = 'whole';
+                    break;
+                case 'yearly':
+                    range = data.year;
+                    break;
+                case 'monthly':
+                    range = data.year + '-' + data.month;
+                    break;
+                // no default.
+            }
 
-        account_info = this.datastore.etc.query({
-            key: 'account_info',
-            account_name: data2.account
+            _.forEach(update_targets, function(type){
+                type_name = (type === 'whole' ? 'whole' : data[type]);
+                if( ! type_name.trim()){
+                    return true;
+                }
+
+                switch(data.behavior_type){
+                    case 'withdrawal':
+                        that.update_amount(type, type_name, range, data.amount * -1);
+                        break;
+                    case 'deposit':
+                        that.update_amount(type, type_name, range, data.amount);
+                        break;
+                    case 'transfer':
+                        data_withdrawal = _.clone(data);
+                        data_deposit = _.clone(data);
+
+                        // set like withdrawal
+                        type_name = data_withdrawal[type];
+                        delete data_withdrawal.to_account;
+                        that.update_amount(type, type_name, range, data.amount * -1);
+
+                        // set like deposti
+                        data_deposit.account = data_deposit.to_account;
+                        delete data_deposit.to_account;
+                        type_name = data_deposit[type];
+                        that.update_amount(type, type_name, range, data.amount);
+
+                        break;
+
+                    // no default
+                }
+            });
+        });
+
+        return this;
+    },
+
+    update_amount: function(type, type_name, range, amount){
+
+        var info, new_amount;
+
+        info = this.datastore.etc.query({
+            key: type + '_info',
+            name: type_name,
+            range: range
         })[0];
 
-        if( ! account_info){
-            account_info = this.datastore.etc.insert({
-                key: 'account_info',
-                account_name: data2.account,
+        if( ! info){
+            info = this.datastore.etc.insert({
+                key: type + '_info',
+                name: type_name,
+                range: range,
                 amount: 0
             });
         }
 
-        new_amount = parseFloat(account_info.get('amount')) + parseFloat(data2.amount);
+        new_amount = parseFloat(info.get('amount')) + parseFloat(amount);
 
-        account_info.update({
+        info.update({
             amount: new_amount
         });
 
-        if(data2.behavior_type === 'transfer'){
-            account_info = this.datastore.etc.query({
-                key: 'account_info',
-                account_name: data2.to_account
-            })[0];
-
-            if( ! account_info){
-                account_info = this.datastore.etc.insert({
-                    key: 'account_info',
-                    account_name: data2.to_account,
-                    amount: 0
-                });
-            }
-
-            new_amount = parseFloat(account_info.get('amount')) + parseFloat( data2.amount * -1 );
-
-            account_info.update({
-                amount: new_amount
-            });
-        }
-
         return this;
     }
-
 
 };
 
