@@ -266,6 +266,7 @@ var MMB_Backbone = {
                 reader.readAsBinaryString(f);
                 //reader.readAsArrayBuffer(f);
             }
+            alert('Complete!');
         },
         process_wb: function (wb) {
             var that = MMB.pages.import;
@@ -685,51 +686,55 @@ var MMB = {
             type_name,
             data_withdrawal,
             data_deposit,
-            range,
+            year,
+            month,
             that = this;
 
         _.forEach(update_ranges, function(entry){
 
             switch(entry){
                 case 'whole':
-                    range = 'whole';
+                    year = 'whole';
+                    month = 'whole';
                     break;
                 case 'yearly':
-                    range = data.year;
+                    year = data.year;
+                    month = 'whole';
                     break;
                 case 'monthly':
-                    range = data.year + '-' + data.month;
+                    year = data.year;
+                    month = data.month;
                     break;
                 // no default.
             }
 
             _.forEach(update_targets, function(type){
                 type_name = (type === 'whole' ? 'whole' : data[type]);
-                if( ! type_name.trim()){
+                if( ! type_name || ! type_name.trim()){
                     return true;
                 }
 
                 switch(data.behavior_type){
                     case 'withdrawal':
-                        that.update_amount(type, type_name, range, data.amount * -1);
+                        that.update_amount(type, type_name, year, month, data.amount * -1);
                         break;
                     case 'deposit':
-                        that.update_amount(type, type_name, range, data.amount);
+                        that.update_amount(type, type_name, year, month, data.amount);
                         break;
                     case 'transfer':
                         data_withdrawal = _.clone(data);
                         data_deposit = _.clone(data);
 
                         // set like withdrawal
-                        type_name = data_withdrawal[type];
+                        type_name = (type === 'whole' ? 'whole' : data_withdrawal[type]);
                         delete data_withdrawal.to_account;
-                        that.update_amount(type, type_name, range, data.amount * -1);
+                        that.update_amount(type, type_name, year, month, data.amount * -1);
 
                         // set like deposti
                         data_deposit.account = data_deposit.to_account;
                         delete data_deposit.to_account;
-                        type_name = data_deposit[type];
-                        that.update_amount(type, type_name, range, data.amount);
+                        type_name = (type === 'whole' ? 'whole' : data_deposit[type]);
+                        that.update_amount(type, type_name, year, month, data.amount);
 
                         break;
 
@@ -741,21 +746,23 @@ var MMB = {
         return this;
     },
 
-    update_amount: function(type, type_name, range, amount){
+    update_amount: function(type, type_name, year, month, amount){
 
         var info, new_amount;
 
         info = this.datastore.etc.query({
             key: type + '_info',
             name: type_name,
-            range: range
+            year: year,
+            month: month
         })[0];
 
         if( ! info){
             info = this.datastore.etc.insert({
                 key: type + '_info',
                 name: type_name,
-                range: range,
+                year: year,
+                month: month,
                 amount: 0
             });
         }
