@@ -248,11 +248,23 @@
                     <col style="width: 65%"/>
                 </colgroup>
                 <% _.forEach(data.list, function(record){ %>
-                    <tr <%=record.get('behavior_type') == 'deposit' ? 'class="success"' : ''%>
-                            data-id="<%= record.getId() %>">
+                    <tr data-id="<%= record.getId() %>">
                         <td>
                             <%= record.get('memo') %>
-                            <small class="weekly-category text-muted"><%= record.get('cat1') %>:<%= record.get('cat2') %></small>
+                            <small class="weekly-category text-muted">
+                                <% if(record.get('behavior_type') == 'deposit'){ %>
+                                    <span class="label label-success"><%= polyglot.t('Deposit') %></span>
+                                <% } %>
+
+                                <% if(record.get('behavior_type') == 'deposit' || record.get('behavior_type') == 'withdrawal'){ %>
+                                    <%= record.get('cat1') %>:<%= record.get('cat2') %>
+                                <% } %>
+
+                                <% if(record.get('behavior_type') == 'transfer'){ %>
+                                    <span class="label label-info"><%= polyglot.t('Transfer') %></span>
+                                    <%= record.get('account') %> → <%= record.get('to_account') %>
+                                <% } %>
+                            </small>
                         </td>
                         <td class="text-right" data-amount="<%= record.get('amount') %>">
                             <%= MMB.util.number_format(record.get('amount')) %>

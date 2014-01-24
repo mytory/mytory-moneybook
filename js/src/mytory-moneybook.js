@@ -250,7 +250,7 @@ var MMB_Backbone = {
             files = e.originalEvent.dataTransfer.files;
             for (i = 0, f = files[i]; i != files.length; ++i) {
                 var reader = new FileReader();
-                var name = f.name;
+                // var name = f.name;
                 reader.onload = function(e) {
                     var data = e.target.result;
                     if(typeof Worker !== 'undefined') {
@@ -266,7 +266,6 @@ var MMB_Backbone = {
                 reader.readAsBinaryString(f);
                 //reader.readAsArrayBuffer(f);
             }
-            alert('Complete!');
         },
         process_wb: function (wb) {
             var that = MMB.pages.import;
