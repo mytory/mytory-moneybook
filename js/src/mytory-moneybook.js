@@ -207,6 +207,12 @@ var MMB_Backbone = {
                 _.forEach(all_data, function(record){
                     record.deleteRecord();
                 });
+
+                all_data = MMB.datastore.auto_complete.query();
+                _.forEach(all_data, function(record){
+                    record.deleteRecord();
+                });
+
                 alert(polyglot.t("All data deleted."));
             }
         }
@@ -653,7 +659,19 @@ var MMB = {
     },
 
     update_auto_complete_info: function(data){
+        var memo_info = _.find(this.memo_data, function(entry){
+            return (entry.key == data.memo);
+        });
 
+        if(memo_info === undefined){
+            this.memo_data.push({
+                key: data.memo,
+                count: 1
+            });
+        }else{
+            memo_info.count++
+        }
+        this.update_memo_data();
     },
 
     update_account_list: function(account_name){
