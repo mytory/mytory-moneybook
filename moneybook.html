@@ -123,7 +123,7 @@
 
 <script type="text/template" id="template-memo-auto-complete">
     <% _.forEach(memo_data, function(entry){ %>
-        <a href="#" class="col-xs-4 col-lg-2" style="padding: 0.5em" data-memo="<%= entry.key %>">
+        <a href="#" class="col-xs-4 col-lg-2 js-memo-candidate" style="padding: 0.5em" data-memo="<%= entry.key %>">
             <%= entry.key %>
         </a>
     <% }) %>

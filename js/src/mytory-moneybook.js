@@ -135,7 +135,8 @@ var MMB_Backbone = {
         events: {
             "submit .js-register-form": "register",
             "click #behavior_type": "toggle_transfer_item",
-            "keyup #memo": "auto_complete_memo"
+            "keyup #memo": "auto_complete_memo",
+            "click .js-memo-candidate": "select_memo_candidate"
         },
         register: function(e){
             e.preventDefault();
@@ -192,6 +193,13 @@ var MMB_Backbone = {
                     memo_data: memo_data
                 };
             $('.js-memo-auto-complete').html(tem(vars));
+        },
+        select_memo_candidate: function(e){
+            e.preventDefault();
+            var memo = $(e.target).data('memo');
+            $('#memo').val(memo);
+            $('.js-memo-auto-complete').text('');
+            $('#amount').focus();
         }
     }),
 
