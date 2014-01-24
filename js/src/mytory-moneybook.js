@@ -696,19 +696,8 @@ var MMB = {
     },
 
     update_auto_complete_info: function(data){
-        var memo_info = _.find(this.memo_data, function(entry){
-            return (entry.key == data.memo);
-        });
-
-        if(memo_info === undefined){
-            this.memo_data.push({
-                key: data.memo,
-                count: 1
-            });
-        }else{
-            memo_info.count++
-        }
-        this.update_memo_data();
+        this.update_memo_data(data);
+        this.update_memo_related_data(data);
     },
 
     update_account_list: function(account_name){
@@ -856,10 +845,71 @@ var MMB = {
         MMB.memo_data = JSON.parse(MMB.memo_data_record.get('value'));
     },
 
-    update_memo_data: function(){
+    update_memo_data: function(data){
+        var memo_info = _.find(this.memo_data, function(entry){
+            return (entry.key == data.memo);
+        });
+
+        if(memo_info === undefined){
+            this.memo_data.push({
+                key: data.memo,
+                count: 1
+            });
+        }else{
+            memo_info.count++
+        }
+
         MMB.memo_data_record.update({
             value: JSON.stringify(MMB.memo_data)
         });
+    },
+
+    update_memo_related_data: function(data){
+        var memo_related, record, related, found,
+            related_items = ['amount', 'cat1', 'cat2', 'account'];
+
+        memo_related = this.datastore.auto_complete.query({
+            type: 'memo_related',
+            memo: data.memo
+        })[0];
+
+        if(memo_related === undefined){
+            related = {};
+            _.forEach(related_items, function(entry){
+                related[entry] = [
+                    {
+                        key: data[entry],
+                        count: 1
+                    }
+                ];
+            });
+            record = {
+                type: 'memo_related',
+                memo: data.memo,
+                related: JSON.stringify(related)
+            }
+            this.datastore.auto_complete.insert(record);
+        }else{
+            related = JSON.parse(memo_related.get('related'));
+
+            _.forEach(related_items, function(entry){
+                found = _.find(related[entry], function(target_item){
+                    return (target_item.key == data[entry]);
+                });
+                if(found === undefined ){
+                    related[entry].push({
+                        key: data[entry],
+                        count: 1
+                    });
+                }else{
+                    found.count++
+                }
+            });
+
+            memo_related.update({
+                related: JSON.stringify(related)
+            });
+        }
     }
 
 
