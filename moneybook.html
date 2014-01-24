@@ -79,6 +79,7 @@
                 <div class="col-sm-10">
                     <input required type="tel" class="form-control" id="amount" name="amount">
                 </div>
+                <div class="js-amount-auto-complete col-sm-12" style="padding-top: 0.5em"></div>
             </div>
             <div class="form-group">
                 <label for="date" class="col-sm-2 control-label"><%= polyglot.t('Date') %></label>
@@ -103,6 +104,7 @@
                            data-provide="typeahead" autocomplete="off" value="<%= polyglot.t('My Wallet') %>">
                     <p class="help-block"><%= polyglot.t('Account helper') %></p>
                 </div>
+                <div class="js-account-auto-complete col-sm-12" style="padding-top: 0.5em"></div>
             </div>
             <div class="form-group js-transfer-item transfer-item">
                 <label for="account" class="col-sm-2 control-label"><%= polyglot.t('To account') %></label>
@@ -111,6 +113,7 @@
                            data-provide="typeahead" autocomplete="off" value="<%= polyglot.t('My Wallet') %>">
                     <p class="help-block"><%= polyglot.t('Account helper') %></p>
                 </div>
+                <div class="js-account-auto-complete col-sm-12" style="padding-top: 0.5em"></div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
@@ -124,6 +127,16 @@
 <script type="text/template" id="template-memo-auto-complete">
     <% _.forEach(memo_data, function(entry){ %>
         <a href="#" class="col-xs-4 col-lg-2 js-memo-candidate" style="padding: 0.5em" data-memo="<%= entry.key %>">
+            <%= entry.key %>
+        </a>
+    <% }) %>
+</script>
+
+<script type="text/template" id="template-memo-related-auto-complete">
+    <% _.forEach(list, function(entry){ %>
+        <a href="#" class="col-xs-4 col-lg-2 js-<%=type%>-candidate" style="padding: 0.5em"
+                data-target="<%= target %>" data-key="<%= entry.key %>"
+                onclick="$('<%= target %>').val('<%= entry.key %>'); $(this).parent().html(''); $('<%= next %>').focus()">
             <%= entry.key %>
         </a>
     <% }) %>

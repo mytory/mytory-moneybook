@@ -84,7 +84,8 @@ var MMB_Backbone = {
             "submit .js-register-form": "register",
             "click #behavior_type": "toggle_transfer_item",
             "keyup #memo": "auto_complete_memo",
-            "click .js-memo-candidate": "select_memo_candidate"
+            "click .js-memo-candidate": "select_memo_candidate",
+            "focus #amount": "auto_complete_memo_related"
         },
         register: function(e){
             e.preventDefault();
@@ -136,8 +137,8 @@ var MMB_Backbone = {
             }
 
             vars = {
-                    memo_data: memo_data
-                };
+                memo_data: memo_data
+            };
             $('.js-memo-auto-complete').html(tem(vars));
         },
         select_memo_candidate: function(e){
@@ -146,6 +147,30 @@ var MMB_Backbone = {
             $('#memo').val(memo);
             $('.js-memo-auto-complete').text('');
             $('#amount').focus();
+        },
+        auto_complete_memo_related: function(e){
+            var record, vars, related,
+                tem = _.template($('#template-memo-related-auto-complete').html());
+
+            // set amount
+            record = MMB.datastore.auto_complete.query({
+                type: 'memo_related',
+                memo: $('#memo').val()
+            })[0];
+            if(record){
+                related = JSON.parse(record.get('related'));
+                _.sortBy(related.amount, function(entry){
+                    return entry.count;
+                });
+
+                vars = {
+                    type: 'amount',
+                    target: '#amount',
+                    list: related.amount,
+                    next: '#date'
+                };
+                $('.js-amount-auto-complete').html(tem(vars));
+            }
         }
     }),
 
