@@ -17,6 +17,10 @@ module.exports = function(grunt) {
                     'js/src/moment.min.js',
                     'js/src/lang.js',
                     'js/src/mytory-moneybook-category.js',
+                    'js/src/mmb-router.js',
+                    'js/src/mmb-backbone.js',
+                    'js/src/mmb.js',
+                    'js/src/mmb.util.js',
                     'js/src/mytory-moneybook.js',
                     'js/src/moment.ko.js'
                 ],
