@@ -134,8 +134,8 @@ var MMB_Backbone = {
         },
         events: {
             "submit .js-register-form": "register",
-            "click [name=behavior_type]": "toggle_transfer_item",
-            "keyup [name=memo]": "auto_complete_memo"
+            "click #behavior_type": "toggle_transfer_item",
+            "keyup #memo": "auto_complete_memo"
         },
         register: function(e){
             e.preventDefault();
@@ -665,7 +665,11 @@ var MMB = {
         return '2';
     },
     get_accounts: function(){
-        return JSON.parse(localStorage['account']);
+        if(localStorage.account){
+            return JSON.parse(localStorage.account);
+        }else{
+            return [];
+        }
     },
     register: function(data){
 
