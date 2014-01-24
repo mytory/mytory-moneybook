@@ -89,8 +89,7 @@ var MMB_Backbone = {
         register: function(e){
             e.preventDefault();
             var data_arr = $('.js-register-form').serializeArray(),
-                data = {},
-                inserted = [];
+                data = {};
             _.forEach(data_arr, function(entry){
                 data[entry.name] = entry.value;
             });
@@ -104,8 +103,7 @@ var MMB_Backbone = {
             delete data.category;
             delete data.date;
 
-            // dropbox query
-            inserted.push(MMB.register(data));
+            MMB.register(data);
 
             return this;
         },
@@ -275,7 +273,6 @@ var MMB_Backbone = {
             var sheet1 = [],
                 sheet2 = [],
                 data = [],
-                inserted = [],
                 item,
                 amount;
 
@@ -309,7 +306,7 @@ var MMB_Backbone = {
             });
 
             _.forEach(data, function(row){
-                inserted.push(MMB.register(row));
+                MMB.register(row);
             });
 
             return this;
@@ -318,7 +315,6 @@ var MMB_Backbone = {
             var sheet1,
                 sheet2 = [],
                 data = [],
-                inserted = [],
                 item,
                 amount;
 
@@ -348,7 +344,7 @@ var MMB_Backbone = {
             });
 
             _.forEach(data, function(row){
-                inserted.push(MMB.register(row));
+                MMB.register(row);
             });
 
             return this;
