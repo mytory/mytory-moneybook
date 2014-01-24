@@ -3,7 +3,7 @@ var polyglot = new Polyglot();
 var MMB_Router = Backbone.Router.extend({
 
     routes: {
-        "": 'weekly',
+        "": 'register',
         "weekly(/:date)": 'weekly',
         "register": 'register',
         "setting": 'setting',
