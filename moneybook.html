@@ -72,6 +72,7 @@
                 <div class="col-sm-10">
                     <input required type="text" class="form-control" id="memo" name="memo">
                 </div>
+                <div class="js-memo-auto-complete col-sm-12" style="padding-top: 0.5em"></div>
             </div>
             <div class="form-group">
                 <label for="amount" class="col-sm-2 control-label"><%= polyglot.t('Amount') %></label>
@@ -118,6 +119,14 @@
             </div>
         </form>
     </div>
+</script>
+
+<script type="text/template" id="template-memo-auto-complete">
+    <% _.forEach(memo_data, function(entry){ %>
+        <a href="#" class="col-xs-4 col-lg-2" style="padding: 0.5em" data-memo="<%= entry.key %>">
+            <%= entry.key %>
+        </a>
+    <% }) %>
 </script>
 
 <script type="text/template" id="page-setting">
