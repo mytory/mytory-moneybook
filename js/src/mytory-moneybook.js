@@ -12,6 +12,7 @@ var MMB_Router = Backbone.Router.extend({
 
     initialize: function(){
         var network = false;
+
         MMB.set_polyglot();
         MMB.set_category();
         network = MMB.check_dropbox();
@@ -20,6 +21,7 @@ var MMB_Router = Backbone.Router.extend({
         if(network){
             MMB.show_navbar();
             MMB.provide_data_source();
+            MMB.init_memo_data();
         }
     },
 
@@ -488,8 +490,11 @@ var MMB = {
     moneybook: null,
     datastore: {
         content: null,
-        etc: null
+        etc: null,
+        auto_complete: null
     },
+    memo_data_record: null,
+    memo_data: null,
     router: null,
     check_dropbox: function(){
         var datastoreManager;
@@ -516,6 +521,7 @@ var MMB = {
 
                     MMB.datastore.content = datastore.getTable('moneybook_content');
                     MMB.datastore.etc = datastore.getTable('moneybook_etc');
+                    MMB.datastore.auto_complete = datastore.getTable('moneybook_auto_complete');
                 });
                 return true;
 
@@ -638,15 +644,16 @@ var MMB = {
         }
 
         // for auto complete
-        this.update_account_list(data.account);
-        if(data.to_account){
-            this.update_account_list(data.to_account);
-        }
+        this.update_auto_complete_info(data);
 
         // for statistics
         this.update_statistics_info(data);
 
         return MMB.datastore.content.insert(data);
+    },
+
+    update_auto_complete_info: function(data){
+
     },
 
     update_account_list: function(account_name){
@@ -773,7 +780,33 @@ var MMB = {
         });
 
         return this;
+    },
+
+    init_memo_data: function(){
+
+        if(MMB.datastore.auto_complete === null){
+            setTimeout(MMB.init_memo_data, 500);
+            return false;
+        }
+
+        MMB.memo_data_record = MMB.datastore.auto_complete.query({
+            key: 'memo_data'
+        })[0];
+        if( ! MMB.memo_data_record){
+            MMB.memo_data_record = MMB.datastore.auto_complete.insert({
+                key: 'memo_data',
+                value: JSON.stringify([])
+            });
+        }
+        MMB.memo_data = JSON.parse(MMB.memo_data_record.get('value'));
+    },
+
+    update_memo_data: function(){
+        MMB.memo_data_record.update({
+            value: JSON.stringify(MMB.memo_data)
+        });
     }
+
 
 };
 
