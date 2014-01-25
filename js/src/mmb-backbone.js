@@ -93,7 +93,8 @@ var MMB_Backbone = {
             "keyup #memo": "auto_complete_memo",
             "click .js-memo-candidate": "select_memo_candidate",
             "focus #amount": "auto_complete_memo_related",
-            "blur #date": "set_just_date"
+            "blur #date": "set_just_date",
+            "click .js-memo-related-candidate": "select_memo_related_candidate"
         },
         register: function(e){
             e.preventDefault();
@@ -158,7 +159,8 @@ var MMB_Backbone = {
         },
         auto_complete_memo_related: function(e){
             var record, vars, related,
-                tem = _.template($('#template-memo-related-auto-complete').html());
+                tem = _.template($('#template-memo-related-auto-complete').html()),
+                types = ['amount', 'category', 'account'];
 
             // set amount
             record = MMB.datastore.auto_complete.query({
@@ -166,22 +168,39 @@ var MMB_Backbone = {
                 memo: $('#memo').val()
             })[0];
             if(record){
-                related = JSON.parse(record.get('related'));
-                _.sortBy(related.amount, function(entry){
-                    return entry.count;
-                });
+                _.forEach(types, function(type){
+                    related = JSON.parse(record.get('related'));
+                    _.sortBy(related[type], function(entry){
+                        return entry.count;
+                    });
 
-                vars = {
-                    type: 'amount',
-                    target: '#amount',
-                    list: related.amount,
-                    next: '#date'
-                };
-                $('.js-amount-auto-complete').html(tem(vars));
+                    vars = {
+                        type: type,
+                        target: '#' + type,
+                        list: related[type]
+                    };
+                    $('.js-' + type + '-auto-complete').html(tem(vars));
+                });
             }
         },
         set_just_date: function(){
             this.just_date = $('#date').val();
+        },
+        select_memo_related_candidate: function(e){
+            var target = $(e.target).data('target'),
+                key = $(e.target).data('key'),
+                $next_input;
+
+            e.preventDefault();
+
+            $(target).val(key);
+            $(e.target).parent().html('');
+
+            $next_input = $(e.target).parents('.form-group').next('.form-group:visible').find('input');
+
+            if($next_input.length > 0){
+                $next_input.focus();
+            }
         }
     }),
 
