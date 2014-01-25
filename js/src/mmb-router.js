@@ -18,7 +18,6 @@ var MMB_Router = Backbone.Router.extend({
 
         if(network){
             MMB.show_navbar();
-            MMB.provide_data_source();
             MMB.init_memo_data();
         }
     },

@@ -12,7 +12,6 @@ module.exports = function(grunt) {
                     'js/src/bootstrap.min.js',
                     'js/src/underscore-min.js',
                     'js/src/backbone-min.js',
-                    'js/src/bootstrap3-typeahead.min.js',
                     'js/src/polyglot.min.js',
                     'js/src/moment.min.js',
                     'js/src/lang.js',
