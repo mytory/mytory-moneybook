@@ -299,7 +299,8 @@ var MMB_Backbone = {
                 sheet2 = [],
                 data = [],
                 item,
-                amount;
+                amount,
+                i = 1;
 
             sheet1 = this.get_content_rows(rows);
 
@@ -330,8 +331,12 @@ var MMB_Backbone = {
                 data.push(item);
             });
 
+
             _.forEach(data, function(row){
-                MMB.register(row);
+                setTimeout(function(){
+                    MMB.register(_.clone(row));
+                }, i*50);
+                i++;
             });
 
             return this;
@@ -341,7 +346,8 @@ var MMB_Backbone = {
                 sheet2 = [],
                 data = [],
                 item,
-                amount;
+                amount,
+                i = 1;
 
             sheet1 = this.get_content_rows(rows);
 
@@ -369,7 +375,10 @@ var MMB_Backbone = {
             });
 
             _.forEach(data, function(row){
-                MMB.register(row);
+                setTimeout(function(){
+                    MMB.register(_.clone(row));
+                }, i*50);
+                i++;
             });
 
             return this;
