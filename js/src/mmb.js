@@ -344,11 +344,19 @@ var MMB = {
 
     update_memo_related_data: function(data){
         var memo_related, record, related, found,
-            related_items = ['amount', 'cat1', 'cat2', 'account'];
+            related_items = ['amount', 'category', 'account'],
+            data_clone = _.clone(data),
+            category_depth = MMB.get_setting('category_depth');
+
+        if(category_depth == 2){
+            data_clone.category = data_clone.cat1 + ':' + data_clone.cat2;
+        }else if(category_depth == 1){
+            data_clone.category = data_clone.cat1;
+        }
 
         memo_related = this.datastore.auto_complete.query({
             type: 'memo_related',
-            memo: data.memo
+            memo: data_clone.memo
         })[0];
 
         if(memo_related === undefined){
@@ -356,14 +364,14 @@ var MMB = {
             _.forEach(related_items, function(entry){
                 related[entry] = [
                     {
-                        key: data[entry],
+                        key: data_clone[entry],
                         count: 1
                     }
                 ];
             });
             record = {
                 type: 'memo_related',
-                memo: data.memo,
+                memo: data_clone.memo,
                 related: JSON.stringify(related)
             }
             this.datastore.auto_complete.insert(record);
@@ -372,11 +380,11 @@ var MMB = {
 
             _.forEach(related_items, function(entry){
                 found = _.find(related[entry], function(target_item){
-                    return (target_item.key == data[entry]);
+                    return (target_item.key == data_clone[entry]);
                 });
                 if(found === undefined ){
                     related[entry].push({
-                        key: data[entry],
+                        key: data_clone[entry],
                         count: 1
                     });
                 }else{

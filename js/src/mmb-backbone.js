@@ -345,10 +345,15 @@ var MMB_Backbone = {
 
             _.forEach(data, function(row){
                 setTimeout(function(){
+                    $('.js-msg').removeClass('hidden').addClass('in').html(row.memo + ' 입력...');
                     MMB.register(_.clone(row));
                 }, i*50);
                 i++;
             });
+
+            setTimeout(function(){
+                $('.js-msg').removeClass('in').addClass('hidden').html('');
+            }, (i+1)*50);
 
             return this;
         },
