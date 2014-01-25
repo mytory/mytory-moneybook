@@ -129,7 +129,7 @@ var MMB_Backbone = {
             var tem = _.template($('#template-memo-auto-complete').html()),
                 vars,
                 memo_data = [],
-                value = $(e.target).val(),
+                value = $(e.target).val().trim(),
                 pattern = new RegExp(value);
 
             if(value){
