@@ -137,7 +137,7 @@
     <% _.forEach(list, function(entry){ %>
         <a href="#" class="col-xs-4 col-lg-2 js-<%=type%>-candidate" style="padding: 0.5em"
                 data-target="<%= target %>" data-key="<%= entry.key %>" title="<%= entry.count %>"
-                onclick="$('<%= target %>').val('<%= entry.key %>'); $(this).parent().html(''); $('<%= next %>').focus()">
+                onclick="$('<%= target %>').val('<%= entry.key %>'); $(this).parent().html(''); $('<%= next %>').focus(); return false;">
             <%= entry.key %>
         </a>
     <% }) %>
