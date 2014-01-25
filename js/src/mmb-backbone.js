@@ -63,8 +63,9 @@ var MMB_Backbone = {
     View_register: Backbone.View.extend({
         el: '.body',
         template: _.template($('#page-register').html()),
+        just_date: null,
         render: function(){
-            var today = moment().format('YYYY-MM-DD'),
+            var date,
                 vars,
                 category_placeholder,
                 tmp;
@@ -73,8 +74,14 @@ var MMB_Backbone = {
 
             category_placeholder = MMB.category[tmp];
 
+            if(this.just_date){
+                date = this.just_date;
+            }else{
+                date = moment().format('YYYY-MM-DD');
+            }
+
             vars = {
-                today: today,
+                date: date,
                 category_placeholder: category_placeholder
             };
             $('.body').hide().html(this.template(vars)).fadeIn();
@@ -85,7 +92,8 @@ var MMB_Backbone = {
             "click #behavior_type": "toggle_transfer_item",
             "keyup #memo": "auto_complete_memo",
             "click .js-memo-candidate": "select_memo_candidate",
-            "focus #amount": "auto_complete_memo_related"
+            "focus #amount": "auto_complete_memo_related",
+            "blur #date": "set_just_date"
         },
         register: function(e){
             e.preventDefault();
@@ -171,6 +179,9 @@ var MMB_Backbone = {
                 };
                 $('.js-amount-auto-complete').html(tem(vars));
             }
+        },
+        set_just_date: function(){
+            this.just_date = $('#date').val();
         }
     }),
 
