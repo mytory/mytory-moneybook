@@ -89,7 +89,7 @@ var MMB_Backbone = {
         },
         events: {
             "submit .js-register-form": "register",
-            "click #behavior_type": "toggle_transfer_item",
+            "click .js-behavior-type-box": "toggle_transfer_item",
             "keyup #memo": "auto_complete_memo",
             "click .js-memo-candidate": "select_memo_candidate",
             "focus #amount": function(){
@@ -123,7 +123,8 @@ var MMB_Backbone = {
             return this;
         },
         toggle_transfer_item: function(e){
-            if($(e.target).val() === 'transfer'){
+            var value = $('[name="behavior_type"]:checked').val();
+            if(value === 'transfer'){
                 $('.js-transfer-item').find('input').prop('disabled', false);
                 $('.js-transfer-item').fadeIn();
             }else{
