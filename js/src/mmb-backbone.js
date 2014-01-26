@@ -92,7 +92,12 @@ var MMB_Backbone = {
             "click #behavior_type": "toggle_transfer_item",
             "keyup #memo": "auto_complete_memo",
             "click .js-memo-candidate": "select_memo_candidate",
-            "focus #amount": "auto_complete_memo_related",
+            "focus #amount": function(){
+                $('.js-amount-auto-complete').fadeIn();
+            },
+            "focus #category": function(){
+                $('.js-category-auto-complete').fadeIn();
+            },
             "blur #date": "set_just_date",
             "click .js-memo-related-candidate": "select_memo_related_candidate"
         },
@@ -148,16 +153,17 @@ var MMB_Backbone = {
             vars = {
                 memo_data: memo_data
             };
-            $('.js-memo-auto-complete').html(tem(vars));
+            $('.js-memo-auto-complete').fadeIn().html(tem(vars));
         },
         select_memo_candidate: function(e){
             e.preventDefault();
             var memo = $(e.target).data('memo');
             $('#memo').val(memo);
             $('.js-memo-auto-complete').text('');
+            this.auto_complete_memo_related();
             $('#amount').focus();
         },
-        auto_complete_memo_related: function(e){
+        auto_complete_memo_related: function(){
             var record, vars, related,
                 tem = _.template($('#template-memo-related-auto-complete').html()),
                 types = ['amount', 'category', 'account'];
@@ -194,9 +200,8 @@ var MMB_Backbone = {
             e.preventDefault();
 
             $(target).val(key);
-            $(e.target).parent().html('');
-
             $next_input = $(e.target).parents('.form-group').next('.form-group:visible').find('input');
+            $(e.target).parent().fadeOut();
 
             if($next_input.length > 0){
                 $next_input.focus();
