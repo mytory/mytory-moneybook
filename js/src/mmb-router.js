@@ -1,7 +1,7 @@
 var MMB_Router = Backbone.Router.extend({
 
     routes: {
-        "": 'register',
+        "": 'start_page',
         "weekly(/:date)": 'weekly',
         "register": 'register',
         "setting": 'setting',
@@ -20,6 +20,10 @@ var MMB_Router = Backbone.Router.extend({
             MMB.show_navbar();
             MMB.init_memo_data();
         }
+    },
+
+    start_page: function(){
+        location.href = "#register";
     },
 
     weekly: function(date) {

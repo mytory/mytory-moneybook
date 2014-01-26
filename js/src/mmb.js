@@ -102,6 +102,8 @@ var MMB = {
                 this.pages[page_name].render(vars);
             }
         }
+        $('.js-navbar li.active').removeClass('active');
+        $('[href="' + location.hash + '"]').parents('li').addClass('active');
     },
     show_start_page: function(){
         if( ! MMB_Config){

@@ -17,19 +17,8 @@
     <![endif]-->
 </head>
 <body>
-<nav class="navbar navbar-default" role="navigation">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href=".">Mytory Moneybook</a>
-    </div>
-    <div class="collapse navbar-collapse" id="navbar-collapse">
+<nav class="js-navbar role="navigation"">
 
-    </div>
 </nav>
 <div class="body col-sm-12">
 
@@ -38,7 +27,7 @@
 <!-- templates -->
 
 <script type="text/template" id="navbar">
-    <ul class="nav navbar-nav">
+    <ul class="nav nav-tabs js-navbar">
         <li><a href="#weekly" data-page="weekly"><%= polyglot.t('Weekly') %></a></li>
         <li><a href="#register" data-page="register"><%= polyglot.t('Register') %></a></li>
         <li><a href="#setting" data-page="setting"><%= polyglot.t('Setting') %></a></li>

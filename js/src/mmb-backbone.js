@@ -16,7 +16,7 @@ var MMB_Backbone = {
             return this;
         },
         render: function(){
-            $('#navbar-collapse').html(this.template());
+            $('.js-navbar').html(this.template());
             return this;
         }
     }),
