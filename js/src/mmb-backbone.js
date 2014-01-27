@@ -258,6 +258,7 @@ var MMB_Backbone = {
                 $('.js-alert-body').text(polyglot.t("All data deleted."));
                 $('.js-close-text').text(polyglot.t("Close"));
                 $('.js-delete-all-data').remove();
+                location.reload();
             }else{
                 $('.js-incorrect-words').removeClass('hidden');
             }
