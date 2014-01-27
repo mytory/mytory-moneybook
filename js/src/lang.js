@@ -39,8 +39,13 @@ var Lang = {
         "App key": "App key",
         "App secret": "App secret",
         "Delete all data.": "Delete all data.",
-        "Really? You can't restore data.": "Really? You can't restore data.",
         "All data deleted.": "All data deleted.",
+        "All data will be deleted and you cannot restore it.": "All data will be deleted and you cannot restore it.",
+        "Enter this words to below for delete : ": "Enter this words to below for delete : ",
+        "Cancel": "Cancel",
+        "Delete": "Delete",
+        "Words are wrong.": "Words are wrong.",
+        "Close": "Close",
 
         // Import
         "Import": "Import",
@@ -98,6 +103,12 @@ var Lang = {
         "Delete all data.": "전체 데이터 삭제",
         "Really? You can't restore data.": "정말 모든 데이터를 날리겠습니까? 복구할 수 없습니다.",
         "All data deleted.": "전체 데이터를 삭제했습니다.",
+        "All data will be deleted and you cannot restore it.": "모든 데이터를 삭제합니다. 이후 복구할 수 없습니다.",
+        "Enter this words to below for delete : " :"삭제하려면 이 단어를 아래에 입력하세요 : ",
+        "Cancel": "취소",
+        "Delete": "삭제",
+        "Words are wrong.": "단어가 틀립니다.",
+        "Close": "닫기",
 
         // Import
         "Import": "가져오기",

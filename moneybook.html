@@ -172,13 +172,38 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label"><%= polyglot.t('Delete all data.') %></label>
+            <label class="col-sm-2 control-label"></label>
             <div class="col-sm-10">
-                <input type="button" value="<%= polyglot.t('Delete all data.') %>"
-                       class="btn btn-danger js-delete-all-data"/>
+                <button class="btn btn-danger" data-toggle="modal" data-target="#delete-all-data-box">
+                    <%= polyglot.t('Delete all data.') %>
+                </button>
             </div>
         </div>
     </form>
+    <div class="modal fade" id="delete-all-data-box">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title"><%= polyglot.t('Delete all data.') %></h4>
+                </div>
+                <div class="modal-body js-alert-body">
+                    <p><%= polyglot.t('All data will be deleted and you cannot restore it.') %></p>
+                    <p><%= polyglot.t('Enter this words to below for delete : ') %><strong>Mytory MoneyBook</strong></p>
+                    <p><input type="text"class="js-lock-delete-words"/></p>
+                    <p class="js-incorrect-words hidden"><strong><%= polyglot.t('Words are wrong.') %></strong></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <span class="js-close-text">
+                            <%= polyglot.t('Cancel') %>
+                        </span>
+                    </button>
+                    <button type="button" class="btn btn-danger js-delete-all-data"><%= polyglot.t('Delete') %></button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </script>
 
 <script type="text/template" id="page-need-config">

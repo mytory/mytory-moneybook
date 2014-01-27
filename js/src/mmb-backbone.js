@@ -237,7 +237,9 @@ var MMB_Backbone = {
             return this;
         },
         delete_all_data: function(){
-            if(confirm(polyglot.t("Really? You can't restore data."))){
+            var lock_delete_words = $('.js-lock-delete-words').val();
+
+            if(lock_delete_words == 'Mytory MoneyBook'){
                 var all_data = MMB.datastore.content.query();
                 _.forEach(all_data, function(record){
                     record.deleteRecord();
@@ -253,7 +255,11 @@ var MMB_Backbone = {
                     record.deleteRecord();
                 });
 
-                alert(polyglot.t("All data deleted."));
+                $('.js-alert-body').text(polyglot.t("All data deleted."));
+                $('.js-close-text').text(polyglot.t("Close"));
+                $('.js-delete-all-data').remove();
+            }else{
+                $('.js-incorrect-words').removeClass('hidden');
             }
         }
     }),
