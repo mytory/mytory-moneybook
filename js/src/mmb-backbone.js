@@ -279,9 +279,6 @@ var MMB_Backbone = {
             "dragleave .xls-drop-area": "drag_leave",
             "drop .xls-drop-area": "drop_process"
         },
-        drag_leave: function(e){
-            $(e.target).removeClass('dragging');
-        },
         xlsworker: function (data, cb) {
             var worker = new Worker('js/xlsworker.js');
             worker.onmessage = function(e) {
@@ -293,21 +290,31 @@ var MMB_Backbone = {
             };
             worker.postMessage(data);
         },
+        drag_handle: function(e) {
+            e.originalEvent.stopPropagation();
+            e.originalEvent.preventDefault();
+            e.originalEvent.dataTransfer.dropEffect = 'copy';
+            $(e.target).addClass('dragging');
+        },
+        drag_leave: function(e){
+            $(e.target).removeClass('dragging');
+        },
         drop_process: function(e){
             $(e.target).removeClass('dragging');
             var that = this,
                 files,
                 i,
-                f;
+                f,
+                reader;
             e.originalEvent.stopPropagation();
             e.originalEvent.preventDefault();
             
             files = e.originalEvent.dataTransfer.files;
-            for (i = 0, f = files[i]; i != files.length; ++i) {
-                var reader = new FileReader();
+            for (i = 0; f = files[i]; i++){
+                reader = new FileReader();
                 // var name = f.name;
-                reader.onload = function(e) {
-                    var data = e.target.result;
+                reader.onload = function(the_file) {
+                    var data = the_file.target.result;
                     if(typeof Worker !== 'undefined') {
                         that.xlsworker(data, that.process_wb);
                     } else {
@@ -379,13 +386,13 @@ var MMB_Backbone = {
                 setTimeout(function(){
                     $('.js-msg').removeClass('hidden').addClass('in').html(row.memo + ' 입력...');
                     MMB.register(_.clone(row));
-                }, i*50);
+                }, i*100);
                 i++;
             });
 
             setTimeout(function(){
                 $('.js-msg').removeClass('in').addClass('hidden').html('');
-            }, (i+1)*50);
+            }, (i+1)*100);
 
             return this;
         },
@@ -424,10 +431,15 @@ var MMB_Backbone = {
 
             _.forEach(data, function(row){
                 setTimeout(function(){
+                    $('.js-msg').removeClass('hidden').addClass('in').html(row.memo + ' 입력...');
                     MMB.register(_.clone(row));
-                }, i*50);
+                }, i*100);
                 i++;
             });
+
+            setTimeout(function(){
+                $('.js-msg').removeClass('in').addClass('hidden').html('');
+            }, (i+1)*100);
 
             return this;
         },
@@ -440,12 +452,6 @@ var MMB_Backbone = {
                 }
             });
             return sheet1;
-        },
-        drag_handle: function(e) {
-            e.originalEvent.stopPropagation();
-            e.originalEvent.preventDefault();
-            e.originalEvent.dataTransfer.dropEffect = 'copy';
-            $(e.target).addClass('dragging');
         },
         to_json: function (workbook){
             var result = {};
