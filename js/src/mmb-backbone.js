@@ -70,9 +70,11 @@ var MMB_Backbone = {
                 category_placeholder,
                 tmp;
 
-            tmp = _.random(0, MMB.category.length - 1);
+            if(MMB.category){
+                tmp = _.random(0, MMB.category.length - 1);
+            }
 
-            category_placeholder = MMB.category[tmp];
+            category_placeholder = (tmp ? MMB.category[tmp] : '');
 
             if(this.just_date){
                 date = this.just_date;
@@ -548,6 +550,86 @@ var MMB_Backbone = {
                 return this;
             }
 
+        }
+    }),
+
+    View_category_setting: Backbone.View.extend({
+        el: '.body',
+        template: _.template($('#page-category-setting').html()),
+        render: function(){
+            var cat_1depth = {
+                    withdrawal: [],
+                    deposit: []
+                },
+                cat_2depth = {
+                    withdrawal: [],
+                    deposit: []
+                },
+                vars;
+
+            if( ! MMB.category){
+                MMB.category = this.get_ex_category();
+            }
+
+            vars = {
+                category: MMB.category
+            };
+
+            $('.body').html(this.template(vars)).fadeIn();
+        },
+
+        get_ex_category: function(){
+            var ex_cat = {
+                    withdrawal: [],
+                    deposit: []
+                },
+                category_depth = MMB.get_category_depth();
+
+            ex_cat = this.get_ex_category_inner(ex_cat, 'withdrawal');
+            ex_cat = this.get_ex_category_inner(ex_cat, 'deposit');
+            console.log(ex_cat);
+
+            if(category_depth == 1){
+                _.forEach(ex_cat, function(behavior_type){
+                    _.forEach(behavior_type, function(entry){
+                        delete entry.children;
+                    });
+                });
+            }
+
+            return ex_cat;
+        },
+        get_ex_category_inner: function(ex_cat, behavior_type){
+            var temp,
+                child_name,
+                parent_name,
+                cat,
+                lang = MMB.get_lang();
+            _.forEach(MMB_EX_Category[lang][behavior_type], function(entry){
+                if( ! /:/.test(entry)){
+                    ex_cat[behavior_type].push({
+                        name: entry,
+                        children: []
+                    });
+                }else{
+                    temp = entry.split(':');
+                    parent_name = temp[0];
+                    child_name = temp[1];
+                    cat = _.find(ex_cat[behavior_type], function(entry2){
+                        return entry2.name == parent_name;
+                    });
+                    if(cat === undefined){
+                        ex_cat[behavior_type].push({
+                            name: entry,
+                            children: [child_name]
+                        });
+                    }else{
+                        cat.children.push(child_name);
+                    }
+                }
+            });
+
+            return ex_cat;
         }
     })
 };

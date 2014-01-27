@@ -1,5 +1,6 @@
 var MMB = {
     pages: {},
+    category_setting_record: null,
     category: null,
     lang: null,
     dropbox_client: null,
@@ -127,19 +128,22 @@ var MMB = {
         if(this.category){
             return;
         }
-        this.reset_category();
-    },
-    reset_category: function(){
-        var category_depth = this.get_category_depth();
-        if(category_depth == '1'){
-            this.category = _.filter(MMB_Category[this.get_lang()], function(entry){
-                return /.*:.*/.test(entry) == false;
-            });
-        }else{
-            this.category = _.filter(MMB_Category[this.get_lang()], function(entry){
-                return /.*:.*/.test(entry);
-            });
+
+        if( ! MMB.datastore.etc){
+            setTimeout(this.set_category, 500);
+            return;
         }
+
+        this.category_setting_record = MMB.datastore.etc.query({
+            key: 'category-setting'
+        });
+
+        if( ! this.category_setting_record){
+            location.href = '#category-setting';
+            return;
+        }
+
+        this.category = JSON.parse(this.category_setting_record.get('value'));
     },
     get_category_depth: function(){
         var category_depth = localStorage.getItem('category_depth');

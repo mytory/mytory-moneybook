@@ -16,7 +16,7 @@
     color: #000;
     border-color: #000;
 }
-.weekly-title {
+h2, .weekly-title {
     font-size: 1.2em;
 }
 .weekly-category {

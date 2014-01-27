@@ -47,6 +47,9 @@ var Lang = {
         "Words are wrong.": "Words are wrong.",
         "Close": "Close",
 
+        // Category Setting
+        "Category Setting": "Category Setting",
+
         // Import
         "Import": "Import",
         "Excel type": "Excel type",
@@ -109,6 +112,9 @@ var Lang = {
         "Delete": "삭제",
         "Words are wrong.": "단어가 틀립니다.",
         "Close": "닫기",
+
+        // Category Setting
+        "Category Setting": "카테고리 설정",
 
         // Import
         "Import": "가져오기",

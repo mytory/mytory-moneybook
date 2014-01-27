@@ -37,6 +37,7 @@
             <ul class="dropdown-menu">
                 <li><a href="#import"><%= polyglot.t('Import') %></a></li>
                 <li><a href="#setting"><%= polyglot.t('Setting') %></a></li>
+                <li><a href="#category-setting"><%= polyglot.t('Category Setting') %></a></li>
                 <li><a href="#sign-out" class="js-sign-out"><%= polyglot.t('Sign out') %></a></li>
             </ul>
         </li>
@@ -329,7 +330,44 @@
     </div>
 </script>
 
-<script>var MMB_Config;</script>
+<script type="text/template" id="page-category-setting">
+    <div class="page-category-setting" role="page">
+        <div class="page-header">
+            <h1><%= polyglot.t('Category Setting') %></h1>
+        </div>
+        <h2><%= polyglot.t('Withdrawal') %></h2>
+        <ul>
+            <% _.forEach(category.withdrawal, function(entry){
+                %><li>
+                    <%=entry.name%>
+                    <% if(entry.children){ %>
+                        <ul>
+                            <% _.forEach(entry.children, function(child){ %>
+                                <li><%= child %></li>
+                            <% }); %>
+                        </ul>
+                    <% } %>
+                </li><%
+            }); %>
+        </ul>
+        <h2><%= polyglot.t('Deposit') %></h2>
+        <ul>
+            <% _.forEach(category.deposit, function(entry){
+                %><li>
+                    <%=entry.name%>
+                    <% if(entry.children){ %>
+                    <ul>
+                        <% _.forEach(entry.children, function(child){ %>
+                        <li><%= child %></li>
+                        <% }); %>
+                    </ul>
+                    <% } %>
+                </li><%
+            }); %>
+        </ul>
+    </div>
+</script>
+
 <script src="config.js"></script>
 <script src="https://www.dropbox.com/static/api/dropbox-datastores-1.0-latest.js"></script>
 <script src="js/production.js"></script>

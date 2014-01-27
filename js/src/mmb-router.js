@@ -5,20 +5,21 @@ var MMB_Router = Backbone.Router.extend({
         "weekly(/:date)": 'weekly',
         "register": 'register',
         "setting": 'setting',
-        "import": 'import'
+        "import": 'import',
+        "category-setting": 'category_setting',
     },
 
     initialize: function(){
         var network = false;
 
         MMB.set_polyglot();
-        MMB.set_category();
         network = MMB.check_dropbox();
         Backbone.history.start();
 
         if(network){
             MMB.show_navbar();
             MMB.init_memo_data();
+            MMB.set_category();
         }
     },
 
@@ -47,6 +48,10 @@ var MMB_Router = Backbone.Router.extend({
 
     import: function(){
         MMB.render('import');
+    },
+
+    category_setting: function(){
+        MMB.render('category_setting');
     }
 
 });
