@@ -17,7 +17,7 @@
     <![endif]-->
 </head>
 <body>
-<nav class="js-navbar role="navigation"">
+<nav class="nav-wrapper js-navbar" role="navigation">
 
 </nav>
 <div class="body col-sm-12">
@@ -27,12 +27,19 @@
 <!-- templates -->
 
 <script type="text/template" id="navbar">
-    <ul class="nav nav-tabs js-navbar">
-        <li><a href="#weekly" data-page="weekly"><%= polyglot.t('Weekly') %></a></li>
-        <li><a href="#register" data-page="register"><%= polyglot.t('Register') %></a></li>
-        <li><a href="#setting" data-page="setting"><%= polyglot.t('Setting') %></a></li>
-        <li><a href="#import" data-page="import"><%= polyglot.t('Import') %></a></li>
-        <li><a href="#sign-out" data-page="dropbox_sign_in" class="js-sign-out"><%= polyglot.t('Sign out') %></a></li>
+
+    <ul class="nav nav-tabs">
+        <li><a href="#" title="Mytory MoneyBook">MMB</a></li>
+        <li><a href="#weekly"><%= polyglot.t('Weekly') %></a></li>
+        <li><a href="#register"><%= polyglot.t('Register') %></a></li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">기타 <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a href="#import"><%= polyglot.t('Import') %></a></li>
+                <li><a href="#setting"><%= polyglot.t('Setting') %></a></li>
+                <li><a href="#sign-out" class="js-sign-out"><%= polyglot.t('Sign out') %></a></li>
+            </ul>
+        </li>
     </ul>
 </script>
 

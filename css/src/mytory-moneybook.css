@@ -37,3 +37,6 @@ input[type=date] {
 .auto-complete-box {
     display: none;
 }
+.nav-wrapper {
+    padding-top: 0.5em;
+}
