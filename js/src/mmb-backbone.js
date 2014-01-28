@@ -635,41 +635,26 @@ var MMB_Backbone = {
         save: function(e){
             e.preventDefault();
             var data = MMB.util.form2json('.js-category-add-form'),
-                temp,
-                behavior_type,
-                backlink;
+                return_url;
             console.log(data);
             if(data.cat_level == 1){
                 MMB.category[data.behavior_type].push({
                     cat1: data.cat_name,
                     cat2: data.cat_name
                 });
-                backlink = '#category/list';
+                return_url = '#category/list';
             }else{
-                temp = _.find(MMB.category.withdrawal, function(entry){
-                    return (entry.cat1 == data.parent);
-                });
-                if(temp){
-                    behavior_type = 'withdrawal';
-                }
-                temp = _.find(MMB.category.deposit, function(entry){
-                    return (entry.cat1 == data.parent);
-                });
-                if(temp){
-                    behavior_type = 'deposit';
-                }
-
-                MMB.category[behavior_type].push({
+                MMB.category[data.behavior_type].push({
                     cat1: data.parent,
                     cat2: data.cat_name
                 });
-                backlink = '#category/list/' + behavior_type + '/' + data.parent;
+                return_url = '#category/list/' + data.behavior_type + '/' + data.parent;
             }
             MMB.category_record.update({
                 value: JSON.stringify(MMB.category)
             });
 
-            location.href = backlink;
+            location.href = return_url;
         }
     })
 };

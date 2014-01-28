@@ -7,8 +7,8 @@ var MMB_Router = Backbone.Router.extend({
         "setting": 'setting',
         "import": 'import',
         "category/list(/:behavior_type/*path)": 'category_list',
-        "category/add/cat1/:behavior_type": 'add_cat1',
-        "category/add/cat2/:parent": 'add_cat2'
+        "category/add/:behavior_type": 'add_cat1',
+        "category/add/:behavior_type/:parent": 'add_cat2'
     },
 
     initialize: function(){
@@ -69,9 +69,9 @@ var MMB_Router = Backbone.Router.extend({
         });
     },
 
-    add_cat2: function(parent){
+    add_cat2: function(behavior_type, parent){
         MMB.render('category_add', {
-            behavior_type: null,
+            behavior_type: behavior_type,
             cat_level: 2,
             title: parent + ' ' + polyglot.t('Add Category'),
             parent: parent

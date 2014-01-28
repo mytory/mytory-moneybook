@@ -323,7 +323,7 @@
 
         <h2><%= polyglot.t('Withdrawal') %></h2>
         <div class="list-group">
-            <a class="list-group-item" href="#category/add/cat1/withdrawal">
+            <a class="list-group-item" href="#category/add/withdrawal">
                 <%=polyglot.t('Add Category')%>
                 <span class="glyphicon glyphicon-plus pull-right"></span>
             </a>
@@ -337,7 +337,7 @@
 
         <h2><%= polyglot.t('Deposit') %></h2>
         <div class="list-group">
-            <a class="list-group-item" href="#category/add/cat1/deposit">
+            <a class="list-group-item" href="#category/add/deposit">
                 <%=polyglot.t('Add Category')%>
                 <span class="glyphicon glyphicon-plus pull-right"></span>
             </a>
@@ -366,7 +366,7 @@
         </ol>
 
         <div class="list-group">
-            <a class="list-group-item" href="#category/add/cat2/<%= parent %>">
+            <a class="list-group-item" href="#category/add/<%= behavior_type %>/<%= parent %>">
                 <%=polyglot.t('Add Category')%>
                 <span class="glyphicon glyphicon-plus pull-right"></span>
             </a>
@@ -395,9 +395,7 @@
 
         <form role="form" class="form-horizontal js-category-add-form">
             <input name="cat_level" type="hidden" value="<%= cat_level %>"/>
-            <% if(behavior_type) { %>
-                <input name="behavior_type" type="hidden" value="<%= behavior_type %>"/>
-            <% } %>
+            <input name="behavior_type" type="hidden" value="<%= behavior_type %>"/>
             <% if(parent) { %>
                 <input name="parent" type="hidden" value="<%= parent %>"/>
             <% } %>
