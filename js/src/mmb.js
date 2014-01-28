@@ -1,6 +1,6 @@
 var MMB = {
     pages: {},
-    category_setting_record: null,
+    category_record: null,
     category: null,
     lang: null,
     dropbox_client: null,
@@ -125,25 +125,52 @@ var MMB = {
         }
     },
     set_category: function(){
-        if(this.category){
+        if(this.category_record){
             return;
         }
 
         if( ! MMB.datastore.etc){
-            setTimeout(this.set_category, 500);
+            setTimeout(MMB.set_category, 500);
             return;
         }
 
-        this.category_setting_record = MMB.datastore.etc.query({
+        MMB.category_record = MMB.datastore.etc.query({
             key: 'category-list'
+        })[0];
+
+        if( ! MMB.category_record){
+            MMB.category = MMB.get_ex_category();
+            MMB.category_record = MMB.datastore.etc.insert({
+                key: 'category-list',
+                value: JSON.stringify(MMB.category)
+            });
+        }else{
+            MMB.category = JSON.parse(MMB.category_record.get('value'));
+        }
+
+    },
+    get_ex_category: function(){
+        var ex_cat = {};
+
+        ex_cat.withdrawal = this.get_ex_category_inner('withdrawal');
+        ex_cat.deposit = this.get_ex_category_inner('deposit');
+
+        return ex_cat;
+    },
+    get_ex_category_inner: function(behavior_type){
+        var temp,
+            behavior_cat = [],
+            lang = MMB.get_lang();
+
+        _.forEach(MMB_EX_Category[lang][behavior_type], function(entry){
+            temp = entry.split(':');
+            behavior_cat.push({
+                cat1: temp[0],
+                cat2: temp[1]
+            })
         });
 
-        if( ! this.category_setting_record){
-            location.href = '#category/list';
-            return;
-        }
-
-        this.category = JSON.parse(this.category_setting_record.get('value'));
+        return behavior_cat;
     },
     get_accounts: function(){
         if(localStorage.account){

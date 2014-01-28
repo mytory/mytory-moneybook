@@ -564,10 +564,6 @@ var MMB_Backbone = {
 
             this.$el.hide();
 
-            if( ! MMB.category){
-                MMB.category = this.get_ex_category();
-            }
-
             if( ! level1){
                 // level1을 보낸다.
                 cats = this.get_level1_cat();
@@ -586,29 +582,6 @@ var MMB_Backbone = {
             }
         },
 
-        get_ex_category: function(){
-            var ex_cat = {};
-
-            ex_cat.withdrawal = this.get_ex_category_inner('withdrawal');
-            ex_cat.deposit = this.get_ex_category_inner('deposit');
-
-            return ex_cat;
-        },
-        get_ex_category_inner: function(behavior_type){
-            var temp,
-                behavior_cat = [],
-                lang = MMB.get_lang();
-
-            _.forEach(MMB_EX_Category[lang][behavior_type], function(entry){
-                temp = entry.split(':');
-                behavior_cat.push({
-                    cat1: temp[0],
-                    cat2: temp[1]
-                })
-            });
-
-            return behavior_cat;
-        },
         get_level1_cat: function(){
             var cat = [];
             cat.withdrawal = this.get_cat_by_level('withdrawal', 1);
