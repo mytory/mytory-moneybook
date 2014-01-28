@@ -356,7 +356,7 @@
         <div class="page-header">
             <h1>
                 <%= parent %>
-                <small><a class="glyphicon glyphicon-pencil" href="#category/update/cat1/<%= parent %>"></a></small>
+                <small><a class="glyphicon glyphicon-pencil" href="#category/update/<%= behavior_type %>/<%= parent %>"></a></small>
             </h1>
         </div>
 
@@ -371,7 +371,7 @@
                 <span class="glyphicon glyphicon-plus pull-right"></span>
             </a>
             <% _.forEach(cats, function(entry){ %>
-            <a class="list-group-item" href="#category/update/cat2/<%= entry %>">
+            <a class="list-group-item" href="#category/update/<%= behavior_type %>/<%= parent %>/<%= entry %>">
                 <%= entry %>
                 <span class="glyphicon glyphicon-pencil pull-right"></span>
             </a>
