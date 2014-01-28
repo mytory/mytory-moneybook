@@ -387,7 +387,20 @@
                 <%= title %>
             </h1>
         </div>
+
+        <ol class="breadcrumb">
+            <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
+            <li><%= title %></li>
+        </ol>
+
         <form role="form" class="form-horizontal js-category-add-form">
+            <input name="cat_level" type="hidden" value="<%= cat_level %>"/>
+            <% if(behavior_type) { %>
+                <input name="behavior_type" type="hidden" value="<%= behavior_type %>"/>
+            <% } %>
+            <% if(parent) { %>
+                <input name="parent" type="hidden" value="<%= parent %>"/>
+            <% } %>
             <div class="form-group">
                 <label class="control-label col-xs-2" for="cat_name">
                     <%= polyglot.t('Name') %>

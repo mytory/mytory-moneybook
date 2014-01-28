@@ -105,12 +105,8 @@ var MMB_Backbone = {
         },
         register: function(e){
             e.preventDefault();
-            var data_arr = $('.js-register-form').serializeArray(),
-                data = {};
-            _.forEach(data_arr, function(entry){
-                data[entry.name] = entry.value;
-            });
 
+            var data = MMB.util.form2json('.js-register-form');
             data.year = data.date.substr(0, 4);
             data.month = data.date.substr(5, 2);
             data.day = data.date.substr(8, 2);
@@ -559,8 +555,15 @@ var MMB_Backbone = {
 
         render: function(opt){
             var cats,
-                list,
-                level1 = opt.level1;
+                level1 = opt.level1,
+                that = this;
+
+            if( ! MMB.category){
+                setTimeout(function(){
+                    that.render(opt);
+                }, 500);
+                return false;
+            }
 
             this.$el.hide();
 
@@ -584,6 +587,7 @@ var MMB_Backbone = {
 
         get_level1_cat: function(){
             var cat = [];
+
             cat.withdrawal = this.get_cat_by_level('withdrawal', 1);
             cat.deposit = this.get_cat_by_level('deposit', 1);
 
@@ -621,8 +625,48 @@ var MMB_Backbone = {
     View_category_add: Backbone.View.extend({
         el: '.body',
         template: _.template($('#page-category-add').html()),
+        events: {
+            "submit .js-category-add-form": "save"
+        },
         render: function(opt){
             this.$el.html(this.template(opt));
+        },
+        save: function(e){
+            e.preventDefault();
+            var data = MMB.util.form2json('.js-category-add-form'),
+                temp,
+                behavior_type,
+                inserted;
+            console.log(data);
+            if(data.cat_level == 1){
+                MMB.category[data.behavior_type].push({
+                    cat1: data.cat_name,
+                    cat2: data.cat_name
+                });
+            }else{
+                temp = _.find(MMB.category.withdrawal, function(entry){
+                    return (entry.cat1 == data.parent);
+                });
+                if(temp){
+                    behavior_type = 'withdrawal';
+                }
+                temp = _.find(MMB.category.deposit, function(entry){
+                    return (entry.cat1 == data.parent);
+                });
+                if(temp){
+                    behavior_type = 'deposit';
+                }
+
+                MMB.category[behavior_type].push({
+                    cat1: data.parent,
+                    cat2: data.cat_name
+                });
+            }
+            inserted = MMB.category_record.update({
+                value: JSON.stringify(MMB.category)
+            });
+
+            location.href = "#category/list"
         }
     })
 };

@@ -68,5 +68,14 @@ MMB.util = {
             s[1] += new Array(prec - s[1].length + 1).join('0');
         }
         return s.join(dec);
+    },
+
+    form2json: function(selector){
+        var data = {},
+            data_arr = $(selector).serializeArray();
+        _.forEach(data_arr, function(entry){
+            data[entry.name] = entry.value;
+        });
+        return data;
     }
 }
