@@ -554,8 +554,8 @@ var MMB_Backbone = {
 
     View_category_list: Backbone.View.extend({
         el: '.body',
-        template_level1: _.template($('#part-category-list-level1').html()),
-        template_level2: _.template($('#part-category-list-level2').html()),
+        template_level1: _.template($('#page-category-list-level1').html()),
+        template_level2: _.template($('#page-category-list-level2').html()),
 
         render: function(opt){
             var cats,

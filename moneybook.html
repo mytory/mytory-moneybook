@@ -195,7 +195,7 @@
 </script>
 
 <script type="text/template" id="page-need-config">
-    <div class="page-setting" role="page">
+    <div class="page-need-config" role="page">
         <div class="page-header">
             <h1><%= polyglot.t('Need config') %></h1>
         </div>
@@ -204,7 +204,7 @@
 </script>
 
 <script type="text/template" id="page-dropbox-sign-in">
-    <div class="page-setting" role="page">
+    <div class="page-dropbox-sign-in" role="page">
         <div class="page-header">
             <h1><%= polyglot.t('Dropbox sign in') %></h1>
         </div>
@@ -216,7 +216,7 @@
 </script>
 
 <script type="text/template" id="page-no-network">
-    <div class="page-setting" role="page">
+    <div class="page-no-network" role="page">
         <div class="page-header">
             <h1><%= polyglot.t('No network') %></h1>
         </div>
@@ -315,7 +315,7 @@
     </div>
 </script>
 
-<script type="text/template" id="part-category-list-level1">
+<script type="text/template" id="page-category-list-level1">
     <div class="page-category-list" role="page">
         <div class="page-header">
             <h1><%= polyglot.t('Category Setting') %></h1>
@@ -341,7 +341,7 @@
     </div>
 </script>
 
-<script type="text/template" id="part-category-list-level2">
+<script type="text/template" id="page-category-list-level2">
     <div class="page-category-list" role="page">
         <div class="page-header">
             <h1>
@@ -354,17 +354,6 @@
             <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
             <li><%= parent %></li>
         </ol>
-        <!-- <form role="form" class="form-horizontal js-update-cat-form">
-            <div class="form-group">
-                <div class="col-xs-8">
-                    <input class="form-control input-lg" type="text" name="cat1" id="cat1" value="<%= parent %>"/>
-                </div>
-                <div class="col-xs-4">
-                    <input class="btn btn-primary btn-block btn-lg" type="submit" value="<%= polyglot.t('Update') %>"/>
-                </div>
-            </div>
-            <a class="btn btn-block btn-danger btn-lg" href="#category/delete/<%= parent %>">'<%= parent %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%></a>
-        </form> -->
 
         <div class="list-group">
             <a class="list-group-item" href="#category/add/<%= parent %>">
@@ -379,6 +368,32 @@
             <% }) %>
         </div>
     </div>
+</script>
+
+<script type="text/template" id="page-category-add">
+    <div class="page-category-add">
+        <div class="page-header">
+            <h1>
+                <%= title %>
+            </h1>
+
+            <form role="form" class="form-horizontal js-category-add-form">
+                <div class="form-group">
+                    <div class="col-xs-9">
+                        <input class="form-control" type="text" name="cat_name" id="cat_name"/>
+                    </div>
+
+                    <input class="btn btn-primary btn-block btn-lg" type="submit" value="<%= polyglot.t('Add') %>"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</script>
+
+<script type="text/template" id="page-category-update">
+    <a class="btn btn-block btn-danger btn-lg" href="#category/delete/<%= parent %>">
+        '<%= parent %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
+    </a>
 </script>
 
 <script src="config.js"></script>
