@@ -37,7 +37,7 @@
             <ul class="dropdown-menu">
                 <li><a href="#import"><%= polyglot.t('Import') %></a></li>
                 <li><a href="#setting"><%= polyglot.t('Setting') %></a></li>
-                <li><a href="#category-setting"><%= polyglot.t('Category Setting') %></a></li>
+                <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
                 <li><a href="#sign-out" class="js-sign-out"><%= polyglot.t('Sign out') %></a></li>
             </ul>
         </li>
@@ -89,9 +89,7 @@
                 <div class="col-sm-10">
                     <input required type="text" class="form-control js-category" id="category" name="category"
                            placeholder="<%= category_placeholder %>">
-                    <% if(MMB.get_category_depth() == '2'){ %>
-                        <p class="help-block"><%= polyglot.t('Category helper') %></p>
-                    <% } %>
+                    <p class="help-block"><%= polyglot.t('Category helper') %></p>
                 </div>
                 <div class="js-category-auto-complete auto-complete-box col-sm-12" style="padding-top: 0.5em"></div>
             </div>
@@ -317,38 +315,70 @@
     </div>
 </script>
 
-<script type="text/template" id="page-category-setting">
-    <div class="page-category-setting" role="page">
+<script type="text/template" id="part-category-list-level1">
+    <div class="page-category-list" role="page">
         <div class="page-header">
             <h1><%= polyglot.t('Category Setting') %></h1>
         </div>
-        <div class="js-cat-field"></div>
+
+        <h2><%= polyglot.t('Withdrawal') %></h2>
+        <div class="list-group">
+            <% _.forEach(cats.withdrawal, function(entry){ %>
+                <a class="list-group-item" href="#category/list/<%=entry%>">
+                    <%=entry%>
+                </a>
+            <% }) %>
+        </div>
+
+        <h2><%= polyglot.t('Deposit') %></h2>
+        <div class="list-group">
+            <% _.forEach(cats.deposit, function(entry){ %>
+                <a class="list-group-item" href="#category/list/<%= entry %>">
+                    <%= entry %>
+                </a>
+            <% }) %>
+        </div>
     </div>
 </script>
 
-<script type="text/template" id="part-cat-list-level1">
-    <h2><%= polyglot.t('Withdrawal') %></h2>
-    <ul>
-        <% _.forEach(cats.withdrawal, function(entry){ %>
-            <li><a href="#category-setting/<%=entry%>"><%=entry%></a></li>
-        <% }) %>
-    </ul>
+<script type="text/template" id="part-category-list-level2">
+    <div class="page-category-list" role="page">
+        <div class="page-header">
+            <h1>
+                <%= parent %>
+                <small><a class="glyphicon glyphicon-pencil" href="#category/update/cat1/<%= parent %>"></a></small>
+            </h1>
+        </div>
 
-    <h2><%= polyglot.t('Deposit') %></h2>
-    <ul>
-        <% _.forEach(cats.deposit, function(entry){ %>
-            <li><a href="#category-setting/<%= entry %>"><%= entry %></a></li>
-        <% }) %>
-    </ul>
-</script>
+        <ol class="breadcrumb">
+            <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
+            <li><%= parent %></li>
+        </ol>
+        <!-- <form role="form" class="form-horizontal js-update-cat-form">
+            <div class="form-group">
+                <div class="col-xs-8">
+                    <input class="form-control input-lg" type="text" name="cat1" id="cat1" value="<%= parent %>"/>
+                </div>
+                <div class="col-xs-4">
+                    <input class="btn btn-primary btn-block btn-lg" type="submit" value="<%= polyglot.t('Update') %>"/>
+                </div>
+            </div>
+            <a class="btn btn-block btn-danger btn-lg" href="#category/delete/<%= parent %>">'<%= parent %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%></a>
+        </form> -->
 
-<script type="text/template" id="part-cat-list-level2">
-    <h2><a href="#category-setting"><%= parent %></a></h2>
-    <ul>
-        <% _.forEach(cats, function(entry){ %>
-            <li><%= entry %></li>
-        <% }) %>
-    </ul>
+        <div class="list-group">
+            <a class="list-group-item" href="#category/add/<%= parent %>">
+                <%=polyglot.t('Add Category')%>
+                <span class="glyphicon glyphicon-plus pull-right"></span>
+            </a>
+            <% _.forEach(cats, function(entry){ %>
+            <a class="list-group-item" href="#category/update/cat2/<%= entry %>">
+                <%= entry %>
+                <span class="glyphicon glyphicon-pencil pull-right"></span>
+            </a>
+            <% }) %>
+        </div>
+    </div>
 </script>
 
 <script src="config.js"></script>

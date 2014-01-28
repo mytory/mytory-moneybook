@@ -49,6 +49,8 @@ var Lang = {
 
         // Category Setting
         "Category Setting": "Category Setting",
+        "Update": "Update",
+        "Add Category": "Add Category",
 
         // Import
         "Import": "Import",
@@ -85,7 +87,7 @@ var Lang = {
         "Memo": "내용",
         "Amount": "금액",
         "Date": "날짜",
-        "Category": "분류",
+        "Category": "카테고리",
         "Category helper": "콜론(:)을 이용해서 두 단계까지 카테고리를 설정할 수 있습니다.",
         "Food": "식비",
         "Dining": "저녁",
@@ -115,6 +117,8 @@ var Lang = {
 
         // Category Setting
         "Category Setting": "카테고리 설정",
+        "Update": "수정",
+        "Add Category": "카테고리 추가",
 
         // Import
         "Import": "가져오기",

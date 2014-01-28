@@ -135,11 +135,11 @@ var MMB = {
         }
 
         this.category_setting_record = MMB.datastore.etc.query({
-            key: 'category-setting'
+            key: 'category-list'
         });
 
         if( ! this.category_setting_record){
-            location.href = '#category-setting';
+            location.href = '#category/list';
             return;
         }
 

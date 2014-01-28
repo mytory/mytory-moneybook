@@ -552,40 +552,37 @@ var MMB_Backbone = {
         }
     }),
 
-    View_category_setting: Backbone.View.extend({
+    View_category_list: Backbone.View.extend({
         el: '.body',
-        template: _.template($('#page-category-setting').html()),
+        template_level1: _.template($('#part-category-list-level1').html()),
+        template_level2: _.template($('#part-category-list-level2').html()),
+
         render: function(opt){
             var cats,
-                children,
                 list,
                 level1 = opt.level1;
 
-            $('.body').html(this.template()).fadeIn();
-
+            this.$el.hide();
 
             if( ! MMB.category){
                 MMB.category = this.get_ex_category();
             }
 
-            list = new MMB_Backbone.View_list_in_category_setting();
-
             if( ! level1){
                 // level1을 보낸다.
                 cats = this.get_level1_cat();
-                list.render({
+                this.$el.html(this.template_level1({
                     level: 1,
                     cats: cats
-                });
-
+                })).fadeIn();
             }else{
                 // level2를 보낸다.
                 cats = this.get_level2_cat_by_parent(level1);
-                list.render({
+                this.$el.html(this.template_level2({
                     parent: level1,
                     level: 2,
                     cats: cats
-                });
+                })).fadeIn();
             }
         },
 
@@ -645,19 +642,6 @@ var MMB_Backbone = {
 
             return cat;
 
-        }
-    }),
-
-    View_list_in_category_setting: Backbone.View.extend({
-        el: '.js-cat-field',
-        template_level1: _.template($('#part-cat-list-level1').html()),
-        template_level2: _.template($('#part-cat-list-level2').html()),
-        render: function(vars){
-            if(vars.level == 1){
-                this.$el.html(this.template_level1(vars));
-            }else{
-                this.$el.html(this.template_level2(vars));
-            }
         }
     })
 };
