@@ -6,7 +6,7 @@ var MMB_Router = Backbone.Router.extend({
         "register": 'register',
         "setting": 'setting',
         "import": 'import',
-        "category/list(/*path)": 'category_list',
+        "category/list(/:behavior_type/*path)": 'category_list',
         "category/add/cat1/:behavior_type": 'add_cat1',
         "category/add/cat2/:parent": 'add_cat2'
     },
@@ -52,9 +52,11 @@ var MMB_Router = Backbone.Router.extend({
         MMB.render('import');
     },
 
-    category_list: function(level1){
-        var opt = {};
-        opt.level1 = (level1 ? level1 : null);
+    category_list: function(behavior_type, level1){
+        var opt = {
+            behavior_type: behavior_type,
+            level1: (level1 ? level1 : null)
+        };
         MMB.render('category_list', opt);
     },
 

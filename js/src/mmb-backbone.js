@@ -576,8 +576,9 @@ var MMB_Backbone = {
                 })).fadeIn();
             }else{
                 // level2를 보낸다.
-                cats = this.get_level2_cat_by_parent(level1);
+                cats = this.get_level2_cat_by_parent(opt.behavior_type, level1);
                 this.$el.html(this.template_level2({
+                    behavior_type: opt.behavior_type,
                     parent: level1,
                     level: 2,
                     cats: cats
@@ -593,9 +594,9 @@ var MMB_Backbone = {
 
             return cat;
         },
-        get_level2_cat_by_parent: function(parent){
+        get_level2_cat_by_parent: function(behavior_type, parent){
             var children = [];
-            children = this.get_cat_by_level('withdrawal', 2, parent);
+            children = this.get_cat_by_level(behavior_type, 2, parent);
 
             return children;
         },
@@ -636,13 +637,14 @@ var MMB_Backbone = {
             var data = MMB.util.form2json('.js-category-add-form'),
                 temp,
                 behavior_type,
-                inserted;
+                backlink;
             console.log(data);
             if(data.cat_level == 1){
                 MMB.category[data.behavior_type].push({
                     cat1: data.cat_name,
                     cat2: data.cat_name
                 });
+                backlink = '#category/list';
             }else{
                 temp = _.find(MMB.category.withdrawal, function(entry){
                     return (entry.cat1 == data.parent);
@@ -661,12 +663,13 @@ var MMB_Backbone = {
                     cat1: data.parent,
                     cat2: data.cat_name
                 });
+                backlink = '#category/list/' + behavior_type + '/' + data.parent;
             }
-            inserted = MMB.category_record.update({
+            MMB.category_record.update({
                 value: JSON.stringify(MMB.category)
             });
 
-            location.href = "#category/list"
+            location.href = backlink;
         }
     })
 };

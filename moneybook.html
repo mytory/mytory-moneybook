@@ -328,8 +328,8 @@
                 <span class="glyphicon glyphicon-plus pull-right"></span>
             </a>
             <% _.forEach(cats.withdrawal, function(entry){ %>
-                <a class="list-group-item" href="#category/list/<%=entry%>">
-                    <%=entry%>
+                <a class="list-group-item" href="#category/list/withdrawal/<%=entry%>">
+                    <%= entry %>
                     <span class="glyphicon glyphicon-chevron-right pull-right"></span>
                 </a>
             <% }) %>
@@ -342,7 +342,7 @@
                 <span class="glyphicon glyphicon-plus pull-right"></span>
             </a>
             <% _.forEach(cats.deposit, function(entry){ %>
-                <a class="list-group-item" href="#category/list/<%= entry %>">
+                <a class="list-group-item" href="#category/list/deposit/<%= entry %>">
                     <%= entry %>
                     <span class="glyphicon glyphicon-chevron-right pull-right"></span>
                 </a>

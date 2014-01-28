@@ -18,6 +18,7 @@ Develop TODO list
 * set_setting 할 때 인자값이 string이 아니면 JSON.stringify 자동으로 하게 하자.
 * get_setting도 자동으로 JSON.parse 하자.
 * category/list/withdrawal/식비, category/list/deposit/주수입 식으로 URL 구성해야 한다.
+* 카테고리 입력시 중복검사
 
 
 완료
