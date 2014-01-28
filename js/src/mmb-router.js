@@ -6,7 +6,7 @@ var MMB_Router = Backbone.Router.extend({
         "register": 'register',
         "setting": 'setting',
         "import": 'import',
-        "category-setting": 'category_setting',
+        "category-setting(/:level1)": 'category_setting'
     },
 
     initialize: function(){
@@ -50,8 +50,10 @@ var MMB_Router = Backbone.Router.extend({
         MMB.render('import');
     },
 
-    category_setting: function(){
-        MMB.render('category_setting');
+    category_setting: function(level1){
+        MMB.render('category_setting', {
+            level1: level1
+        });
     }
 
 });

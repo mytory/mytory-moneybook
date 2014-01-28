@@ -145,13 +145,6 @@ var MMB = {
 
         this.category = JSON.parse(this.category_setting_record.get('value'));
     },
-    get_category_depth: function(){
-        var category_depth = localStorage.getItem('category_depth');
-        if(category_depth){
-            return category_depth;
-        }
-        return '2';
-    },
     get_accounts: function(){
         if(localStorage.account){
             return JSON.parse(localStorage.account);

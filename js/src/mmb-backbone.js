@@ -223,8 +223,7 @@ var MMB_Backbone = {
         render: function(){
             var vars;
             vars = {
-                language: MMB.get_lang(),
-                category_depth: MMB.get_category_depth()
+                language: MMB.get_lang()
             };
             $('.body').hide().html(this.template(vars)).fadeIn();
             return this;
@@ -556,80 +555,109 @@ var MMB_Backbone = {
     View_category_setting: Backbone.View.extend({
         el: '.body',
         template: _.template($('#page-category-setting').html()),
-        render: function(){
-            var cat_1depth = {
-                    withdrawal: [],
-                    deposit: []
-                },
-                cat_2depth = {
-                    withdrawal: [],
-                    deposit: []
-                },
-                vars;
+        render: function(opt){
+            var cats,
+                children,
+                list,
+                level1 = opt.level1;
+
+            $('.body').html(this.template()).fadeIn();
+
 
             if( ! MMB.category){
                 MMB.category = this.get_ex_category();
             }
 
-            vars = {
-                category: MMB.category
-            };
+            list = new MMB_Backbone.View_list_in_category_setting();
 
-            $('.body').html(this.template(vars)).fadeIn();
+            if( ! level1){
+                // level1을 보낸다.
+                cats = this.get_level1_cat();
+                list.render({
+                    level: 1,
+                    cats: cats
+                });
+
+            }else{
+                // level2를 보낸다.
+                cats = this.get_level2_cat_by_parent(level1);
+                list.render({
+                    parent: level1,
+                    level: 2,
+                    cats: cats
+                });
+            }
         },
 
         get_ex_category: function(){
-            var ex_cat = {
-                    withdrawal: [],
-                    deposit: []
-                },
-                category_depth = MMB.get_category_depth();
+            var ex_cat = {};
 
-            ex_cat = this.get_ex_category_inner(ex_cat, 'withdrawal');
-            ex_cat = this.get_ex_category_inner(ex_cat, 'deposit');
-            console.log(ex_cat);
-
-            if(category_depth == 1){
-                _.forEach(ex_cat, function(behavior_type){
-                    _.forEach(behavior_type, function(entry){
-                        delete entry.children;
-                    });
-                });
-            }
+            ex_cat.withdrawal = this.get_ex_category_inner('withdrawal');
+            ex_cat.deposit = this.get_ex_category_inner('deposit');
 
             return ex_cat;
         },
-        get_ex_category_inner: function(ex_cat, behavior_type){
+        get_ex_category_inner: function(behavior_type){
             var temp,
-                child_name,
-                parent_name,
-                cat,
+                behavior_cat = [],
                 lang = MMB.get_lang();
+
             _.forEach(MMB_EX_Category[lang][behavior_type], function(entry){
-                if( ! /:/.test(entry)){
-                    ex_cat[behavior_type].push({
-                        name: entry,
-                        children: []
-                    });
-                }else{
-                    temp = entry.split(':');
-                    parent_name = temp[0];
-                    child_name = temp[1];
-                    cat = _.find(ex_cat[behavior_type], function(entry2){
-                        return entry2.name == parent_name;
-                    });
-                    if(cat === undefined){
-                        ex_cat[behavior_type].push({
-                            name: entry,
-                            children: [child_name]
-                        });
-                    }else{
-                        cat.children.push(child_name);
+                temp = entry.split(':');
+                behavior_cat.push({
+                    cat1: temp[0],
+                    cat2: temp[1]
+                })
+            });
+
+            return behavior_cat;
+        },
+        get_level1_cat: function(){
+            var cat = [];
+            cat.withdrawal = this.get_cat_by_level('withdrawal', 1);
+            cat.deposit = this.get_cat_by_level('deposit', 1);
+
+            return cat;
+        },
+        get_level2_cat_by_parent: function(parent){
+            var children = [];
+            children = this.get_cat_by_level('withdrawal', 2, parent);
+
+            return children;
+        },
+        get_cat_by_level: function(behavior_type, level, parent){
+            var cat = [],
+                already_exist;
+
+            _.forEach(MMB.category[behavior_type], function(entry){
+                if(level == 2 && parent !== undefined){
+                    if(entry.cat1 !== parent){
+                        return true;
                     }
+                }
+                already_exist = _.find(cat, function(item){
+                    return item == entry['cat' + level];
+                });
+                if( ! already_exist){
+                    cat.push(entry['cat' + level]);
                 }
             });
 
-            return ex_cat;
+            return cat;
+
+        }
+    }),
+
+    View_list_in_category_setting: Backbone.View.extend({
+        el: '.js-cat-field',
+        template_level1: _.template($('#part-cat-list-level1').html()),
+        template_level2: _.template($('#part-cat-list-level2').html()),
+        render: function(vars){
+            if(vars.level == 1){
+                this.$el.html(this.template_level1(vars));
+            }else{
+                this.$el.html(this.template_level2(vars));
+            }
         }
     })
 };
