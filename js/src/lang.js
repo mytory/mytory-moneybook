@@ -51,6 +51,8 @@ var Lang = {
         "Category Setting": "Category Setting",
         "Update": "Update",
         "Add Category": "Add Category",
+        "Name": "Name",
+        "Add": "Add",
 
         // Import
         "Import": "Import",
@@ -119,6 +121,8 @@ var Lang = {
         "Category Setting": "카테고리 설정",
         "Update": "수정",
         "Add Category": "카테고리 추가",
+        "Name": "이름",
+        "Add": "추가",
 
         // Import
         "Import": "가져오기",

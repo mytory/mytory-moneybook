@@ -643,5 +643,13 @@ var MMB_Backbone = {
             return cat;
 
         }
+    }),
+
+    View_category_add: Backbone.View.extend({
+        el: '.body',
+        template: _.template($('#page-category-add').html()),
+        render: function(opt){
+            this.$el.html(this.template(opt));
+        }
     })
 };

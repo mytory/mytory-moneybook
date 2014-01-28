@@ -323,18 +323,28 @@
 
         <h2><%= polyglot.t('Withdrawal') %></h2>
         <div class="list-group">
+            <a class="list-group-item" href="#category/add/cat1/withdrawal">
+                <%=polyglot.t('Add Category')%>
+                <span class="glyphicon glyphicon-plus pull-right"></span>
+            </a>
             <% _.forEach(cats.withdrawal, function(entry){ %>
                 <a class="list-group-item" href="#category/list/<%=entry%>">
                     <%=entry%>
+                    <span class="glyphicon glyphicon-chevron-right pull-right"></span>
                 </a>
             <% }) %>
         </div>
 
         <h2><%= polyglot.t('Deposit') %></h2>
         <div class="list-group">
+            <a class="list-group-item" href="#category/add/cat1/deposit">
+                <%=polyglot.t('Add Category')%>
+                <span class="glyphicon glyphicon-plus pull-right"></span>
+            </a>
             <% _.forEach(cats.deposit, function(entry){ %>
                 <a class="list-group-item" href="#category/list/<%= entry %>">
                     <%= entry %>
+                    <span class="glyphicon glyphicon-chevron-right pull-right"></span>
                 </a>
             <% }) %>
         </div>
@@ -356,7 +366,7 @@
         </ol>
 
         <div class="list-group">
-            <a class="list-group-item" href="#category/add/<%= parent %>">
+            <a class="list-group-item" href="#category/add/cat2/<%= parent %>">
                 <%=polyglot.t('Add Category')%>
                 <span class="glyphicon glyphicon-plus pull-right"></span>
             </a>
@@ -376,17 +386,20 @@
             <h1>
                 <%= title %>
             </h1>
-
-            <form role="form" class="form-horizontal js-category-add-form">
-                <div class="form-group">
-                    <div class="col-xs-9">
-                        <input class="form-control" type="text" name="cat_name" id="cat_name"/>
-                    </div>
-
-                    <input class="btn btn-primary btn-block btn-lg" type="submit" value="<%= polyglot.t('Add') %>"/>
-                </div>
-            </form>
         </div>
+        <form role="form" class="form-horizontal js-category-add-form">
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="cat_name">
+                    <%= polyglot.t('Name') %>
+                </label>
+                <div class="col-xs-10">
+                    <input class="form-control" type="text" name="cat_name" id="cat_name"/>
+                </div>
+            </div>
+            <p>
+                <input class="btn btn-primary btn-block" type="submit" value="<%= polyglot.t('Add') %>"/>
+            </p>
+        </form>
     </div>
 </script>
 
