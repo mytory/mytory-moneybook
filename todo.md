@@ -15,6 +15,8 @@ Develop TODO list
 * 필터링은 선언적 방식으로 짜자.
 * Category Focus시엔 지금 메모에 입력한 내역 관련해서 가장 많은 카테고리가 맨 위에 올라와야 하지만, 모든 카테고리가 나오기도 해야 한다. 필터링 기능도 필수다.
 * 통계는 숫자와 그래프를 모두 제공한다.
+* set_setting 할 때 인자값이 string이 아니면 JSON.stringify 자동으로 하게 하자.
+* get_setting도 자동으로 JSON.parse 하자.
 
 
 완료
