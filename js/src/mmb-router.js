@@ -8,7 +8,11 @@ var MMB_Router = Backbone.Router.extend({
         "import": 'import',
         "category/list(/:behavior_type/*path)": 'category_list',
         "category/add/:behavior_type": 'add_cat1',
-        "category/add/:behavior_type/:parent": 'add_cat2'
+        "category/add/:behavior_type/:parent": 'add_cat2',
+        "category/update/:behavior_type/:cat1": 'update_cat',
+        "category/update/:behavior_type/:cat1/:cat2": 'update_cat',
+        "category/delete/:behavior_type/:cat1/": 'delete_cat',
+        "category/delete/:behavior_type/:cat1/:cat2": 'delete_cat'
     },
 
     initialize: function(){
