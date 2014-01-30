@@ -12,7 +12,11 @@ var MMB_Router = Backbone.Router.extend({
         "category/update/:behavior_type/:cat1": 'category_update',
         "category/update/:behavior_type/:cat1/:cat2": 'category_update',
         "category/delete/:behavior_type/:cat1/": 'category_delete',
-        "category/delete/:behavior_type/:cat1/:cat2": 'category_delete'
+        "category/delete/:behavior_type/:cat1/:cat2": 'category_delete',
+        "statistics/whole(/:year/:month)": 'statistics_whole',
+        "statistics/category(/:cat1/:year/:month)": 'statistics_cat1',
+        "statistics/category(/:cat1/:cat2/:year/:month)": 'statistics_cat2',
+        "statistics/account(/:account/:year/:month)": 'statistics_account'
     },
 
     initialize: function(){
@@ -95,6 +99,14 @@ var MMB_Router = Backbone.Router.extend({
             behavior_type: behavior_type,
             cat1: cat1,
             cat2: cat2
+        });
+    },
+
+    statistics_whole: function(year, month){
+        MMB.render('statistics', {
+            key: 'whole_info',
+            year: (year ? year : 'whole'),
+            month: (month ? month : 'whole')
         });
     }
 

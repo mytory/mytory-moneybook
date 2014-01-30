@@ -718,5 +718,47 @@ var MMB_Backbone = {
 
 
         }
+    }),
+
+    View_statistics: Backbone.View.extend({
+        el: '.body',
+        template: _.template($('#page-statistics').html()),
+        render: function(opt){
+            var vars, record, query,
+                that = this;
+
+            console.log('Called statistics render.')
+
+            if( ! MMB.datastore.etc){
+                setTimeout(function(){
+                    that.render(opt);
+                }, 500);
+                return false;
+            }
+
+            query = {
+                key: opt.key,
+                year: opt.year,
+                month: opt.month
+            };
+
+            console.log(query);
+
+            record = MMB.datastore.etc.query(query)[0];
+
+            console.log(record);
+
+
+
+            vars = {
+                year: opt.year,
+                month: opt.month,
+                amount: record.get('amount')
+            }
+
+            console.log(vars);
+
+            this.$el.html(this.template(vars));
+        }
     })
 };

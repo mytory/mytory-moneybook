@@ -32,6 +32,7 @@
         <li><a href="#" title="Mytory MoneyBook">MMB</a></li>
         <li><a href="#weekly"><%= polyglot.t('Weekly') %></a></li>
         <li><a href="#register"><%= polyglot.t('Register') %></a></li>
+        <li><a href="#statistics/whole"><%= polyglot.t('Statistics') %></a></li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">기타 <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -491,6 +492,22 @@
             <span class="glyphicon glyphicon-remove"></span>
             '<%= cat2 %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
         </a>
+    </div>
+</script>
+
+<script type="text/template" id="page-statistics">
+    <div class="page-statistics" role="page">
+        <div class="page-header">
+            <h1>
+                <%= polyglot.t('Statistics') %>
+                <small>
+                    <%= year %>-<%= month %>
+                </small>
+            </h1>
+        </div>
+        <ul>
+            <li><%=polyglot.t('Amount')%> : <%= MMB.util.number_format(amount) %></li>
+        </ul>
     </div>
 </script>
 
