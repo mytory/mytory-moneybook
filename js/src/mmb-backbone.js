@@ -106,6 +106,7 @@ var MMB_Backbone = {
         register: function(e){
             e.preventDefault();
 
+            var date;
             var data = MMB.util.form2json('.js-register-form');
             data.year = data.date.substr(0, 4);
             data.month = data.date.substr(5, 2);
@@ -117,6 +118,19 @@ var MMB_Backbone = {
             delete data.date;
 
             MMB.register(data);
+
+            $('.js-alert').fadeIn();
+            setTimeout(function(){
+                $('.js-alert').fadeOut();
+            }, 5000);
+
+            $('.js-register-form')[0].reset();
+            if(this.just_date){
+                date = this.just_date;
+            }else{
+                date = moment().format('YYYY-MM-DD');
+            }
+            $('#date').val(date);
 
             return this;
         },
