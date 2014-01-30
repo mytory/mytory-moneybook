@@ -71,8 +71,10 @@ var Lang = {
         "Weekly": "Weekly",
         "No content.": "No content.",
         "withdrawal": "withdrawal",
-        "Sum": "Sum"
+        "Sum": "Sum",
 
+        // Statistics
+        "Statistics": "Statistics"
     },
     ko: {
         "Need config": "config.js 파일을 만들어야 합니다",
@@ -147,6 +149,9 @@ var Lang = {
         "Weekly": "주간",
         "No content.": "사용 내역이 없습니다.",
         "withdrawal": "지출",
-        "Sum": "합계"
+        "Sum": "합계",
+
+        // Statistics
+        "Statistics": "통계"
     }
 };

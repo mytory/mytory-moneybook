@@ -727,8 +727,6 @@ var MMB_Backbone = {
             var vars, record, query,
                 that = this;
 
-            console.log('Called statistics render.')
-
             if( ! MMB.datastore.etc){
                 setTimeout(function(){
                     that.render(opt);
@@ -742,21 +740,13 @@ var MMB_Backbone = {
                 month: opt.month
             };
 
-            console.log(query);
-
-            record = MMB.datastore.etc.query(query)[0];
-
-            console.log(record);
-
-
-
             vars = {
                 year: opt.year,
                 month: opt.month,
-                amount: record.get('amount')
+                amount: record.get('amount'),
+                withdrawal: record.get('withdrawal'),
+                deposit: record.get('deposit')
             }
-
-            console.log(vars);
 
             this.$el.html(this.template(vars));
         }

@@ -307,7 +307,12 @@ var MMB = {
 
     update_amount: function(type, type_name, year, month, amount){
 
-        var info, new_amount;
+        var info,
+            new_amount,
+            new_withdrawal,
+            new_deposit,
+            withdrawal = 0,
+            deposit = 0;
 
         info = this.datastore.etc.query({
             key: type + '_info',
@@ -322,14 +327,27 @@ var MMB = {
                 name: type_name,
                 year: year,
                 month: month,
+                withdrawal: 0,
+                deposit: 0,
                 amount: 0
             });
         }
 
-        new_amount = parseFloat(info.get('amount')) + parseFloat(amount);
+        amount = parseFloat(amount);
+        if(amount < 0){
+            withdrawal = amount;
+        }else{
+            deposit = amount;
+        }
+
+        new_amount = parseFloat(info.get('amount')) + amount;
+        new_withdrawal = parseFloat(info.get('withdrawal')) + withdrawal;
+        new_deposit = parseFloat(info.get('deposit')) + deposit;
 
         info.update({
-            amount: new_amount
+            amount: new_amount,
+            withdrawal: new_withdrawal,
+            deposit: new_deposit
         });
 
         return this;
