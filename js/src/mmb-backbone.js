@@ -212,8 +212,8 @@ var MMB_Backbone = {
         el: ".body",
         template: _.template($('#page-setting').html()),
         events: {
-            "click input" : "save_setting",
-            "blur" : "save_setting",
+            "click .page-setting input" : "save_setting",
+            "blur .page-setting input" : "save_setting",
             "click .js-delete-all-data": "delete_all_data"
         },
         render: function(){
@@ -230,7 +230,6 @@ var MMB_Backbone = {
             _.each(value_obj, function(obj){
                 MMB.set_setting(obj.name, obj.value);
             });
-            MMB.reset_category();
             return this;
         },
         delete_all_data: function(){
@@ -635,8 +634,25 @@ var MMB_Backbone = {
         save: function(e){
             e.preventDefault();
             var data = MMB.util.form2json('.js-category-add-form'),
-                return_url;
-            console.log(data);
+                return_url,
+                duplication,
+                cat1,
+                cat2;
+
+            if(data.parent){
+                cat1 = data.parent;
+                cat2 = data.cat_name;
+            }else{
+                cat1 = data.cat_name;
+            }
+
+            duplication = this.check_duplication(data.behavior_type, cat1, cat2);
+
+            if(duplication){
+                alert('이미 있는 카테고리입니다.');
+                return false;
+            }
+
             if(data.cat_level == 1){
                 MMB.category[data.behavior_type].push({
                     cat1: data.cat_name,
@@ -655,6 +671,28 @@ var MMB_Backbone = {
             });
 
             location.href = return_url;
+        },
+        check_duplication: function(behavior_type, cat1, cat2){
+            var obj;
+
+            if( ! cat2){
+
+                // level 1
+                obj = _.find(MMB.category[behavior_type], function(obj){
+                    return obj.cat1 == cat1
+                });
+            }else{
+
+                // level 2
+                obj = _.find(MMB.category[behavior_type], function(obj){
+                    return ( obj.cat1 == cat1 && obj.cat2 == cat2 )
+                });
+            }
+            if(obj){
+                return true;
+            }else{
+                return false;
+            }
         }
     })
 };
