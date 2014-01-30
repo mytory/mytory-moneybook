@@ -7,12 +7,12 @@ var MMB_Router = Backbone.Router.extend({
         "setting": 'setting',
         "import": 'import',
         "category/list(/:behavior_type/*path)": 'category_list',
-        "category/add/:behavior_type": 'add_cat1',
-        "category/add/:behavior_type/:parent": 'add_cat2',
-        "category/update/:behavior_type/:cat1": 'update_cat',
-        "category/update/:behavior_type/:cat1/:cat2": 'update_cat',
-        "category/delete/:behavior_type/:cat1/": 'delete_cat',
-        "category/delete/:behavior_type/:cat1/:cat2": 'delete_cat'
+        "category/add/:behavior_type": 'category1_add',
+        "category/add/:behavior_type/:parent": 'category2_add',
+        "category/update/:behavior_type/:cat1": 'category_update',
+        "category/update/:behavior_type/:cat1/:cat2": 'category_update',
+        "category/delete/:behavior_type/:cat1/": 'category_delete',
+        "category/delete/:behavior_type/:cat1/:cat2": 'category_delete'
     },
 
     initialize: function(){
@@ -64,7 +64,7 @@ var MMB_Router = Backbone.Router.extend({
         MMB.render('category_list', opt);
     },
 
-    add_cat1: function(behavior_type){
+    category1_add: function(behavior_type){
         MMB.render('category_add', {
             cat_level: 1,
             title: polyglot.t(behavior_type) + ' ' + polyglot.t('Add Category'),
@@ -73,12 +73,28 @@ var MMB_Router = Backbone.Router.extend({
         });
     },
 
-    add_cat2: function(behavior_type, parent){
+    category2_add: function(behavior_type, parent){
         MMB.render('category_add', {
             behavior_type: behavior_type,
             cat_level: 2,
             title: parent + ' ' + polyglot.t('Add Category'),
             parent: parent
+        });
+    },
+
+    category_update: function(behavior_type, cat1, cat2){
+        MMB.render('category_update', {
+            behavior_type: behavior_type,
+            cat1: cat1,
+            cat2: cat2
+        });
+    },
+
+    category_delete: function(behavior_type, cat1, cat2){
+        MMB.render('category_delete', {
+            behavior_type: behavior_type,
+            cat1: cat1,
+            cat2: cat2
         });
     }
 

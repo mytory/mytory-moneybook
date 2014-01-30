@@ -54,8 +54,11 @@ var Lang = {
         "Add Category": "Add Category",
         "Name": "Name",
         "Add": "Add",
+        "update": "update",
         "Warning": "Warning",
         "Category is already exist.": "Category is already exist.",
+        "New Name": "New Name",
+        "Save": "Save",
 
         // Import
         "Import": "Import",
@@ -127,8 +130,11 @@ var Lang = {
         "Add Category": "카테고리 추가",
         "Name": "이름",
         "Add": "추가",
+        "update": "수정",
         "Warning": "알림",
         "Category is already exist.": "이미 있는 카테고리입니다.",
+        "New Name": "새 이름",
+        "Save": "저장",
 
         // Import
         "Import": "가져오기",

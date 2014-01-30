@@ -698,5 +698,24 @@ var MMB_Backbone = {
                 return false;
             }
         }
+    }),
+
+    View_category_update: Backbone.View.extend({
+        el: '.body',
+        events: {
+            "submit .js-category-add-form": "save"
+        },
+        template1: _.template($('#page-category1-update').html()),
+        template2: _.template($('#page-category2-update').html()),
+        render: function(opt){
+
+            if( ! opt.cat2){
+                this.$el.html(this.template1(opt));
+            }else{
+                this.$el.html(this.template2(opt));
+            }
+
+
+        }
     })
 };

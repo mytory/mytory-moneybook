@@ -420,10 +420,78 @@
     </div>
 </script>
 
-<script type="text/template" id="page-category-update">
-    <a class="btn btn-block btn-danger btn-lg" href="#category/delete/<%= parent %>">
-        '<%= parent %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
-    </a>
+<script type="text/template" id="page-category1-update">
+    <div class="page-category-add">
+        <div class="page-header">
+            <h1>
+                <%= cat1 %> <%= polyglot.t('update') %>
+            </h1>
+        </div>
+
+        <ol class="breadcrumb">
+            <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
+            <li>
+                <a href="#category/list/<%=behavior_type%>/<%=cat1%>">
+                    <%= cat1 %>
+                </a>
+                <%= polyglot.t('update') %>
+            </li>
+        </ol>
+
+
+        <form role="form" class="form-horizontal js-category-update-form">
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="cat1"><%=polyglot.t('New Name')%></label>
+                <div class="col-xs-10">
+                    <input class="form-control col-xs-10" type="text" name="cat1" id="cat1" value="<%=cat1%>"/>
+                </div>
+            </div>
+            <p>
+                <input class="btn btn-block btn-primary" type="submit" value="<%= polyglot.t('Save') %>"/>
+            </p>
+        </form>
+
+        <a class="btn btn-danger pull-right" href="#category/delete/<%= cat1 %>">
+            <span class="glyphicon glyphicon-remove"></span>
+            '<%= cat1 %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
+        </a>
+    </div>
+</script>
+<script type="text/template" id="page-category2-update">
+    <div class="page-category-add">
+        <div class="page-header">
+            <h1>
+                <%= cat2 %> <%= polyglot.t('update') %>
+            </h1>
+        </div>
+
+        <ol class="breadcrumb">
+            <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
+            <li>
+                <a href="#category/list/<%=behavior_type%>/<%=cat1%>">
+                    <%= cat1 %>
+                </a>
+            </li>
+            <li><%= cat2 %> <%= polyglot.t('update') %></li>
+        </ol>
+
+        <form role="form" class="form-horizontal js-category-update-form">
+            <div class="form-group">
+                <label class="control-label col-xs-2" for="cat2"><%=polyglot.t('New Name')%></label>
+                <div class="col-xs-10">
+                    <input class="form-control" type="text" name="cat2" id="cat2" value="<%=cat2%>"/>
+                </div>
+            </div>
+            <p>
+                <input class="btn btn-block btn-primary" type="submit" value="<%= polyglot.t('Save') %>"/>
+            </p>
+        </form>
+
+        <a class="btn btn-danger pull-right" href="#category/delete/<%= cat1 %>/<%= cat2 %>">
+            <span class="glyphicon glyphicon-remove"></span>
+            '<%= cat2 %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
+        </a>
+    </div>
 </script>
 
 <script src="config.js"></script>
