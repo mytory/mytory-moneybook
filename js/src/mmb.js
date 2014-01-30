@@ -67,7 +67,9 @@ var MMB = {
         return localStorage['setting_' + item_name];
     },
     get_setting_obj: function(item_name){
-        return JSON.parse(this.get_setting(item_name));
+        if(this.get_setting(item_name)){
+            return JSON.parse(this.get_setting(item_name));
+        }
     },
     get_lang: function(){
 
