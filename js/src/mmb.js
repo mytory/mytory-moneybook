@@ -287,13 +287,13 @@ var MMB = {
                         // set like withdrawal
                         type_name = (type === 'whole' ? 'whole' : data_withdrawal[type]);
                         delete data_withdrawal.to_account;
-                        that.update_amount(type, type_name, year, month, data.amount * -1);
+                        that.update_amount(type, type_name, year, month, data.amount * -1, 'transfer_out');
 
                         // set like deposti
                         data_deposit.account = data_deposit.to_account;
                         delete data_deposit.to_account;
                         type_name = (type === 'whole' ? 'whole' : data_deposit[type]);
-                        that.update_amount(type, type_name, year, month, data.amount);
+                        that.update_amount(type, type_name, year, month, data.amount, 'transfer_in');
 
                         break;
 
@@ -305,14 +305,18 @@ var MMB = {
         return this;
     },
 
-    update_amount: function(type, type_name, year, month, amount){
+    update_amount: function(type, type_name, year, month, amount, transfer_type){
 
         var info,
             new_amount,
             new_withdrawal,
             new_deposit,
+            new_transfer_in,
+            new_transfer_out,
             withdrawal = 0,
-            deposit = 0;
+            deposit = 0,
+            transfer_in = 0,
+            transfer_out = 0;
 
         info = this.datastore.etc.query({
             key: type + '_info',
@@ -329,25 +333,37 @@ var MMB = {
                 month: month,
                 withdrawal: 0,
                 deposit: 0,
-                amount: 0
+                amount: 0,
+                transfer_out: 0,
+                transfer_in: 0
             });
         }
 
         amount = parseFloat(amount);
-        if(amount < 0){
+        if(amount < 0 && transfer_type === undefined){
             withdrawal = amount;
         }else{
             deposit = amount;
         }
 
+        if(transfer_type === 'transfer_in'){
+            transfer_in = amount;
+        }else if(transfer_type === 'transfer_out'){
+            transfer_out = amount;
+        }
+
         new_amount = parseFloat(info.get('amount')) + amount;
         new_withdrawal = parseFloat(info.get('withdrawal')) + withdrawal;
         new_deposit = parseFloat(info.get('deposit')) + deposit;
+        new_transfer_in = parseFloat(info.get('transfer_in')) + transfer_in;
+        new_transfer_out = parseFloat(info.get('transfer_out')) + transfer_out;
 
         info.update({
             amount: new_amount,
             withdrawal: new_withdrawal,
-            deposit: new_deposit
+            deposit: new_deposit,
+            transfer_in: new_transfer_in,
+            transfer_out: new_transfer_out
         });
 
         return this;

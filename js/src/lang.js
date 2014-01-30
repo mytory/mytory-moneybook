@@ -74,7 +74,9 @@ var Lang = {
         "Sum": "Sum",
 
         // Statistics
-        "Statistics": "Statistics"
+        "Statistics": "Statistics",
+        "Transfer out": "Transfer out",
+        "Transfer in": "Transfer in"
     },
     ko: {
         "Need config": "config.js 파일을 만들어야 합니다",
@@ -152,6 +154,9 @@ var Lang = {
         "Sum": "합계",
 
         // Statistics
-        "Statistics": "통계"
+        "Statistics": "통계",
+        "Transfer out": "이체해 보냄",
+        "Transfer in": "이체 받음"
+
     }
 };

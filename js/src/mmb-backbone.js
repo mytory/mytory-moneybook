@@ -740,12 +740,16 @@ var MMB_Backbone = {
                 month: opt.month
             };
 
+            record = MMB.datastore.etc.query(query)[0];
+
             vars = {
                 year: opt.year,
                 month: opt.month,
                 amount: record.get('amount'),
                 withdrawal: record.get('withdrawal'),
-                deposit: record.get('deposit')
+                deposit: record.get('deposit'),
+                transfer_in: record.get('transfer_in'),
+                transfer_out: record.get('transfer_out')
             }
 
             this.$el.html(this.template(vars));

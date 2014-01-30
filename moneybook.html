@@ -505,11 +505,31 @@
                 </small>
             </h1>
         </div>
-        <ul>
-            <li><%=polyglot.t('Withdrawal')%> : <%= MMB.util.number_format(withdrawal) %></li>
-            <li><%=polyglot.t('Deposit')%> : <%= MMB.util.number_format(deposit) %></li>
-            <li><%=polyglot.t('Sum')%> : <%= MMB.util.number_format(amount) %></li>
-        </ul>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th><%=polyglot.t('Withdrawal')%></th>
+                    <td class="text-right"><%= MMB.util.number_format(withdrawal) %></td>
+                <tr>
+                <tr>
+                    <th><%=polyglot.t('Deposit')%></th>
+                    <td class="text-right"><%= MMB.util.number_format(deposit) %></td>
+                </tr>
+                <tr>
+                    <th><%=polyglot.t('Transfer out')%></th>
+                    <td class="text-right"><%= MMB.util.number_format(transfer_out) %></td>
+                </tr>
+                <tr>
+                    <th><%=polyglot.t('Transfer in')%></th>
+                    <td class="text-right"><%= MMB.util.number_format(transfer_in) %></td>
+                </tr>
+                <tr class="info">
+                    <th><%=polyglot.t('Sum')%></th>
+                    <td class="text-right"><%= MMB.util.number_format(amount) %></td>
+                </tr>
+
+            </tbody>
+        </table>
     </div>
 </script>
 
