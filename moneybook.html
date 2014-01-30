@@ -506,6 +506,12 @@
             </h1>
         </div>
         <table class="table">
+            <thead>
+                <tr class="<%= balance_class %> text-<%= balance_class %>">
+                    <th><%=polyglot.t('Balance')%></th>
+                    <th class="text-right"><%= MMB.util.number_format(amount) %></th>
+                </tr>
+            </thead>
             <tbody>
                 <tr>
                     <th><%=polyglot.t('Withdrawal')%></th>
@@ -522,10 +528,6 @@
                 <tr>
                     <th><%=polyglot.t('Transfer in')%></th>
                     <td class="text-right"><%= MMB.util.number_format(transfer_in) %></td>
-                </tr>
-                <tr class="active">
-                    <th><%=polyglot.t('Sum')%></th>
-                    <td class="text-right"><%= MMB.util.number_format(amount) %></td>
                 </tr>
 
             </tbody>

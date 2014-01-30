@@ -724,7 +724,7 @@ var MMB_Backbone = {
         el: '.body',
         template: _.template($('#page-statistics').html()),
         render: function(opt){
-            var vars, record, query,
+            var vars, record, query, balance_class, amount,
                 that = this;
 
             if( ! MMB.datastore.etc){
@@ -742,14 +742,24 @@ var MMB_Backbone = {
 
             record = MMB.datastore.etc.query(query)[0];
 
+            amount = parseFloat(record.get('amount'));
+            if(amount < 0){
+                balance_class = 'danger';
+            }else if(amount === 0){
+                balance_class = 'active';
+            }else{
+                balance_class = 'success';
+            }
+
             vars = {
                 year: opt.year,
                 month: opt.month,
-                amount: record.get('amount'),
+                amount: amount,
                 withdrawal: record.get('withdrawal'),
                 deposit: record.get('deposit'),
                 transfer_in: record.get('transfer_in'),
-                transfer_out: record.get('transfer_out')
+                transfer_out: record.get('transfer_out'),
+                balance_class: balance_class
             }
 
             this.$el.html(this.template(vars));
