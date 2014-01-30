@@ -119,11 +119,12 @@ var MMB_Backbone = {
 
             MMB.register(data);
 
+            // reset form after register.
+            window.scrollTo(0,0);
             $('.js-alert').fadeIn();
             setTimeout(function(){
                 $('.js-alert').fadeOut();
             }, 5000);
-
             $('.js-register-form')[0].reset();
             if(this.just_date){
                 date = this.just_date;
