@@ -409,6 +409,10 @@
                     <input class="form-control" type="text" name="cat_name" id="cat_name"/>
                 </div>
             </div>
+            <div class="alert alert-warning alert-dismissable js-alert" style="display: none">
+                <strong><%= polyglot.t('Warning') %>!</strong>
+                <%= polyglot.t("Category is already exist.") %>
+            </div>
             <p>
                 <input class="btn btn-primary btn-block" type="submit" value="<%= polyglot.t('Add') %>"/>
             </p>

@@ -74,7 +74,7 @@ MMB.util = {
         var data = {},
             data_arr = $(selector).serializeArray();
         _.forEach(data_arr, function(entry){
-            data[entry.name] = entry.value;
+            data[entry.name] = $.trim(entry.value);
         });
         return data;
     }

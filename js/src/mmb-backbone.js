@@ -649,7 +649,11 @@ var MMB_Backbone = {
             duplication = this.check_duplication(data.behavior_type, cat1, cat2);
 
             if(duplication){
-                alert('이미 있는 카테고리입니다.');
+
+                $('.js-alert').fadeIn();
+                setTimeout(function(){
+                    $('.js-alert').fadeOut();
+                }, 5000);
                 return false;
             }
 
