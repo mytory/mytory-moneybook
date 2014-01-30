@@ -32,7 +32,7 @@
         <li><a href="#" title="Mytory MoneyBook">MMB</a></li>
         <li><a href="#weekly"><%= polyglot.t('Weekly') %></a></li>
         <li><a href="#register"><%= polyglot.t('Register') %></a></li>
-        <li><a href="#statistics/whole"><%= polyglot.t('Statistics') %></a></li>
+        <li><a href="#statistics/whole/<%= moment().format('YYYY/MM') %>"><%= polyglot.t('Statistics') %></a></li>
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">기타 <b class="caret"></b></a>
             <ul class="dropdown-menu">
@@ -523,7 +523,7 @@
                     <th><%=polyglot.t('Transfer in')%></th>
                     <td class="text-right"><%= MMB.util.number_format(transfer_in) %></td>
                 </tr>
-                <tr class="info">
+                <tr class="active">
                     <th><%=polyglot.t('Sum')%></th>
                     <td class="text-right"><%= MMB.util.number_format(amount) %></td>
                 </tr>
