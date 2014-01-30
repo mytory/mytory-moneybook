@@ -338,6 +338,7 @@ var MMB = {
     init_memo_data: function(){
 
         if(MMB.datastore.auto_complete === null){
+            MMB.memo_data = MMB.get_setting_obj('memo_data');
             setTimeout(MMB.init_memo_data, 500);
             return false;
         }
@@ -352,6 +353,7 @@ var MMB = {
             });
         }
         MMB.memo_data = JSON.parse(MMB.memo_data_record.get('value'));
+        MMB.set_setting_obj('memo_data', MMB.memo_data);
     },
 
     update_memo_data: function(data){
@@ -376,14 +378,9 @@ var MMB = {
     update_memo_related_data: function(data){
         var memo_related, record, related, found,
             related_items = ['amount', 'category', 'account'],
-            data_clone = _.clone(data),
-            category_depth = MMB.get_setting('category_depth');
+            data_clone = _.clone(data);
 
-        if(category_depth == 2){
-            data_clone.category = data_clone.cat1 + ':' + data_clone.cat2;
-        }else if(category_depth == 1){
-            data_clone.category = data_clone.cat1;
-        }
+        data_clone.category = data_clone.cat1 + ':' + data_clone.cat2;
 
         memo_related = this.datastore.auto_complete.query({
             type: 'memo_related',
@@ -427,6 +424,27 @@ var MMB = {
                 related: JSON.stringify(related)
             });
         }
+    },
+
+    get_all_memo_related: function(){
+        var records,
+            objs = [];
+
+        if( ! MMB.datastore.auto_complete){
+            setTimeout(MMB.get_all_memo_related, 500);
+            return false;
+        }
+        records = MMB.datastore.auto_complete.query({
+            type: 'memo_related'
+        });
+        _.forEach(records, function(t){
+            objs.push({
+                memo: t.get('memo'),
+                type: t.get('type'),
+                related: JSON.parse(t.get('related'))
+            });
+        });
+        return objs;
     }
 
 
