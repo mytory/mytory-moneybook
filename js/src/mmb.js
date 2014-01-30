@@ -60,8 +60,14 @@ var MMB = {
     set_setting: function(item_name, value){
         localStorage["setting_" + item_name] = value;
     },
+    set_setting_obj: function(item_name, obj){
+        this.set_setting(item_name, JSON.stringify(obj));
+    },
     get_setting: function(item_name){
-        return localStorage.getItem('setting_' + item_name);
+        return localStorage['setting_' + item_name];
+    },
+    get_setting_obj: function(item_name){
+        return JSON.parse(this.get_setting(item_name));
     },
     get_lang: function(){
 
@@ -130,6 +136,7 @@ var MMB = {
         }
 
         if( ! MMB.datastore.etc){
+            MMB.category = MMB.get_setting_obj('category');
             setTimeout(MMB.set_category, 500);
             return;
         }

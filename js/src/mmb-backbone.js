@@ -673,6 +673,7 @@ var MMB_Backbone = {
             MMB.category_record.update({
                 value: JSON.stringify(MMB.category)
             });
+            MMB.set_setting_obj('category', MMB.category);
 
             location.href = return_url;
         },
