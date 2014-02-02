@@ -2,6 +2,8 @@ var MMB = {
     pages: {},
     category_record: null,
     category: null,
+    accounts_record: null,
+    accounts: null,
     lang: null,
     dropbox_client: null,
     dropbox_ok: false,
@@ -182,11 +184,33 @@ var MMB = {
         return behavior_cat;
     },
     get_accounts: function(){
-        if(localStorage.account){
-            return JSON.parse(localStorage.account);
+        if(this.accounts){
+            return this.accounts;
         }else{
-            return [];
+            this.init_accounts();
+            return
         }
+    },
+    init_accounts: function(){
+        MMB.account_records = MMB.datastore.etc.query({
+            key: 'account_info',
+            year: 'whole',
+            month: 'whole'
+        });
+
+        if( ! MMB.accounts_record){
+            MMB.accounts_record = MMB.datastore.etc.insert({
+                key: 'accounts',
+                value: JSON.stringify([
+                    {
+                        key: 1,
+                        name: polyglot.t('My Wallet')
+                    }
+                ])
+            })
+        }
+
+        MMB.accounts = JSON.parse(MMB.accounts_record.get('value'));
     },
     register: function(data){
 

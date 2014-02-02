@@ -16,7 +16,8 @@ var MMB_Router = Backbone.Router.extend({
         "statistics/whole(/:year/:month)": 'statistics_whole',
         "statistics/category(/:cat1/:year/:month)": 'statistics_cat1',
         "statistics/category(/:cat1/:cat2/:year/:month)": 'statistics_cat2',
-        "statistics/account(/:account/:year/:month)": 'statistics_account'
+        "statistics/account(/:account/:year/:month)": 'statistics_account',
+        "account/list": "account_list"
     },
 
     initialize: function(){
@@ -107,6 +108,12 @@ var MMB_Router = Backbone.Router.extend({
             key: 'whole_info',
             year: (year ? year : 'whole'),
             month: (month ? month : 'whole')
+        });
+    },
+
+    account_list: function(){
+        MMB.render('account', {
+            cmd: 'list'
         });
     }
 

@@ -48,6 +48,7 @@ var Lang = {
         "Delete": "Delete",
         "Words are wrong.": "Words are wrong.",
         "Close": "Close",
+        "Account Setting": "Account Setting",
 
         // Category Setting
         "Category Setting": "Category Setting",
@@ -130,6 +131,7 @@ var Lang = {
         "Delete": "삭제",
         "Words are wrong.": "단어가 틀립니다.",
         "Close": "닫기",
+        "Account Setting": "계좌 설정",
 
         // Category Setting
         "Category Setting": "카테고리 설정",

@@ -757,6 +757,11 @@ var MMB_Backbone = {
 
             record = MMB.datastore.etc.query(query)[0];
 
+            if( ! record){
+                alert('이번 달 입력값이 없어서 통계가 없어요.');
+                return false;
+            }
+
             amount = parseFloat(record.get('amount'));
             if(amount < 0){
                 balance_class = 'danger';
@@ -778,6 +783,24 @@ var MMB_Backbone = {
             }
 
             this.$el.html(this.template(vars));
+        }
+    }),
+
+    View_account: Backbone.View.extend({
+        el: '.body',
+        template_list: null,
+        render: function(opt){
+
+            if(opt.cmd == 'list'){
+                this.render_list();
+            }
+        },
+        render_list: function(){
+            var that = this;
+            $.get('account_list.html', function(data){
+                that.template_list = _.template(data);
+                that.$el.html(that.template_list());
+            });
         }
     })
 };

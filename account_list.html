@@ -1,0 +1,16 @@
+<div class="page-account-list" role="page">
+    <div class="page-header">
+        <h1><%= polyglot.t('Account') %></h1>
+    </div>
+    <div class="list-group">
+        <a class="list-group-item" href="#account/add">
+            <%=polyglot.t('Add Account')%>
+            <span class="glyphicon glyphicon-plus pull-right"></span>
+        </a>
+        <% _.forEach(MMB.accounts, function(entry){ %>
+            <a class="list-group-item" href="#account/update/<%= entry.key %>">
+                <%= entry.name %>
+            </a>
+        <% }); %>
+    </div>
+</div>
