@@ -212,12 +212,20 @@ var MMB = {
         MMB.accounts = JSON.parse(MMB.accounts_record.get('value'));
     },
     register: function(data){
+        var data2;
 
         if(data.behavior_type === 'transfer'){
             delete data.cat1;
             delete data.cat2;
+            this.update_accounts(data);
+            data2 = _.clone(data);
+            data2.account = data2.to_account;
+            delete data2.to_account;
+            this.update_accounts(data2);
+            delete data2;
         }else{
             this.update_category(data);
+            this.update_accounts(data);
         }
 
         // for auto complete
@@ -225,9 +233,6 @@ var MMB = {
 
         // for statistics
         this.update_statistics_info(data);
-
-        // for accounts
-        this.update_accounts(data);
 
         return MMB.datastore.content.insert(data);
     },
@@ -240,7 +245,7 @@ var MMB = {
     update_accounts: function(data){
 
         var this_account = _.find(MMB.accounts, function(account){
-            return ( account.name = data.account );
+            return ( account.name === data.account );
         });
 
         if( ! this_account ){
@@ -254,7 +259,7 @@ var MMB = {
             });
             MMB.set_setting_obj('accounts', MMB.accounts);
 
-            alert( data.account + poliglot.t(" is added to account list. Go account setting, and set properties."));
+            alert( data.account + polyglot.t(" is added to account list. Go account setting, and set properties."));
         }
     },
 

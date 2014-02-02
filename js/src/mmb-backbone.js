@@ -397,13 +397,13 @@ var MMB_Backbone = {
                 setTimeout(function(){
                     $('.js-msg').removeClass('hidden').addClass('in').html(row.memo + ' 입력...');
                     MMB.register(_.clone(row));
-                }, i*100);
+                }, i*20);
                 i++;
             });
 
             setTimeout(function(){
                 $('.js-msg').removeClass('in').addClass('hidden').html('');
-            }, (i+1)*100);
+            }, (i+1)*20);
 
             return this;
         },
@@ -444,13 +444,13 @@ var MMB_Backbone = {
                 setTimeout(function(){
                     $('.js-msg').removeClass('hidden').addClass('in').html(row.memo + ' 입력...');
                     MMB.register(_.clone(row));
-                }, i*100);
+                }, i*20);
                 i++;
             });
 
             setTimeout(function(){
                 $('.js-msg').removeClass('in').addClass('hidden').html('');
-            }, (i+1)*100);
+            }, (i+1)*20);
 
             return this;
         },
