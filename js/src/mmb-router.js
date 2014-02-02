@@ -8,15 +8,10 @@ var MMB_Router = Backbone.Router.extend({
         "import": 'import',
         "category/list(/:behavior_type/*path)": 'category_list',
         "category/add/:behavior_type": 'category1_add',
-        "category/add/:behavior_type/:parent": 'category2_add',
-        "category/update/:behavior_type/:cat1": 'category_update',
-        "category/update/:behavior_type/:cat1/:cat2": 'category_update',
-        "category/delete/:behavior_type/:cat1/": 'category_delete',
-        "category/delete/:behavior_type/:cat1/:cat2": 'category_delete',
+        "category/add/:behavior_type/*path": 'category2_add',
+        "category/update/:behavior_type/*path": 'category_update',
+        "category/delete/:behavior_type/*path": 'category_delete',
         "statistics/whole(/:year/:month)": 'statistics_whole',
-        "statistics/category(/:cat1/:year/:month)": 'statistics_cat1',
-        "statistics/category(/:cat1/:cat2/:year/:month)": 'statistics_cat2',
-        "statistics/account(/:account/:year/:month)": 'statistics_account',
         "account/list": "account_list"
     },
 
@@ -88,19 +83,25 @@ var MMB_Router = Backbone.Router.extend({
         });
     },
 
-    category_update: function(behavior_type, cat1, cat2){
+    category_update: function(behavior_type, cat){
+
+        var cats = cat.split(':');
+
         MMB.render('category_update', {
             behavior_type: behavior_type,
-            cat1: cat1,
-            cat2: cat2
+            cat1: cats[0],
+            cat2: cats[1]
         });
     },
 
-    category_delete: function(behavior_type, cat1, cat2){
+    category_delete: function(behavior_type, cat){
+
+        var cats = cat.split(':');
+
         MMB.render('category_delete', {
             behavior_type: behavior_type,
-            cat1: cat1,
-            cat2: cat2
+            cat1: cats[0],
+            cat2: cats[1]
         });
     },
 

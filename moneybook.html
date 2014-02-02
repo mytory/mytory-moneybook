@@ -377,7 +377,7 @@
                 <span class="glyphicon glyphicon-plus pull-right"></span>
             </a>
             <% _.forEach(cats, function(entry){ %>
-            <a class="list-group-item" href="#category/update/<%= behavior_type %>/<%= parent %>/<%= entry %>">
+            <a class="list-group-item" href="#category/update/<%= behavior_type %>/<%= parent %>:<%= entry %>">
                 <%= entry %>
                 <span class="glyphicon glyphicon-pencil pull-right"></span>
             </a>
@@ -491,7 +491,7 @@
             </p>
         </form>
 
-        <a class="btn btn-danger pull-right" href="#category/delete/<%= cat1 %>/<%= cat2 %>">
+        <a class="btn btn-danger pull-right" href="#category/delete/<%= cat1 %>:<%= cat2 %>">
             <span class="glyphicon glyphicon-remove"></span>
             '<%= cat2 %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
         </a>
