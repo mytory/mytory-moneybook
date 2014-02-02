@@ -12,6 +12,7 @@ var Lang = {
 
         "Sign out": "Sign out",
 
+        // Register
         "Register": "Register",
         "Type": "Type",
         "Withdrawal": "Withdrawal",
@@ -30,6 +31,7 @@ var Lang = {
         "Account helper": "Enter new account, then that`ll be saved.",
         "To account": "To account",
         "Success": "Success",
+        " is added to account list. Go account setting, and set properties.": " is added to account list. Go account setting, and set properties.",
 
         // Setting
         "Setting": "Setting",
@@ -48,6 +50,8 @@ var Lang = {
         "Delete": "Delete",
         "Words are wrong.": "Words are wrong.",
         "Close": "Close",
+
+        // Account Setting
         "Account Setting": "Account Setting",
 
         // Category Setting
@@ -112,6 +116,7 @@ var Lang = {
         "Account helper": "새 계좌를 입력하면 새로 계좌를 만들고 저장하게 됩니다.",
         "To account": "이체할 계좌",
         "Success": "성공",
+        " is added to account list. Go account setting, and set properties.": " 계좌를 계좌 목록에 새로 추가했습니다. 계좌 설정에 가서 속성을 설정하세요.",
 
         // Setting
         "Setting": "설정",

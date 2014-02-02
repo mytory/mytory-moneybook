@@ -8,6 +8,7 @@ var MMB = {
     dropbox_client: null,
     dropbox_ok: false,
     moneybook: null,
+    datastoreManager: null,
     datastore: {
         content: null,
         etc: null,
@@ -32,9 +33,9 @@ var MMB = {
             if(this.dropbox_client.isAuthenticated()){
                 this.dropbox_ok = true;
                 // get datastore api
-                datastoreManager = MMB.dropbox_client.getDatastoreManager();
+                MMB.datastoreManager = MMB.dropbox_client.getDatastoreManager();
 
-                datastoreManager.openDefaultDatastore(function (error, datastore) {
+                MMB.datastoreManager.openDefaultDatastore(function (error, datastore) {
                     if (error) {
                         alert('Error opening default datastore: ' + error);
                     }
@@ -183,30 +184,28 @@ var MMB = {
 
         return behavior_cat;
     },
-    get_accounts: function(){
-        if(this.accounts){
-            return this.accounts;
-        }else{
-            this.init_accounts();
-            return
-        }
-    },
     init_accounts: function(){
-        MMB.account_records = MMB.datastore.etc.query({
-            key: 'account_info',
-            year: 'whole',
-            month: 'whole'
-        });
+        if( ! MMB.datastore.etc ){
+            setTimeout(MMB.init_accounts, 500);
+            return false;
+        }
+
+        MMB.accounts_record = MMB.datastore.etc.query({
+            key: 'account-list'
+        })[0];
 
         if( ! MMB.accounts_record){
             MMB.accounts_record = MMB.datastore.etc.insert({
-                key: 'accounts',
-                value: JSON.stringify([
-                    {
-                        key: 1,
-                        name: polyglot.t('My Wallet')
-                    }
-                ])
+                key: 'account-list',
+                value: JSON.stringify(
+                    [
+                        {
+                            name: polyglot.t('My Wallet'),
+                            owner: 'mine',
+                            in_balance: 'yes'
+                        }
+                    ]
+                )
             })
         }
 
@@ -217,6 +216,8 @@ var MMB = {
         if(data.behavior_type === 'transfer'){
             delete data.cat1;
             delete data.cat2;
+        }else{
+            this.update_category(data);
         }
 
         // for auto complete
@@ -224,6 +225,9 @@ var MMB = {
 
         // for statistics
         this.update_statistics_info(data);
+
+        // for accounts
+        this.update_accounts(data);
 
         return MMB.datastore.content.insert(data);
     },
@@ -233,31 +237,50 @@ var MMB = {
         this.update_memo_related_data(data);
     },
 
-    update_account_list: function(account_name){
-        var account_record, account, account_string;
+    update_accounts: function(data){
 
-        account_record = MMB.datastore.etc.query({key: 'account'})[0];
+        var this_account = _.find(MMB.accounts, function(account){
+            return ( account.name = data.account );
+        });
 
-        if( ! account_record){
-            account = [];
-        }else{
-            account = JSON.parse(account_record.get('value'));
+        if( ! this_account ){
+            MMB.accounts.push({
+                name: data.account,
+                owner: 'mine',
+                in_balance: 'yes'
+            });
+            MMB.accounts_record.update({
+                value: JSON.stringify(MMB.accounts)
+            });
+            MMB.set_setting_obj('accounts', MMB.accounts);
+
+            alert( data.account + poliglot.t(" is added to account list. Go account setting, and set properties."));
+        }
+    },
+
+    update_category: function(data){
+
+        if(data.behavior_type == 'transfer'){
+            return false;
         }
 
-        if(_.indexOf(account, account_name) === -1){
-            account.push(account_name);
-            account_string = JSON.stringify(account);
-            localStorage['account'] = account_string;
-            if(account_record){
-                account_record.update({
-                    value: account_string
-                });
-            }else{
-                MMB.datastore.etc.insert({
-                    key: 'account',
-                    value: account_string
-                });
-            }
+        var this_cat1 = _.find(MMB.category[data.behavior_type], function(category){
+            return ( category.cat1 === data.cat1);
+        });
+
+        var this_category = _.find(MMB.category[data.behavior_type], function(category){
+            return ( category.cat1 === data.cat1 && category.cat2 === data.cat2);
+        });
+
+        if( ! this_cat1 || ! this_category){
+            MMB.category[data.behavior_type].push({
+                cat1: data.cat1,
+                cat2: data.cat2
+            });
+            MMB.category_record.update({
+                value: JSON.stringify(MMB.category)
+            });
+            MMB.set_setting_obj('category', MMB.category);
         }
     },
 

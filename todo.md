@@ -3,6 +3,7 @@ Develop TODO list
 
 * account 를 일관되게 관리할 수 있어야 한다. 이 기능을 최우선으로 만들자. API 정의 우선 필요.
 * MMB.category_record, MMB.category 모두 categories로 변경.
+* set_category를 init_categories로 변경.
 * 이체는 수입 지출 통계에서 빼야 한다. 이체는 지출이 아니다. 따라서 이체 항목으로 넣어야 한다.
 * 카테고리 설계
     - 카테고리는 무조건 2단계로 한다.

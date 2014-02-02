@@ -31,6 +31,7 @@ var MMB_Router = Backbone.Router.extend({
             MMB.show_navbar();
             MMB.init_memo_data();
             MMB.set_category();
+            MMB.init_accounts();
         }
     },
 
