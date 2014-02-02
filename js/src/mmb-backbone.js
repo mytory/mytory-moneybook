@@ -70,11 +70,11 @@ var MMB_Backbone = {
                 category_placeholder,
                 tmp;
 
-            if(MMB.category){
-                tmp = _.random(0, MMB.category.length - 1);
+            if(MMB.categories){
+                tmp = _.random(0, MMB.categories.length - 1);
             }
 
-            category_placeholder = (tmp ? MMB.category[tmp] : '');
+            category_placeholder = (tmp ? MMB.categories[tmp] : '');
 
             if(this.just_date){
                 date = this.just_date;
@@ -572,7 +572,7 @@ var MMB_Backbone = {
                 level1 = opt.level1,
                 that = this;
 
-            if( ! MMB.category){
+            if( ! MMB.categories){
                 setTimeout(function(){
                     that.render(opt);
                 }, 500);
@@ -618,7 +618,7 @@ var MMB_Backbone = {
             var cat = [],
                 already_exist;
 
-            _.forEach(MMB.category[behavior_type], function(entry){
+            _.forEach(MMB.categories[behavior_type], function(entry){
                 if(level == 2 && parent !== undefined){
                     if(entry.cat1 !== parent){
                         return true;
@@ -673,22 +673,22 @@ var MMB_Backbone = {
             }
 
             if(data.cat_level == 1){
-                MMB.category[data.behavior_type].push({
+                MMB.categories[data.behavior_type].push({
                     cat1: data.cat_name,
                     cat2: data.cat_name
                 });
                 return_url = '#category/list';
             }else{
-                MMB.category[data.behavior_type].push({
+                MMB.categories[data.behavior_type].push({
                     cat1: data.parent,
                     cat2: data.cat_name
                 });
                 return_url = '#category/list/' + data.behavior_type + '/' + data.parent;
             }
-            MMB.category_record.update({
-                value: JSON.stringify(MMB.category)
+            MMB.categories_record.update({
+                value: JSON.stringify(MMB.categories)
             });
-            MMB.set_setting_obj('category', MMB.category);
+            MMB.set_setting_obj('categories', MMB.categories);
 
             location.href = return_url;
         },
@@ -698,13 +698,13 @@ var MMB_Backbone = {
             if( ! cat2){
 
                 // level 1
-                obj = _.find(MMB.category[behavior_type], function(obj){
+                obj = _.find(MMB.categories[behavior_type], function(obj){
                     return obj.cat1 == cat1
                 });
             }else{
 
                 // level 2
-                obj = _.find(MMB.category[behavior_type], function(obj){
+                obj = _.find(MMB.categories[behavior_type], function(obj){
                     return ( obj.cat1 == cat1 && obj.cat2 == cat2 )
                 });
             }

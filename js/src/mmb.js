@@ -1,7 +1,7 @@
 var MMB = {
     pages: {},
-    category_record: null,
-    category: null,
+    categories_record: null,
+    categories: null,
     accounts_record: null,
     accounts: null,
     lang: null,
@@ -135,29 +135,29 @@ var MMB = {
             return '';
         }
     },
-    set_category: function(){
-        if(this.category_record){
+    init_categories: function(){
+        if(this.categories_record){
             return;
         }
 
         if( ! MMB.datastore.etc){
-            MMB.category = MMB.get_setting_obj('category');
-            setTimeout(MMB.set_category, 500);
+            MMB.categories = MMB.get_setting_obj('categories');
+            setTimeout(MMB.init_categories, 500);
             return;
         }
 
-        MMB.category_record = MMB.datastore.etc.query({
+        MMB.categories_record = MMB.datastore.etc.query({
             key: 'category-list'
         })[0];
 
-        if( ! MMB.category_record){
-            MMB.category = MMB.get_ex_category();
-            MMB.category_record = MMB.datastore.etc.insert({
+        if( ! MMB.categories_record){
+            MMB.categories = MMB.get_ex_category();
+            MMB.categories_record = MMB.datastore.etc.insert({
                 key: 'category-list',
-                value: JSON.stringify(MMB.category)
+                value: JSON.stringify(MMB.categories)
             });
         }else{
-            MMB.category = JSON.parse(MMB.category_record.get('value'));
+            MMB.categories = JSON.parse(MMB.categories_record.get('value'));
         }
 
     },
@@ -269,23 +269,23 @@ var MMB = {
             return false;
         }
 
-        var this_cat1 = _.find(MMB.category[data.behavior_type], function(category){
+        var this_cat1 = _.find(MMB.categories[data.behavior_type], function(category){
             return ( category.cat1 === data.cat1);
         });
 
-        var this_category = _.find(MMB.category[data.behavior_type], function(category){
+        var this_category = _.find(MMB.categories[data.behavior_type], function(category){
             return ( category.cat1 === data.cat1 && category.cat2 === data.cat2);
         });
 
         if( ! this_cat1 || ! this_category){
-            MMB.category[data.behavior_type].push({
+            MMB.categories[data.behavior_type].push({
                 cat1: data.cat1,
                 cat2: data.cat2
             });
-            MMB.category_record.update({
-                value: JSON.stringify(MMB.category)
+            MMB.categories_record.update({
+                value: JSON.stringify(MMB.categories)
             });
-            MMB.set_setting_obj('category', MMB.category);
+            MMB.set_setting_obj('category', MMB.categories);
         }
     },
 
@@ -466,7 +466,7 @@ var MMB = {
             related_items = ['amount', 'category', 'account'],
             data_clone = _.clone(data);
 
-        data_clone.category = data_clone.cat1 + ':' + data_clone.cat2;
+        data_clone.categories = data_clone.cat1 + ':' + data_clone.cat2;
 
         memo_related = this.datastore.auto_complete.query({
             type: 'memo_related',
