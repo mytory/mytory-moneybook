@@ -782,7 +782,7 @@ var MMB_Backbone = {
                     cat_id_list.push(category.getId());
                 });
                 MMB.datastore.content.query({
-                    
+                    // TODO 구현해야 함. 이 카테고리에 속한 item 이 있으면 삭제 안 함.
                 })
             }
 

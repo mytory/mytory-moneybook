@@ -201,7 +201,7 @@ var MMB = {
             delete data.cat1;
             delete data.cat2;
         }else{
-            this.update_category(data);
+            data = this.update_category(data);
         }
 
         // for auto complete
@@ -253,7 +253,8 @@ var MMB = {
     update_category: function(data){
 
         var cat_data,
-            this_cat;
+            this_cat,
+            result;
 
         if(data.behavior_type == 'transfer'){
             return false;
@@ -265,10 +266,18 @@ var MMB = {
             cat2: data.cat2
         };
 
-        this_cat = MMB.datastore.category_list.query(cat_data);
-        if(this_cat.length == 0){
-            MMB.datastore.category_list.insert(cat_data);
+        result = MMB.datastore.category_list.query(cat_data);
+        if(result.length == 0){
+            this_cat = MMB.datastore.category_list.insert(cat_data);
+        }else{
+            this_cat = result[0];
         }
+
+        delete data.cat1;
+        delete data.cat2;
+        data.cat_id = this_cat.getId();
+
+        return data;
     },
 
     init_memo_data: function(){
