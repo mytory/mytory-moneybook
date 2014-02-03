@@ -301,7 +301,9 @@
 
                                 <% if(record.get('behavior_type') == 'transfer'){ %>
                                     <span class="label label-info"><%= polyglot.t('Transfer') %></span>
-                                    <%= record.get('account') %> → <%= record.get('to_account') %>
+                                    <%= MMB.datastore.account_list.get(record.get('account_id')).get('name') %>
+                                    →
+                                    <%= MMB.datastore.account_list.get(record.get('to_account_id')).get('name') %>
                                 <% } %>
                             </small>
                         </td>
