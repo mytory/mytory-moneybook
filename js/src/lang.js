@@ -52,6 +52,7 @@ var Lang = {
         "Close": "Close",
 
         // Account Setting
+        "Add Account": "Add Account",
         "Account Setting": "Account Setting",
         "Owner": "Owner",
         "mine": "mine",
@@ -144,6 +145,7 @@ var Lang = {
         "Close": "닫기",
 
         // Account Setting
+        "Add Account": "계좌 추가",
         "Account Setting": "계좌 설정",
         "Owner": "소유자",
         "mine": "내 꺼",
