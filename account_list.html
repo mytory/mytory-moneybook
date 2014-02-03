@@ -10,6 +10,7 @@
         <% _.forEach(account_list, function(entry){ %>
             <a class="list-group-item" href="#account/update/<%= entry.get('name') %>">
                 <%= entry.get('name') %>
+                <span class="glyphicon glyphicon-pencil pull-right"></span>
             </a>
         <% }); %>
     </div>

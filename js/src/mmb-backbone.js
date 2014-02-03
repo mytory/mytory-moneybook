@@ -792,8 +792,6 @@ var MMB_Backbone = {
                 account_list: MMB.datastore.account_list.query()
             };
 
-            console.log(vars);
-
             if(this.template){
                 this.$el.html(this.template(vars));
             }else{

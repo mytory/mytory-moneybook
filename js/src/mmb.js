@@ -3,7 +3,7 @@ var MMB = {
     pages: {},
     categories_record: null,
     categories: null,
-    accounts_record_list: null,
+    account_list: null,
     lang: null,
     dropbox_client: null,
     dropbox_ok: false,
@@ -201,23 +201,6 @@ var MMB = {
         });
 
         return behavior_cat;
-    },
-    init_accounts: function(){
-        if( ! MMB.datastore.etc ){
-            setTimeout(MMB.init_accounts, 200);
-            return false;
-        }
-
-        MMB.accounts_record_list = MMB.datastore.account_list.query();
-
-        if(MMB.accounts_record_list.length == 0){
-            MMB.datastore.account_list.insert({
-                name: polyglot.t('My Wallet'),
-                owner: 'mine',
-                in_balance: 'yes'
-            });
-            MMB.accounts_record_list = MMB.datastore.account_list.query();
-        }
     },
     register: function(data){
         var data2;
