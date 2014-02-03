@@ -706,7 +706,7 @@ var MMB_Backbone = {
     View_category_update: Backbone.View.extend({
         el: '.body',
         events: {
-            "submit .js-category-add-form": "save"
+            "submit .js-category-update-form": "save"
         },
         template1: _.template($('#page-category1-update').html()),
         template2: _.template($('#page-category2-update').html()),
@@ -727,8 +727,41 @@ var MMB_Backbone = {
                     category: category
                 }));
             }
+        },
+        save: function(e){
+            var data,
+                cat1_list,
+                category;
+            e.preventDefault();
+            data = MMB.util.form2json('.js-category-update-form');
 
+            console.log(data);
 
+            if(data.cat2 === undefined){
+
+                // cat1 수정
+                cat1_list = MMB.datastore.category_list.query({
+                    cat1: data.cat1_old_name
+                });
+
+                _.forEach(cat1_list, function(entry){
+                    entry.update({
+                        cat1: data.cat1
+                    });
+                });
+                location.href = '#category/list';
+            }else{
+
+                // cat2 수정
+                category = MMB.datastore.category_list.get(data.id);
+
+                category.update({
+                    cat1: data.cat1,
+                    cat2: data.cat2
+                });
+
+                location.href = '#category/list/' + category.get('behavior_type') + '/' + category.get('cat1')
+            }
         }
     }),
 
