@@ -826,7 +826,7 @@ var MMB_Backbone = {
             if(this.template){
                 this.$el.html(this.template(vars));
             }else{
-                $.get('account_update.html', function(data){
+                $.get('account_manage.html', function(data){
                     that.template = _.template(data);
                     that.$el.html(that.template(vars));
                 });
@@ -850,5 +850,50 @@ var MMB_Backbone = {
             location.href = '#account/list';
 
         }
+    }),
+
+    View_account_add: Backbone.View.extend({
+        el: '.body',
+        template: null,
+        events: {
+            "submit .js-account-update-form": "save"
+        },
+        render: function(){
+
+            var that = this;
+
+            // 이거 제대로 안 됨.
+            var vars = {
+                account: MMB.mock
+            };
+
+            if(this.template){
+                this.$el.html(this.template(vars));
+            }else{
+                $.get('account_manage.html', function(data){
+                    that.template = _.template(data);
+                    that.$el.html(that.template(vars));
+                });
+            }
+        },
+        save: function(e){
+            var data,
+                account,
+                data_without_id;
+
+            e.preventDefault();
+
+            data = MMB.util.form2json('.js-account-update-form');
+
+            data_without_id = _.clone(data);
+            delete data_without_id.id;
+
+            MMB.datastore.account_list.insert(data_without_id);
+
+            location.href = '#account/list';
+
+        }
     })
+
+
 };

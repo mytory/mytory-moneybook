@@ -6,7 +6,7 @@
         <input name="id" type="hidden" value="<%= account.getId() %>"/>
         <div class="form-group">
             <label for="name"><%= polyglot.t('Account') %> <%= polyglot.t('Name') %></label>
-            <input class="form-control" type="text" name="name" id="name" value="<%= account.get('name') %>"/>
+            <input required class="form-control" type="text" name="name" id="name" value="<%= account.get('name') %>"/>
         </div>
         <div class="form-group">
             <label>
@@ -14,14 +14,14 @@
             </label>
             <div class="radio">
                 <label>
-                    <input type="radio" name="owner" id="owner_mine" value="mine"
+                    <input required type="radio" name="owner" id="owner_mine" value="mine"
                             <%= account.get('owner') == 'mine' ? 'checked' : '' %> />
                     <%= polyglot.t('mine') %>
                 </label>
             </div>
             <div class="radio">
                 <label>
-                    <input type="radio" name="owner" id="owner_others" value="others"
+                    <input required type="radio" name="owner" id="owner_others" value="others"
                             <%= account.get('owner') == 'others' ? 'checked' : '' %> />
                     <%= polyglot.t('others') %>
                 </label>
@@ -34,14 +34,14 @@
             </label>
             <div class="radio">
                 <label>
-                    <input type="radio" name="in_balance" id="in_balance_yes" value="yes"
+                    <input required type="radio" name="in_balance" id="in_balance_yes" value="yes"
                             <%= account.get('in_balance') == 'yes' ? 'checked' : '' %> />
                     <%= polyglot.t('yes') %>
                 </label>
             </div>
             <div class="radio">
                 <label>
-                    <input type="radio" name="in_balance" id="in_balance_no" value="no"
+                    <input required type="radio" name="in_balance" id="in_balance_no" value="no"
                             <%= account.get('in_balance') == 'no' ? 'checked' : '' %>/>
                     <%= polyglot.t('no') %>
                 </label>

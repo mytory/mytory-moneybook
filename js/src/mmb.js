@@ -1,9 +1,6 @@
 var MMB = {
     network_enabled: false,
     pages: {},
-    categories_record: null,
-    categories: null,
-    account_list: null,
     lang: null,
     dropbox_client: null,
     dropbox_ok: false,
@@ -44,6 +41,7 @@ var MMB = {
                     MMB.datastore.etc = datastore.getTable('moneybook_etc');
                     MMB.datastore.auto_complete = datastore.getTable('moneybook_auto_complete');
                     MMB.datastore.account_list = datastore.getTable('moneybook_account_list');
+                    MMB.datastore.category = datastore.getTable('moneybook_category_list');
                 });
                 return true;
 
@@ -202,6 +200,7 @@ var MMB = {
 
         return behavior_cat;
     },
+
     register: function(data){
         var data2;
 
@@ -532,7 +531,14 @@ var MMB = {
             });
         });
         return objs;
+    },
+    mock: {
+        get: function(name){
+            return '';
+        },
+        getId: function(){
+            return '';
+        }
     }
-
 
 };

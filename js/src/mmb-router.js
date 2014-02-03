@@ -13,6 +13,7 @@ var MMB_Router = Backbone.Router.extend({
         "category/delete/:behavior_type/*path": 'category_delete',
         "statistics/whole(/:year/:month)": 'statistics_whole',
         "account/list": "account_list",
+        "account/add": "account_add",
         "account/update/*path": "account_update"
 
     },
@@ -115,6 +116,10 @@ var MMB_Router = Backbone.Router.extend({
 
     account_list: function(){
         MMB.render('account_list');
+    },
+
+    account_add: function(){
+        MMB.render('account_add');
     },
 
     account_update: function(account){
