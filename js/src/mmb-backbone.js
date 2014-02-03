@@ -563,25 +563,15 @@ var MMB_Backbone = {
 
         render: function(opt){
             var cats,
-                level1 = opt.level1,
-                that = this;
-
-            if( ! MMB.categories){
-                setTimeout(function(){
-                    that.render(opt);
-                }, 500);
-                return false;
-            }
-
-            this.$el.hide();
+                level1 = opt.level1;
 
             if( ! level1){
-                // level1을 보낸다.
+                // level1 목록을 보낸다.
                 cats = this.get_level1_cat();
                 this.$el.html(this.template_level1({
                     level: 1,
                     cats: cats
-                })).fadeIn();
+                }));
             }else{
                 // level2를 보낸다.
                 cats = this.get_level2_cat_by_parent(opt.behavior_type, level1);
@@ -590,7 +580,7 @@ var MMB_Backbone = {
                     parent: level1,
                     level: 2,
                     cats: cats
-                })).fadeIn();
+                }));
             }
         },
 
@@ -610,19 +600,22 @@ var MMB_Backbone = {
         },
         get_cat_by_level: function(behavior_type, level, parent){
             var cat = [],
-                already_exist;
+                already_exist,
+                category_list = MMB.datastore.category_list.query({
+                    behavior_type: behavior_type
+                });
 
-            _.forEach(MMB.categories[behavior_type], function(entry){
+            _.forEach(category_list, function(entry){
                 if(level == 2 && parent !== undefined){
-                    if(entry.cat1 !== parent){
+                    if(entry.get('cat1') !== parent){
                         return true;
                     }
                 }
                 already_exist = _.find(cat, function(item){
-                    return item == entry['cat' + level];
+                    return item == entry.get('cat' + level);
                 });
                 if( ! already_exist){
-                    cat.push(entry['cat' + level]);
+                    cat.push(entry.get('cat' + level));
                 }
             });
 
