@@ -813,20 +813,14 @@ var MMB_Backbone = {
         },
         render: function(opt){
 
-            var that = this;
-
-            if( ! MMB.accounts){
-                setTimeout(function(){
-                    that.render(opt);
-                }, 500);
-                return false;
-            }
+            var that = this,
+                account_list = MMB.datastore.account_list.query();
 
             // 이거 제대로 안 됨.
             var vars = {
                 account: (function(opt){
-                    return _.find(MMB.accounts, function(entry){
-                        return ( opt.account === entry.name );
+                    return _.find(account_list, function(account){
+                        return ( opt.account === account.get('name') );
                     });
                 }(opt))
             };
@@ -842,22 +836,18 @@ var MMB_Backbone = {
         },
         save: function(e){
             var data,
-                account;
+                account,
+                data_without_id;
 
             e.preventDefault();
 
             data = MMB.util.form2json('.js-account-update-form');
-            account = _.find(MMB.accounts, function(account){
-                return (account.name == data.name);
-            });
+            account = MMB.datastore.account_list.get(data.id);
 
-            account.owner = data.owner;
-            account.in_balance = data.in_balance;
+            data_without_id = _.clone(data);
+            delete data_without_id.id;
 
-            MMB.accounts_record.update({
-                value: JSON.stringify(MMB.accounts)
-            });
-            MMB.set_setting_obj('accounts', MMB.accounts);
+            account.update(data_without_id);
 
             location.href = '#account/list';
 
