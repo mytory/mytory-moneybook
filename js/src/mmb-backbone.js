@@ -248,22 +248,16 @@ var MMB_Backbone = {
             return this;
         },
         delete_all_data: function(){
-            var lock_delete_words = $('.js-lock-delete-words').val();
+            var lock_delete_words = $('.js-lock-delete-words').val(),
+                all_data;
 
-            if(lock_delete_words == 'Mytory MoneyBook'){
-                var all_data = MMB.datastore.content.query();
-                _.forEach(all_data, function(record){
-                    record.deleteRecord();
-                });
+            if(lock_delete_words == 'Mytory MoneyBook' || location.hostname === 'localhost'){
 
-                all_data = MMB.datastore.etc.query();
-                _.forEach(all_data, function(record){
-                    record.deleteRecord();
-                });
-
-                all_data = MMB.datastore.auto_complete.query();
-                _.forEach(all_data, function(record){
-                    record.deleteRecord();
+                _.forEach(MMB.datastore, function(table){
+                    all_data = table.query();
+                    _.forEach(all_data, function(record){
+                        record.deleteRecord();
+                    });
                 });
 
                 $('.js-alert-body').text(polyglot.t("All data deleted."));
@@ -786,21 +780,87 @@ var MMB_Backbone = {
         }
     }),
 
-    View_account: Backbone.View.extend({
+    View_account_list: Backbone.View.extend({
         el: '.body',
-        template_list: null,
+        template: null,
+        render: function(){
+
+            var that = this,
+                vars;
+
+            vars = {
+                account_list: MMB.datastore.account_list.query()
+            };
+
+            console.log(vars);
+
+            if(this.template){
+                this.$el.html(this.template(vars));
+            }else{
+                $.get('account_list.html', function(data){
+                    that.template = _.template(data);
+                    that.$el.html(that.template(vars));
+                });
+            }
+        }
+    }),
+
+    View_account_update: Backbone.View.extend({
+        el: '.body',
+        template: null,
+        events: {
+            "submit .js-account-update-form": "save"
+        },
         render: function(opt){
 
-            if(opt.cmd == 'list'){
-                this.render_list();
+            var that = this;
+
+            if( ! MMB.accounts){
+                setTimeout(function(){
+                    that.render(opt);
+                }, 500);
+                return false;
+            }
+
+            // 이거 제대로 안 됨.
+            var vars = {
+                account: (function(opt){
+                    return _.find(MMB.accounts, function(entry){
+                        return ( opt.account === entry.name );
+                    });
+                }(opt))
+            };
+
+            if(this.template){
+                this.$el.html(this.template(vars));
+            }else{
+                $.get('account_update.html', function(data){
+                    that.template = _.template(data);
+                    that.$el.html(that.template(vars));
+                });
             }
         },
-        render_list: function(){
-            var that = this;
-            $.get('account_list.html', function(data){
-                that.template_list = _.template(data);
-                that.$el.html(that.template_list());
+        save: function(e){
+            var data,
+                account;
+
+            e.preventDefault();
+
+            data = MMB.util.form2json('.js-account-update-form');
+            account = _.find(MMB.accounts, function(account){
+                return (account.name == data.name);
             });
+
+            account.owner = data.owner;
+            account.in_balance = data.in_balance;
+
+            MMB.accounts_record.update({
+                value: JSON.stringify(MMB.accounts)
+            });
+            MMB.set_setting_obj('accounts', MMB.accounts);
+
+            location.href = '#account/list';
+
         }
     })
 };

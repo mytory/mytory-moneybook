@@ -1,9 +1,9 @@
 var MMB = {
+    network_enabled: false,
     pages: {},
     categories_record: null,
     categories: null,
-    accounts_record: null,
-    accounts: null,
+    accounts_record_list: null,
     lang: null,
     dropbox_client: null,
     dropbox_ok: false,
@@ -43,6 +43,7 @@ var MMB = {
                     MMB.datastore.content = datastore.getTable('moneybook_content');
                     MMB.datastore.etc = datastore.getTable('moneybook_etc');
                     MMB.datastore.auto_complete = datastore.getTable('moneybook_auto_complete');
+                    MMB.datastore.account_list = datastore.getTable('moneybook_account_list');
                 });
                 return true;
 
@@ -101,6 +102,23 @@ var MMB = {
         this.render('navbar');
     },
     render: function(page_name, vars){
+        var that = this,
+            table_ready = true;
+
+        _.forEach(MMB.datastore, function(table){
+            if( ! table){
+                table_ready = false;
+                return false;
+            }
+        });
+
+        if( ! table_ready){
+            setTimeout(function(){
+                that.render(page_name, vars);
+            }, 200);
+            return false;
+        }
+
         if(
             MMB_Config && this.dropbox_ok ||
                 page_name == 'need_config' ||
@@ -186,53 +204,42 @@ var MMB = {
     },
     init_accounts: function(){
         if( ! MMB.datastore.etc ){
-            setTimeout(MMB.init_accounts, 500);
+            setTimeout(MMB.init_accounts, 200);
             return false;
         }
 
-        MMB.accounts_record = MMB.datastore.etc.query({
-            key: 'account-list'
-        })[0];
+        MMB.accounts_record_list = MMB.datastore.account_list.query();
 
-        if( ! MMB.accounts_record){
-            MMB.accounts_record = MMB.datastore.etc.insert({
-                key: 'account-list',
-                value: JSON.stringify(
-                    [
-                        {
-                            name: polyglot.t('My Wallet'),
-                            owner: 'mine',
-                            in_balance: 'yes'
-                        }
-                    ]
-                )
-            })
+        if(MMB.accounts_record_list.length == 0){
+            MMB.datastore.account_list.insert({
+                name: polyglot.t('My Wallet'),
+                owner: 'mine',
+                in_balance: 'yes'
+            });
+            MMB.accounts_record_list = MMB.datastore.account_list.query();
         }
-
-        MMB.accounts = JSON.parse(MMB.accounts_record.get('value'));
     },
     register: function(data){
         var data2;
 
+        data = this.update_accounts(data);
+        delete data.account;
+        if(data.to_account){
+            delete data.to_account;
+        }
+
         if(data.behavior_type === 'transfer'){
             delete data.cat1;
             delete data.cat2;
-            this.update_accounts(data);
-            data2 = _.clone(data);
-            data2.account = data2.to_account;
-            delete data2.to_account;
-            this.update_accounts(data2);
-            delete data2;
         }else{
             this.update_category(data);
-            this.update_accounts(data);
         }
 
         // for auto complete
         this.update_auto_complete_info(data);
 
         // for statistics
-        this.update_statistics_info(data);
+//        this.update_statistics_info(data);
 
         return MMB.datastore.content.insert(data);
     },
@@ -243,24 +250,35 @@ var MMB = {
     },
 
     update_accounts: function(data){
+        var account_id,
+            to_account_id;
+        data.account_id = this.update_accounts_inner(data.account);
+        if(data.to_account){
+            data.to_account_id = this.update_accounts_inner(data.to_account);
+        }
+        return data;
+    },
 
-        var this_account = _.find(MMB.accounts, function(account){
-            return ( account.name === data.account );
+    update_accounts_inner: function(account_name){
+        var this_account,
+            account_list;
+
+        account_list = MMB.datastore.account_list.query();
+        this_account = _.find(account_list, function(account){
+            return ( account.get('name') === account_name );
         });
 
         if( ! this_account ){
-            MMB.accounts.push({
-                name: data.account,
+            this_account = MMB.datastore.account_list.insert({
+                name: account_name,
                 owner: 'mine',
                 in_balance: 'yes'
             });
-            MMB.accounts_record.update({
-                value: JSON.stringify(MMB.accounts)
-            });
-            MMB.set_setting_obj('accounts', MMB.accounts);
 
-            alert( data.account + polyglot.t(" is added to account list. Go account setting, and set properties."));
+            alert( account_name + polyglot.t(" is added to account list. Go account setting, and set properties."));
         }
+
+        return this_account.getId();
     },
 
     update_category: function(data){
@@ -292,7 +310,7 @@ var MMB = {
     update_statistics_info: function (data){
 
         var account_info, new_amount,
-            update_targets = ['whole', 'account', 'cat1', 'cat2'],
+            update_targets = ['whole', 'account_id', 'cat1', 'cat2'],
             update_ranges = ['whole', 'yearly', 'monthly'],
             type_name,
             data_withdrawal,

@@ -7,9 +7,9 @@
             <%=polyglot.t('Add Account')%>
             <span class="glyphicon glyphicon-plus pull-right"></span>
         </a>
-        <% _.forEach(MMB.accounts, function(entry){ %>
-            <a class="list-group-item" href="#account/update/<%= entry.key %>">
-                <%= entry.name %>
+        <% _.forEach(account_list, function(entry){ %>
+            <a class="list-group-item" href="#account/update/<%= entry.get('name') %>">
+                <%= entry.get('name') %>
             </a>
         <% }); %>
     </div>

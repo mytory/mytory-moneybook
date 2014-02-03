@@ -12,17 +12,18 @@ var MMB_Router = Backbone.Router.extend({
         "category/update/:behavior_type/*path": 'category_update',
         "category/delete/:behavior_type/*path": 'category_delete',
         "statistics/whole(/:year/:month)": 'statistics_whole',
-        "account/list": "account_list"
+        "account/list": "account_list",
+        "account/update/*path": "account_update"
+
     },
 
     initialize: function(){
-        var network = false;
 
         MMB.set_polyglot();
-        network = MMB.check_dropbox();
+        MMB.network_enabled = MMB.check_dropbox();
         Backbone.history.start();
 
-        if(network){
+        if(MMB.network_enabled){
             MMB.show_navbar();
             MMB.init_memo_data();
             MMB.init_categories();
@@ -114,8 +115,12 @@ var MMB_Router = Backbone.Router.extend({
     },
 
     account_list: function(){
-        MMB.render('account', {
-            cmd: 'list'
+        MMB.render('account_list');
+    },
+
+    account_update: function(account){
+        MMB.render('account_update', {
+            account: account
         });
     }
 

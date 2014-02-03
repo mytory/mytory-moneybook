@@ -53,6 +53,12 @@ var Lang = {
 
         // Account Setting
         "Account Setting": "Account Setting",
+        "Owner": "Owner",
+        "mine": "mine",
+        "others": "others",
+        "Is in Balance": "Is in Balance",
+        "yes": "yes",
+        "no": "no",
 
         // Category Setting
         "Category Setting": "Category Setting",
@@ -136,7 +142,15 @@ var Lang = {
         "Delete": "삭제",
         "Words are wrong.": "단어가 틀립니다.",
         "Close": "닫기",
+
+        // Account Setting
         "Account Setting": "계좌 설정",
+        "Owner": "소유자",
+        "mine": "내 꺼",
+        "others": "다른 사람 거",
+        "Is in Balance": "잔액에 포함할지",
+        "yes": "포함함",
+        "no": "포함 안 함",
 
         // Category Setting
         "Category Setting": "카테고리 설정",
