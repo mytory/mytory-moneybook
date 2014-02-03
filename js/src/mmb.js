@@ -252,27 +252,22 @@ var MMB = {
 
     update_category: function(data){
 
+        var cat_data,
+            this_cat;
+
         if(data.behavior_type == 'transfer'){
             return false;
         }
 
-        var this_cat1 = _.find(MMB.categories[data.behavior_type], function(category){
-            return ( category.cat1 === data.cat1);
-        });
+        cat_data = {
+            behavior_type: data.behavior_type,
+            cat1: data.cat1,
+            cat2: data.cat2
+        };
 
-        var this_category = _.find(MMB.categories[data.behavior_type], function(category){
-            return ( category.cat1 === data.cat1 && category.cat2 === data.cat2);
-        });
-
-        if( ! this_cat1 || ! this_category){
-            MMB.categories[data.behavior_type].push({
-                cat1: data.cat1,
-                cat2: data.cat2
-            });
-            MMB.categories_record.update({
-                value: JSON.stringify(MMB.categories)
-            });
-            MMB.set_setting_obj('category', MMB.categories);
+        this_cat = MMB.datastore.category_list.query(cat_data);
+        if(this_cat.length == 0){
+            MMB.datastore.category_list.insert(cat_data);
         }
     },
 
