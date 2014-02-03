@@ -9,7 +9,9 @@ var MMB = {
     datastore: {
         content: null,
         etc: null,
-        auto_complete: null
+        auto_complete: null,
+        account_list: null,
+        category_list: null
     },
     memo_data_record: null,
     memo_data: null,
@@ -41,7 +43,7 @@ var MMB = {
                     MMB.datastore.etc = datastore.getTable('moneybook_etc');
                     MMB.datastore.auto_complete = datastore.getTable('moneybook_auto_complete');
                     MMB.datastore.account_list = datastore.getTable('moneybook_account_list');
-                    MMB.datastore.category = datastore.getTable('moneybook_category_list');
+                    MMB.datastore.category_list = datastore.getTable('moneybook_category_list');
                 });
                 return true;
 
@@ -151,51 +153,36 @@ var MMB = {
             return '';
         }
     },
-    init_categories: function(){
-        if(this.categories_record){
-            return;
+    init_category_list: function(){
+        if( ! MMB.datastore.category_list){
+            setTimeout(MMB.init_category_list, 200);
+            return false;
         }
-
-        if( ! MMB.datastore.etc){
-            MMB.categories = MMB.get_setting_obj('categories');
-            setTimeout(MMB.init_categories, 500);
-            return;
+        var category_list = MMB.datastore.category_list.query();
+        if(category_list.length == 0){
+            MMB.insert_ex_category_list();
         }
-
-        MMB.categories_record = MMB.datastore.etc.query({
-            key: 'category-list'
-        })[0];
-
-        if( ! MMB.categories_record){
-            MMB.categories = MMB.get_ex_category();
-            MMB.categories_record = MMB.datastore.etc.insert({
-                key: 'category-list',
-                value: JSON.stringify(MMB.categories)
-            });
-        }else{
-            MMB.categories = JSON.parse(MMB.categories_record.get('value'));
-        }
-
     },
-    get_ex_category: function(){
-        var ex_cat = {};
-
-        ex_cat.withdrawal = this.get_ex_category_inner('withdrawal');
-        ex_cat.deposit = this.get_ex_category_inner('deposit');
-
-        return ex_cat;
+    insert_ex_category_list: function(){
+        var category_list = this.get_ex_category();
+        _.forEach(category_list, function(cat){
+            MMB.datastore.category_list.insert(cat);
+        });
     },
-    get_ex_category_inner: function(behavior_type){
+    get_ex_category: function(behavior_type){
         var temp,
             behavior_cat = [],
             lang = MMB.get_lang();
 
-        _.forEach(MMB_EX_Category[lang][behavior_type], function(entry){
-            temp = entry.split(':');
-            behavior_cat.push({
-                cat1: temp[0],
-                cat2: temp[1]
-            })
+        _.forEach(['deposit', 'withdrawal'], function(behavior_type){
+            _.forEach(MMB_EX_Category[lang][behavior_type], function(entry){
+                temp = entry.split(':');
+                behavior_cat.push({
+                    behavior_type: behavior_type,
+                    cat1: temp[0],
+                    cat2: temp[1]
+                })
+            });
         });
 
         return behavior_cat;
