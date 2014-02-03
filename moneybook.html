@@ -428,15 +428,15 @@
     <div class="page-category-add">
         <div class="page-header">
             <h1>
-                <%= cat1 %> <%= polyglot.t('update') %>
+                <%= category.get('cat1') %> <%= polyglot.t('update') %>
             </h1>
         </div>
 
         <ol class="breadcrumb">
             <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
             <li>
-                <a href="#category/list/<%=behavior_type%>/<%=cat1%>">
-                    <%= cat1 %>
+                <a href="#category/list/<%=category.get('behavior_type')%>/<%=category.get('cat1')%>">
+                    <%= category.get('cat1') %>
                 </a>
                 <%= polyglot.t('update') %>
             </li>
@@ -444,10 +444,11 @@
 
 
         <form role="form" class="form-horizontal js-category-update-form">
+            <input id="id" name="id" type="hidden" value="category.getId()"/>
             <div class="form-group">
-                <label class="control-label col-xs-2" for="cat1"><%=polyglot.t('New Name')%></label>
+                <label class="control-label col-xs-2" for="cat1"><%=polyglot.t('Name')%></label>
                 <div class="col-xs-10">
-                    <input class="form-control col-xs-10" type="text" name="cat1" id="cat1" value="<%=cat1%>"/>
+                    <input class="form-control col-xs-10" type="text" name="cat1" id="cat1" value="<%=category.get('cat1')%>"/>
                 </div>
             </div>
             <p>
@@ -455,9 +456,9 @@
             </p>
         </form>
 
-        <a class="btn btn-danger pull-right" href="#category/delete/<%= cat1 %>">
+        <a class="btn btn-danger pull-right" href="#category/delete/<%= category.get('cat1') %>">
             <span class="glyphicon glyphicon-remove"></span>
-            '<%= cat1 %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
+            '<%= category.get('cat1') %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
         </a>
     </div>
 </script>
@@ -465,25 +466,26 @@
     <div class="page-category-add">
         <div class="page-header">
             <h1>
-                <%= cat2 %> <%= polyglot.t('update') %>
+                <%= category.get('cat2') %> <%= polyglot.t('update') %>
             </h1>
         </div>
 
         <ol class="breadcrumb">
             <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
             <li>
-                <a href="#category/list/<%=behavior_type%>/<%=cat1%>">
-                    <%= cat1 %>
+                <a href="#category/list/<%=category.get('behavior_type')%>/<%=category.get('cat1')%>">
+                    <%= category.get('cat1') %>
                 </a>
             </li>
-            <li><%= cat2 %> <%= polyglot.t('update') %></li>
+            <li><%= category.get('cat2') %> <%= polyglot.t('update') %></li>
         </ol>
 
         <form role="form" class="form-horizontal js-category-update-form">
+            <input name="id" type="hidden" value="<%= category.getId() %>"/>
             <div class="form-group">
-                <label class="control-label col-xs-2" for="cat2"><%=polyglot.t('New Name')%></label>
+                <label class="control-label col-xs-2" for="cat2"><%=polyglot.t('Name')%></label>
                 <div class="col-xs-10">
-                    <input class="form-control" type="text" name="cat2" id="cat2" value="<%=cat2%>"/>
+                    <input class="form-control" type="text" name="cat2" id="cat2" value="<%= category.get('cat2') %>"/>
                 </div>
             </div>
             <p>
@@ -491,9 +493,9 @@
             </p>
         </form>
 
-        <a class="btn btn-danger pull-right" href="#category/delete/<%= cat1 %>:<%= cat2 %>">
+        <a class="btn btn-danger pull-right" href="#category/delete/<%= category.get('cat1') %>:<%= category.get('cat2') %>">
             <span class="glyphicon glyphicon-remove"></span>
-            '<%= cat2 %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
+            '<%= category.get('cat2') %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
         </a>
     </div>
 </script>

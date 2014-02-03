@@ -712,10 +712,20 @@ var MMB_Backbone = {
         template2: _.template($('#page-category2-update').html()),
         render: function(opt){
 
+            if(opt.cat2 === undefined){
+                delete opt.cat2;
+            }
+
+            var category = MMB.datastore.category_list.query(opt)[0];
+
             if( ! opt.cat2){
-                this.$el.html(this.template1(opt));
+                this.$el.html(this.template1({
+                    category: category
+                }));
             }else{
-                this.$el.html(this.template2(opt));
+                this.$el.html(this.template2({
+                    category: category
+                }));
             }
 
 
