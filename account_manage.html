@@ -1,6 +1,6 @@
 <div class="page-account-list" role="page">
     <div class="page-header">
-        <h1><%= polyglot.t('Account Setting') %> : <%= account.get('name') %></h1>
+        <h1><%= polyglot.t('Account Setting') %><%= account.get('name') ? ' : ' +  account.get('name') : ''%></h1>
     </div>
     <form role="form" class="js-account-update-form">
         <input name="id" type="hidden" value="<%= account.getId() %>"/>
