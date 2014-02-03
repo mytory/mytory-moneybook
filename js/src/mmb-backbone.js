@@ -660,42 +660,44 @@ var MMB_Backbone = {
             }
 
             if(data.cat_level == 1){
-                MMB.categories[data.behavior_type].push({
+                MMB.datastore.category_list.insert({
+                    behavior_type: data.behavior_type,
                     cat1: data.cat_name,
                     cat2: data.cat_name
                 });
                 return_url = '#category/list';
             }else{
-                MMB.categories[data.behavior_type].push({
+                MMB.datastore.category_list.insert({
+                    behavior_type: data.behavior_type,
                     cat1: data.parent,
                     cat2: data.cat_name
                 });
                 return_url = '#category/list/' + data.behavior_type + '/' + data.parent;
             }
-            MMB.categories_record.update({
-                value: JSON.stringify(MMB.categories)
-            });
-            MMB.set_setting_obj('categories', MMB.categories);
 
             location.href = return_url;
         },
+
         check_duplication: function(behavior_type, cat1, cat2){
-            var obj;
+            var length;
 
             if( ! cat2){
 
                 // level 1
-                obj = _.find(MMB.categories[behavior_type], function(obj){
-                    return obj.cat1 == cat1
-                });
+                length = MMB.datastore.category_list.query({
+                    behavior_type: behavior_type,
+                    cat1: cat1
+                }).length;
             }else{
 
                 // level 2
-                obj = _.find(MMB.categories[behavior_type], function(obj){
-                    return ( obj.cat1 == cat1 && obj.cat2 == cat2 )
-                });
+                length = MMB.datastore.category_list.query({
+                    behavior_type: behavior_type,
+                    cat1: cat1,
+                    cat2: cat2
+                }).length;
             }
-            if(obj){
+            if(length > 0){
                 return true;
             }else{
                 return false;
