@@ -10,7 +10,6 @@ var MMB_Router = Backbone.Router.extend({
         "category/add/:behavior_type": 'category1_add',
         "category/add/:behavior_type/*path": 'category2_add',
         "category/update/:behavior_type/*path": 'category_update',
-        "category/delete/:behavior_type/*path": 'category_delete',
         "statistics/whole(/:year/:month)": 'statistics_whole',
         "account/list": "account_list",
         "account/add": "account_add",
@@ -89,17 +88,6 @@ var MMB_Router = Backbone.Router.extend({
         var cats = cat.split(':');
 
         MMB.render('category_update', {
-            behavior_type: behavior_type,
-            cat1: cats[0],
-            cat2: cats[1]
-        });
-    },
-
-    category_delete: function(behavior_type, cat){
-
-        var cats = cat.split(':');
-
-        MMB.render('category_delete', {
             behavior_type: behavior_type,
             cat1: cats[0],
             cat2: cats[1]

@@ -708,7 +708,8 @@ var MMB_Backbone = {
     View_category_update: Backbone.View.extend({
         el: '.body',
         events: {
-            "submit .js-category-update-form": "save"
+            "submit .js-category-update-form": "save",
+            "click .js-category-delete": "delete"
         },
         template1: _.template($('#page-category1-update').html()),
         template2: _.template($('#page-category2-update').html()),
@@ -764,6 +765,27 @@ var MMB_Backbone = {
 
                 location.href = '#category/list/' + category.get('behavior_type') + '/' + category.get('cat1')
             }
+        },
+        delete: function(e){
+            var cat1 = $(e.target).data('cat1'),
+                cat2 = $(e.target).data('cat2'),
+                behavior_type = $(e.target).data('behavior-type'),
+                cat_id_list = [],
+                cat1_list,
+                item_list = [];
+
+            if( ! cat2){
+                cat1_list = MMB.datastore.category_list.query({
+                    cat1: cat1
+                });
+                _.forEach(cat1_list, function(category){
+                    cat_id_list.push(category.getId());
+                });
+                MMB.datastore.content.query({
+                    
+                })
+            }
+
         }
     }),
 
