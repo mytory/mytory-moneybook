@@ -72,6 +72,7 @@ var Lang = {
         "Category is already exist.": "Category is already exist.",
         "New Name": "New Name",
         "Save": "Save",
+        "This category has item. So cannot be deleted.": "This category has item. So cannot be deleted.",
 
         // Import
         "Import": "Import",
@@ -165,6 +166,7 @@ var Lang = {
         "Category is already exist.": "이미 있는 카테고리입니다.",
         "New Name": "새 이름",
         "Save": "저장",
+        "This category has item. So cannot be deleted.": "이 카테고리로 등록된 내역이 있기 때문에 삭제할 수 없습니다.",
 
         // Import
         "Import": "가져오기",

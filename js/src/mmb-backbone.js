@@ -767,23 +767,70 @@ var MMB_Backbone = {
             }
         },
         delete: function(e){
+            e.preventDefault();
+
             var cat1 = $(e.target).data('cat1'),
                 cat2 = $(e.target).data('cat2'),
                 behavior_type = $(e.target).data('behavior-type'),
                 cat_id_list = [],
                 cat1_list,
-                item_list = [];
+                list,
+                item_list = [],
+                category,
+                result,
+                cannot_delete_message = 'This category has item. So cannot be deleted.';
+
 
             if( ! cat2){
+
+                // level 1
                 cat1_list = MMB.datastore.category_list.query({
+                    behavior_type: behavior_type,
                     cat1: cat1
                 });
                 _.forEach(cat1_list, function(category){
                     cat_id_list.push(category.getId());
                 });
-                MMB.datastore.content.query({
-                    // TODO 구현해야 함. 이 카테고리에 속한 item 이 있으면 삭제 안 함.
-                })
+                _.forEach(cat_id_list, function(cat_id){
+                    list = MMB.datastore.content.query({
+                        cat_id: cat_id
+                    });
+                    if(list.length > 0){
+                        item_list = item_list.concat(list);
+                    }
+                });
+                if(item_list.length > 0){
+                    alert(polyglot.t(cannot_delete_message));
+                }else{
+                    _.forEach(cat_id_list, function(cat_id){
+                        MMB.datastore.category_list.get(cat_id).deleteRecord();
+                    });
+                    location.href = '#category/list';
+                }
+            }else{
+
+                // level 2
+                result = cat1_list = MMB.datastore.category_list.query({
+                    behavior_type: behavior_type,
+                    cat1: cat1,
+                    cat2: cat2
+                });
+
+                if( ! result){
+                    alert('카테고리가 이미 삭제됐음');
+                    location.href = '#category/' + behavior_type + '/' + cat1;
+                }else{
+                    category = result[0];
+                    list = MMB.datastore.content.query({
+                        cat_id: category.getId()
+                    });
+                    if(list.length > 0){
+                        alert(polyglot.t(cannot_delete_message));
+                    }else{
+                        category.deleteRecord();
+                        location.href = '#category/list/' + behavior_type + '/' + cat1;
+                    }
+                }
             }
 
         }
