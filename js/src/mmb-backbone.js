@@ -840,33 +840,26 @@ var MMB_Backbone = {
         el: '.body',
         template: _.template($('#page-statistics').html()),
         render: function(opt){
-            var vars, record, query, balance_class, amount,
+            var vars,
+                record,
+                query,
+                balance_class,
+                balance,
+                list,
                 that = this;
 
-            if( ! MMB.datastore.etc){
-                setTimeout(function(){
-                    that.render(opt);
-                }, 500);
-                return false;
-            }
-
             query = {
-                key: opt.key,
                 year: opt.year,
                 month: opt.month
             };
 
-            record = MMB.datastore.etc.query(query)[0];
+            list = MMB.datastore.content.query(query);
 
-            if( ! record){
-                alert('이번 달 입력값이 없어서 통계가 없어요.');
-                return false;
-            }
+            balance = this.get_balance(list);
 
-            amount = parseFloat(record.get('amount'));
-            if(amount < 0){
+            if(balance < 0){
                 balance_class = 'danger';
-            }else if(amount === 0){
+            }else if(balance === 0){
                 balance_class = 'active';
             }else{
                 balance_class = 'success';
@@ -875,15 +868,60 @@ var MMB_Backbone = {
             vars = {
                 year: opt.year,
                 month: opt.month,
-                amount: amount,
-                withdrawal: record.get('withdrawal'),
-                deposit: record.get('deposit'),
-                transfer_in: record.get('transfer_in'),
-                transfer_out: record.get('transfer_out'),
+                balance: balance,
                 balance_class: balance_class
             }
 
             this.$el.html(this.template(vars));
+        },
+
+        get_balance: function(list){
+            // 시나리오
+            // 1. 그냥 수입 : 자산과 잔액에 더하면 된다.
+            // 2. 그냥 지출 : 자산과 잔액에 빼면 된다.
+            // 3. 은행에서 내 계좌로 이체(대출) : 은행은 마이너스 통장이 된다. 자산은 특별히 신경쓸 것 없다. 다만 은행계좌의 돈을 잔액에 포함하면 안 된다.
+            // 4. 내 계좌에서 은행으로 이체(대출 상환) : 위와 마찬가지.
+            // 5. 내 계좌에서 친구 빌려줌 계좌로 이체 : 친구 빌려줌 계좌는 잔액에 포함하면 안 된다. 자산은 그대로.
+            // 6. 적금 : 자산에는 포함. 잔액엔 포함 안 한다.
+
+            var balance = 0,
+                account,
+                to_account;
+
+            _.forEach(list, function(item){
+                account = MMB.datastore.account_list.get(item.get('account_id'));
+                if(item.get('to_account_id')){
+                    to_account = MMB.datastore.account_list.get(item.get('to_account_id'));
+                }
+
+                switch(item.get('behavior_type')){
+                    case 'withdrawal':
+                        if(account.in_balance === 'no'){
+                            return true;
+                        }
+                        balance -= item.get('amount');
+                        break;
+
+                    case 'deposit':
+                        if(account.in_balance === 'no'){
+                            return true;
+                        }
+                        balance += item.get('amount');
+                        break;
+
+                    case 'transfer':
+                        if(account.in_balance === 'yes'){
+                            balance -= item.get('amount');
+                        }
+                        if(to_account.in_balance === 'yes'){
+                            balance += item.get('amount');
+                        }
+
+                    // no default
+                }
+            });
+
+            return balance;
         }
     }),
 

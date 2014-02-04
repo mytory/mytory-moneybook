@@ -523,28 +523,20 @@
             <thead>
                 <tr class="<%= balance_class %> text-<%= balance_class %>">
                     <th><%=polyglot.t('Balance')%></th>
-                    <th class="text-right"><%= MMB.util.number_format(amount) %></th>
+                    <th class="text-right"><%= MMB.util.number_format(balance) %></th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <th><%=polyglot.t('Withdrawal')%></th>
-                    <td class="text-right"><%= MMB.util.number_format(withdrawal) %></td>
-                <tr>
-                <tr>
-                    <th><%=polyglot.t('Deposit')%></th>
-                    <td class="text-right"><%= MMB.util.number_format(deposit) %></td>
-                </tr>
-                <tr>
-                    <th><%=polyglot.t('Transfer out')%></th>
-                    <td class="text-right"><%= MMB.util.number_format(transfer_out) %></td>
-                </tr>
-                <tr>
-                    <th><%=polyglot.t('Transfer in')%></th>
-                    <td class="text-right"><%= MMB.util.number_format(transfer_in) %></td>
-                </tr>
+            <!--<tbody>-->
+                <!--<tr>-->
+                    <!--<th><%=polyglot.t('Withdrawal')%></th>-->
+                    <!--<td class="text-right"><%//= MMB.util.number_format(withdrawal) %></td>-->
+                <!--<tr>-->
+                <!--<tr>-->
+                    <!--<th><%=polyglot.t('Deposit')%></th>-->
+                    <!--<td class="text-right"><%//= MMB.util.number_format(deposit) %></td>-->
+                <!--</tr>-->
 
-            </tbody>
+            <!--</tbody>-->
         </table>
     </div>
 </script>
