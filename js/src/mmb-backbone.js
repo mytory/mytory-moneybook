@@ -849,6 +849,9 @@ var MMB_Backbone = {
                 next_month,
                 prev_month_link,
                 next_month_link,
+                withdrawal_and_deposit,
+                withdrawal,
+                deposit,
                 that = this;
 
             prev_month = moment(opt.year + '-' + opt.month + '-01').subtract('months', 1).format('YYYY-MM').split('-');
@@ -865,6 +868,9 @@ var MMB_Backbone = {
             list = MMB.datastore.content.query(query);
 
             balance = this.get_balance(list);
+            withdrawal_and_deposit = this.get_withdrawal_and_deposit(list);
+            withdrawal = withdrawal_and_deposit.withdrawal;
+            deposit = withdrawal_and_deposit.deposit;
 
             if(balance < 0){
                 balance_class = 'danger';
@@ -877,6 +883,8 @@ var MMB_Backbone = {
             vars = {
                 year: opt.year,
                 month: opt.month,
+                withdrawal: withdrawal,
+                deposit: deposit,
                 balance: balance,
                 balance_class: balance_class,
                 prev_month_link: prev_month_link,
@@ -937,6 +945,51 @@ var MMB_Backbone = {
             });
 
             return balance;
+        },
+
+        get_withdrawal_and_deposit: function(list){
+
+            // 시나리오
+            // 1. 그냥 수입 : 내 소유 계좌에 돈이 들어오면 수입.
+            // 2. 그냥 지출 : 내 소유 계좌에서 돈이 나가면 지출.
+            // 3. 돈 갚는다 : 내 소유 계좌에서 돈이 나가고(지출), 다른 사람 소유 계좌에 돈이 들어간다(아무 일 없음).
+            // 4. 돈 빌린다 : 내 소유 계좌에 돈이 들어오고(수입), 다른 사람 소유 계좌에서 돈이 빠진다(아무 일 없음).
+            // 5. 그냥 내 계좌 사이 이체 : 수입 지출에 카운트되면 안 된다.
+
+            var account,
+                to_account,
+                withdrawal = 0,
+                deposit = 0;
+
+            _.forEach(list, function(item){
+                account = MMB.datastore.account_list.get(item.get('account_id'));
+                if(item.get('to_account_id')){
+                    to_account = MMB.datastore.account_list.get(item.get('to_account_id'));
+                }
+
+                if(item.get('behavior_type') === 'withdrawal'){
+                    withdrawal += item.get('amount');
+                }
+
+                if(item.get('behavior_type') === 'deposit'){
+                    deposit += item.get('amount');
+                }
+
+                if(item.get('behavior_type') === 'transfer'){
+                    if(account.get('owner') === 'mine' && to_account.get('owner') === 'mine'){
+                        // pass
+                    }else if(account.get('owner') === 'mine' && to_account.get('owner') === 'others'){
+                        withdrawal += item.get('amount');
+                    }else if(account.get('owner') === 'others' && to_account.get('owner') === 'mine'){
+                        deposit += item.get('amount');
+                    }
+                }
+            });
+
+            return {
+                withdrawal: withdrawal,
+                deposit: deposit
+            };
         }
     }),
 
