@@ -841,12 +841,21 @@ var MMB_Backbone = {
         template: _.template($('#page-statistics').html()),
         render: function(opt){
             var vars,
-                record,
                 query,
                 balance_class,
                 balance,
                 list,
+                prev_month,
+                next_month,
+                prev_month_link,
+                next_month_link,
                 that = this;
+
+            prev_month = moment(opt.year + '-' + opt.month + '-01').subtract('months', 1).format('YYYY-MM').split('-');
+            next_month = moment(opt.year + '-' + opt.month + '-01').add('months', 1).format('YYYY-MM').split('-');
+
+            prev_month_link = '#statistics/whole/' + prev_month[0] + '/' + prev_month[1];
+            next_month_link = '#statistics/whole/' + next_month[0] + '/' + next_month[1];
 
             query = {
                 year: opt.year,
@@ -869,7 +878,9 @@ var MMB_Backbone = {
                 year: opt.year,
                 month: opt.month,
                 balance: balance,
-                balance_class: balance_class
+                balance_class: balance_class,
+                prev_month_link: prev_month_link,
+                next_month_link: next_month_link
             }
 
             this.$el.html(this.template(vars));
