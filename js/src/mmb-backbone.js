@@ -271,6 +271,7 @@ var MMB_Backbone = {
     }),
 
     View_import: Backbone.View.extend({
+        register_interval: 20,
         el: ".body",
         template: _.template($('#page-import').html()),
         render: function(){
@@ -350,7 +351,8 @@ var MMB_Backbone = {
             }
         },
         import_naver_withdrawal: function (rows){
-            var sheet1 = [],
+            var that = this,
+                sheet1 = [],
                 sheet2 = [],
                 data = [],
                 item,
@@ -386,23 +388,23 @@ var MMB_Backbone = {
                 data.push(item);
             });
 
-
             _.forEach(data, function(row){
                 setTimeout(function(){
                     $('.js-msg').removeClass('hidden').addClass('in').html(row.memo + ' 입력...');
                     MMB.register(_.clone(row));
-                }, i*20);
+                }, i * that.register_interval + i);
                 i++;
             });
 
             setTimeout(function(){
                 $('.js-msg').removeClass('in').addClass('hidden').html('');
-            }, (i+1)*20);
+            }, (i+1) * that.register_interval + i);
 
             return this;
         },
         import_naver_deposit: function (rows){
-            var sheet1,
+            var that = this,
+                sheet1,
                 sheet2 = [],
                 data = [],
                 item,
@@ -438,13 +440,13 @@ var MMB_Backbone = {
                 setTimeout(function(){
                     $('.js-msg').removeClass('hidden').addClass('in').html(row.memo + ' 입력...');
                     MMB.register(_.clone(row));
-                }, i*20);
+                }, i * that.register_interval + i);
                 i++;
             });
 
             setTimeout(function(){
                 $('.js-msg').removeClass('in').addClass('hidden').html('');
-            }, (i+1)*20);
+            }, (i+1) * that.register_interval + i);
 
             return this;
         },
