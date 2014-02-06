@@ -8,13 +8,10 @@ var MMB = {
     datastoreManager: null,
     datastore: {
         content: null,
-        etc: null,
         auto_complete: null,
         account_list: null,
         category_list: null
     },
-    memo_data_record: null,
-    memo_data: null,
     router: null,
     check_dropbox: function(){
         var datastoreManager;
@@ -40,7 +37,6 @@ var MMB = {
                     }
 
                     MMB.datastore.content = datastore.getTable('moneybook_content');
-                    MMB.datastore.etc = datastore.getTable('moneybook_etc');
                     MMB.datastore.auto_complete = datastore.getTable('moneybook_auto_complete');
                     MMB.datastore.account_list = datastore.getTable('moneybook_account_list');
                     MMB.datastore.category_list = datastore.getTable('moneybook_category_list');
@@ -207,15 +203,43 @@ var MMB = {
         // for auto complete
         this.update_auto_complete_info(data);
 
-        // for statistics
-//        this.update_statistics_info(data);
-
         return MMB.datastore.content.insert(data);
     },
 
     update_auto_complete_info: function(data){
-        this.update_memo_data(data);
-        this.update_memo_related_data(data);
+        var result,
+            targets;
+
+        targets = ['memo', 'amount', 'account_id', 'cat_id', 'to_account_id'];
+
+        _.forEach(targets, function(key){
+            if( ! data[key]){
+                return true;
+            }
+
+            result = MMB.datastore.auto_complete.query({
+                memo: data.memo,
+                key: key,
+                value: data[key]
+            });
+
+            if(result.length === 0){
+
+                MMB.datastore.auto_complete.insert({
+                    memo: data.memo,
+                    key: key,
+                    value: data[key],
+                    count: 1
+                });
+
+            }else{
+
+                result[0].update({
+                    count: result[0].get('count') + 1
+                });
+
+            }
+        });
     },
 
     update_accounts: function(data){
@@ -280,117 +304,6 @@ var MMB = {
         return data;
     },
 
-    init_memo_data: function(){
-
-        if(MMB.datastore.auto_complete === null){
-            MMB.memo_data = MMB.get_setting_obj('memo_data');
-            setTimeout(MMB.init_memo_data, 500);
-            return false;
-        }
-
-        MMB.memo_data_record = MMB.datastore.auto_complete.query({
-            key: 'memo_data'
-        })[0];
-        if( ! MMB.memo_data_record){
-            MMB.memo_data_record = MMB.datastore.auto_complete.insert({
-                key: 'memo_data',
-                value: JSON.stringify([])
-            });
-        }
-        MMB.memo_data = JSON.parse(MMB.memo_data_record.get('value'));
-        MMB.set_setting_obj('memo_data', MMB.memo_data);
-    },
-
-    update_memo_data: function(data){
-        var memo_info = _.find(this.memo_data, function(entry){
-            return (entry.key == data.memo);
-        });
-
-        if(memo_info === undefined){
-            this.memo_data.push({
-                key: data.memo,
-                count: 1
-            });
-        }else{
-            memo_info.count++
-        }
-
-        MMB.memo_data_record.update({
-            value: JSON.stringify(MMB.memo_data)
-        });
-    },
-
-    update_memo_related_data: function(data){
-        var memo_related, record, related, found,
-            related_items = ['amount', 'category', 'account'],
-            data_clone = _.clone(data);
-
-        data_clone.categories = data_clone.cat1 + ':' + data_clone.cat2;
-
-        memo_related = this.datastore.auto_complete.query({
-            type: 'memo_related',
-            memo: data_clone.memo
-        })[0];
-
-        if(memo_related === undefined){
-            related = {};
-            _.forEach(related_items, function(entry){
-                related[entry] = [
-                    {
-                        key: data_clone[entry],
-                        count: 1
-                    }
-                ];
-            });
-            record = {
-                type: 'memo_related',
-                memo: data_clone.memo,
-                related: JSON.stringify(related)
-            }
-            this.datastore.auto_complete.insert(record);
-        }else{
-            related = JSON.parse(memo_related.get('related'));
-
-            _.forEach(related_items, function(entry){
-                found = _.find(related[entry], function(target_item){
-                    return (target_item.key == data_clone[entry]);
-                });
-                if(found === undefined ){
-                    related[entry].push({
-                        key: data_clone[entry],
-                        count: 1
-                    });
-                }else{
-                    found.count++
-                }
-            });
-
-            memo_related.update({
-                related: JSON.stringify(related)
-            });
-        }
-    },
-
-    get_all_memo_related: function(){
-        var records,
-            objs = [];
-
-        if( ! MMB.datastore.auto_complete){
-            setTimeout(MMB.get_all_memo_related, 500);
-            return false;
-        }
-        records = MMB.datastore.auto_complete.query({
-            type: 'memo_related'
-        });
-        _.forEach(records, function(t){
-            objs.push({
-                memo: t.get('memo'),
-                type: t.get('type'),
-                related: JSON.parse(t.get('related'))
-            });
-        });
-        return objs;
-    },
     mock: {
         get: function(name){
             return '';

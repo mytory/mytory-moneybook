@@ -25,7 +25,6 @@ var MMB_Router = Backbone.Router.extend({
 
         if(MMB.network_enabled){
             MMB.show_navbar();
-            MMB.init_memo_data();
             MMB.init_category_list();
         }
     },
