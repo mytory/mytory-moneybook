@@ -64,6 +64,15 @@ var MMB_Backbone = {
         el: '.body',
         template: _.template($('#page-register').html()),
         just_date: null,
+        events: {
+            "submit .js-register-form": "register",
+            "click .js-behavior-type-box": "toggle_transfer_item",
+            "keyup #memo": "auto_complete_memo",
+            "click .js-memo-candidate": "select_memo_candidate",
+            "blur #memo": "auto_complete_memo_related",
+            "click .js-memo-related-candidate": "select_memo_related_candidate",
+            "blur #date": "set_just_date"
+        },
         render: function(){
             var date,
                 vars,
@@ -88,20 +97,6 @@ var MMB_Backbone = {
             };
             $('.body').hide().html(this.template(vars)).fadeIn();
             return this;
-        },
-        events: {
-            "submit .js-register-form": "register",
-            "click .js-behavior-type-box": "toggle_transfer_item",
-            "keyup #memo": "auto_complete_memo",
-            "click .js-memo-candidate": "select_memo_candidate",
-            "focus #amount": function(){
-                $('.js-amount-auto-complete').fadeIn();
-            },
-            "focus #category": function(){
-                $('.js-category-auto-complete').fadeIn();
-            },
-            "blur #date": "set_just_date",
-            "click .js-memo-related-candidate": "select_memo_related_candidate"
         },
         register: function(e){
             e.preventDefault();
@@ -174,12 +169,13 @@ var MMB_Backbone = {
             var memo = $(e.target).data('memo');
             $('#memo').val(memo);
             $('.js-memo-auto-complete').text('');
-            this.auto_complete_memo_related();
             $('#amount').focus();
         },
         auto_complete_memo_related: function(){
-            var record, vars, related,
-                tem = _.template($('#template-memo-related-auto-complete').html()),
+            var record,
+                vars,
+                related,
+                template = _.template($('#template-memo-related-auto-complete').html()),
                 types = ['amount', 'category', 'account'];
 
             // set amount
@@ -187,6 +183,7 @@ var MMB_Backbone = {
                 type: 'memo_related',
                 memo: $('#memo').val()
             })[0];
+
             if(record){
                 _.forEach(types, function(type){
                     related = JSON.parse(record.get('related'));
@@ -199,13 +196,15 @@ var MMB_Backbone = {
                         target: '#' + type,
                         list: related[type]
                     };
-                    $('.js-' + type + '-auto-complete').html(tem(vars));
+                    $('.js-' + type + '-auto-complete').html(template(vars));
                 });
             }
         },
+
         set_just_date: function(){
             this.just_date = $('#date').val();
         },
+
         select_memo_related_candidate: function(e){
             var target = $(e.target).data('target'),
                 key = $(e.target).data('key'),
