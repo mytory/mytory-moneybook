@@ -503,10 +503,12 @@ var MMB_Backbone = {
             var that = this,
                 i,
                 week_data = [],
-                list,
+                list = [],
                 date,
+                result,
+                item_set,
                 day_of_the_week,
-                sum = {};
+                sum;
 
             if(opts === undefined || opts.date === undefined){
                 opts = {
@@ -525,16 +527,29 @@ var MMB_Backbone = {
                         month: moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('MM'),
                         day: moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('DD')
                     };
-                    list = MMB.datastore.content.query(query_opt);
+                    result = MMB.datastore.content.query(query_opt);
 
                     date = moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('YYYY-MM-DD');
                     day_of_the_week = moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('dd');
-                    sum[date] = 0;
+                    sum = 0;
 
-                    _.forEach(list, function(record){
-                        if(record.get('behavior_type') === 'withdrawal'){
-                            sum[date] += record.get('amount');
+                    _.forEach(result, function(item){
+                        if(item.get('behavior_type') === 'withdrawal'){
+                            sum += item.get('amount');
                         }
+
+                        item_set = {
+                            item: item,
+                            account: MMB.datastore.account_list.get(item.get('account_id'))
+                        };
+
+                        if(item.get('cat_id')){
+                            item_set.cat = MMB.datastore.category_list.get(item.get('cat_id'));
+                        }
+                        if(item.get('to_account_id')){
+                            item_set.to_account = MMB.datastore.account_list.get(item.get('to_account_id'));
+                        }
+                        list.push(item_set);
                     });
 
                     week_data.push({
@@ -543,6 +558,7 @@ var MMB_Backbone = {
                         list: list,
                         sum: sum
                     });
+                    list = [];
                 }
 
                 vars = {
