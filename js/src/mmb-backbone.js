@@ -72,6 +72,7 @@ var MMB_Backbone = {
 
             "keyup .js-auto-complete": "auto_complete_memo_related",
             "focus .js-auto-complete": "auto_complete_memo_related",
+            "keyup .js-filter-candidates": "filter_candidates",
             "click .js-auto-complete-candidate": "select_candidate"
         },
         render: function(){
@@ -332,6 +333,19 @@ var MMB_Backbone = {
 
         set_just_date: function(){
             this.just_date = $('#date').val();
+        },
+
+        filter_candidates: function(e){
+            var $box = $(e.target).parents('.form-group').find('.auto-complete-box'),
+                $candidates = $box.find('.js-auto-complete-candidate'),
+                value = $(e.target).val(),
+                regex = new RegExp(value);
+
+            $candidates.each(function(){
+                if( ! regex.test($(this).data('value'))){
+                    $(this).hide();
+                }
+            });
         }
 
     }),
