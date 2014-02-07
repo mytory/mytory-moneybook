@@ -407,6 +407,7 @@ var MMB_Backbone = {
     }),
 
     View_import: Backbone.View.extend({
+        item_count: 0,
         register_interval: 20,
         el: ".body",
         template: _.template($('#page-import').html()),
@@ -493,7 +494,8 @@ var MMB_Backbone = {
                 data = [],
                 item,
                 amount,
-                i = 1;
+                i = 1,
+                sleep_time = 0;
 
             sheet1 = this.get_content_rows(rows);
 
@@ -525,10 +527,12 @@ var MMB_Backbone = {
             });
 
             _.forEach(data, function(row){
+                that.item_count++;
+                sleep_time = Math.floor(that.item_count / 100) * 3000;
                 setTimeout(function(){
                     $('.js-msg').removeClass('hidden').addClass('in').html(row.memo + ' 입력...');
                     MMB.register(_.clone(row));
-                }, i * that.register_interval + i);
+                }, i * that.register_interval + sleep_time);
                 i++;
             });
 
@@ -545,7 +549,8 @@ var MMB_Backbone = {
                 data = [],
                 item,
                 amount,
-                i = 1;
+                i = 1,
+                sleep_time = 0;
 
             sheet1 = this.get_content_rows(rows);
 
@@ -573,10 +578,12 @@ var MMB_Backbone = {
             });
 
             _.forEach(data, function(row){
+                that.item_count++;
+                sleep_time = Math.floor(that.item_count / 100) * 3000;
                 setTimeout(function(){
                     $('.js-msg').removeClass('hidden').addClass('in').html(row.memo + ' 입력...');
                     MMB.register(_.clone(row));
-                }, i * that.register_interval + i);
+                }, i * that.register_interval + sleep_time);
                 i++;
             });
 
