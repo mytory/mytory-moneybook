@@ -190,6 +190,7 @@ var MMB_Backbone = {
         },
         auto_complete_memo_related: function(){
             var amount_list,
+                category_list,
                 vars,
                 memo = $('#memo').val();
 
@@ -203,8 +204,8 @@ var MMB_Backbone = {
                 memo: memo
             });
 
-            _.sortBy(amount_list, function(entry){
-                return entry.get('count');
+            amount_list = _.sortBy(amount_list, function(entry){
+                return entry.get('count') * -1;
             });
 
             vars = {
@@ -213,6 +214,73 @@ var MMB_Backbone = {
 
             $('.auto-complete-box[data-key="amount"]').html(this.template_candidate(vars));
 
+
+            // set category
+            vars = {
+                candidate_list: this.get_auto_complete_cat(memo)
+            }
+            $('.auto-complete-box[data-key="category"]').html(this.template_candidate(vars));
+
+
+            // set account
+//            vars = {
+//                candidate_list: this.get_auto_complete_account(memo)
+//            }
+//            $('.auto-complete-box[data-key="account"]').html(this.template_candidate(vars));
+
+
+            // set to_account
+//            vars = {
+//                candidate_list: this.get_auto_complete_account(memo)
+//            }
+//            $('.auto-complete-box[data-key="to_account"]').html(this.template_candidate(vars));
+
+        },
+
+        get_auto_complete_cat: function(memo){
+            var auto_complete_list,
+                cat_list_original,
+                cat_list_auto_complete = [],
+                auto_complete_record,
+                cat_id;
+
+            auto_complete_list = MMB.datastore.auto_complete.query({
+                key: 'cat_id',
+                memo: memo
+            });
+
+
+            cat_list_original = MMB.datastore.category_list.query();
+
+            _.forEach(cat_list_original, function(category){
+                auto_complete_record = _.find(auto_complete_list, function(record){
+                    return ( record.get('value') === category.getId() );
+                });
+
+                var push = {
+                    count: ( auto_complete_record ? auto_complete_record.get('count') : 0 ),
+                    memo: memo,
+                    key: 'category',
+                    value: category.get('cat1') + ':' + category.get('cat2'),
+                    get: function(key){
+                        return this[key];
+                    }
+                };
+
+                cat_list_auto_complete.push(push);
+            });
+
+            // order by characters asc.
+            cat_list_auto_complete = _.sortBy(cat_list_auto_complete, function(entry){
+                return entry.get('value');
+            });
+
+            // order by count desc.
+            cat_list_auto_complete = _.sortBy(cat_list_auto_complete, function(entry){
+                return entry.get('count') * -1;
+            });
+
+            return cat_list_auto_complete;
         },
 
         set_just_date: function(){
@@ -767,8 +835,6 @@ var MMB_Backbone = {
                 category;
             e.preventDefault();
             data = MMB.util.form2json('.js-category-update-form');
-
-            console.log(data);
 
             if(data.cat2 === undefined){
 
