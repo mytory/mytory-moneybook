@@ -138,9 +138,13 @@ var MMB_Backbone = {
             if(value === 'transfer'){
                 $('.js-transfer-item').find('input').prop('disabled', false);
                 $('.js-transfer-item').fadeIn();
+                $('.js-no-transfer-item').find('input').prop('disabled', true);
+                $('.js-no-transfer-item').fadeOut();
             }else{
                 $('.js-transfer-item').find('input').prop('disabled', true);
                 $('.js-transfer-item').fadeOut();
+                $('.js-no-transfer-item').find('input').prop('disabled', false);
+                $('.js-no-transfer-item').fadeIn();
             }
         },
         auto_complete_memo_related: function(e){
@@ -151,7 +155,8 @@ var MMB_Backbone = {
                 memo_all = MMB.datastore.auto_complete.query({
                     key: 'memo'
                 }),
-                pattern = new RegExp(memo);
+                pattern = new RegExp(memo),
+                behavior_type = $('[name="behavior_type"]:checked').val();
 
             if( ! memo){
                 return false;
@@ -197,26 +202,28 @@ var MMB_Backbone = {
 
             $('.auto-complete-box[data-key="amount"]').html(this.template_candidate(vars));
 
+            if(behavior_type !== 'transfer'){
 
-            // set category
-            vars = {
-                candidate_list: this.get_auto_complete_memo_related(memo, 'category')
+                // set category
+                vars = {
+                    candidate_list: this.get_auto_complete_memo_related(memo, 'category', behavior_type)
+                }
+                $('.auto-complete-box[data-key="category"]').html(this.template_candidate(vars));
+            }else{
+
+                // set to_account
+                vars = {
+                    candidate_list: this.get_auto_complete_memo_related(memo, 'to_account')
+                }
+                console.log(vars.candidate_list);
+                $('.auto-complete-box[data-key="to_account"]').html(this.template_candidate(vars));
             }
-            $('.auto-complete-box[data-key="category"]').html(this.template_candidate(vars));
-
 
             // set account
             vars = {
                 candidate_list: this.get_auto_complete_memo_related(memo, 'account')
             }
             $('.auto-complete-box[data-key="account"]').html(this.template_candidate(vars));
-
-
-            // set to_account
-            vars = {
-                candidate_list: this.get_auto_complete_memo_related(memo, 'to_account')
-            }
-            $('.auto-complete-box[data-key="to_account"]').html(this.template_candidate(vars));
 
         },
 
@@ -227,8 +234,8 @@ var MMB_Backbone = {
                 key = $(e.target).data('key'),
                 value = $(e.target).data('value'),
                 $this_input = $('#' + key),
-                next_index = $('#' + key).index('.js-auto-complete') + 1,
-                $next_input = $('.js-auto-complete:eq(' + next_index + ')');
+                next_index = $('#' + key).index('.js-auto-complete:visible') + 1,
+                $next_input = $('.js-auto-complete:visible:eq(' + next_index + ')');
 
             $('.auto-complete-box').hide();
 
@@ -239,10 +246,11 @@ var MMB_Backbone = {
             }
         },
 
-        get_auto_complete_memo_related: function(memo, about){
+        get_auto_complete_memo_related: function(memo, about, behavior_type){
             var that = this,
                 auto_complete_list,
                 about_list_original,
+                about_list_original_query = {},
                 about_list_auto_complete = [],
                 auto_complete_record,
                 about_key,
@@ -254,6 +262,9 @@ var MMB_Backbone = {
                     about_key = 'cat_id';
                     about_table = 'category_list';
                     about_auto_complete_item_key = 'category';
+                    about_list_original_query = {
+                        behavior_type: behavior_type
+                    }
                     break;
                 case 'account':
                     about_key = 'account_id';
@@ -273,8 +284,7 @@ var MMB_Backbone = {
                 memo: memo
             });
 
-
-            about_list_original = MMB.datastore[about_table].query();
+            about_list_original = MMB.datastore[about_table].query(about_list_original_query);
 
             _.forEach(about_list_original, function(about){
                 auto_complete_record = _.find(auto_complete_list, function(record){

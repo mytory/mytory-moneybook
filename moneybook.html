@@ -90,7 +90,7 @@
                 </div>
                 <div class="auto-complete-box clearfix col-sm-12" data-key="amount"></div>
             </div>
-            <div class="form-group">
+            <div class="form-group js-no-transfer-item">
                 <label for="category" class="col-sm-2 control-label"><%= polyglot.t('Category') %></label>
                 <div class="col-sm-10">
                     <input required type="text" class="form-control js-auto-complete"
@@ -114,11 +114,11 @@
                 <label for="account" class="col-sm-2 control-label"><%= polyglot.t('To account') %></label>
                 <div class="col-sm-10">
                     <input required disabled type="text" class="form-control js-auto-complete"
-                           id="to-account" name="to_account"
+                           id="to_account" name="to_account"
                            placeholder="<%= polyglot.t('My Wallet') %>">
                     <p class="help-block"><%= polyglot.t('Account helper') %></p>
                 </div>
-                <div class="auto-complete-box clearfix col-sm-12" data-key="to-account"></div>
+                <div class="auto-complete-box clearfix col-sm-12" data-key="to_account"></div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
