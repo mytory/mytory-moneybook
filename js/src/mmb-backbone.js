@@ -63,15 +63,17 @@ var MMB_Backbone = {
     View_register: Backbone.View.extend({
         el: '.body',
         template: _.template($('#page-register').html()),
+        template_candidate: _.template($('#template-auto-complete-candidate').html()),
         just_date: null,
         events: {
             "submit .js-register-form": "register",
             "click .js-behavior-type-box": "toggle_transfer_item",
+            "blur #date": "set_just_date",
+
             "keyup #memo": "auto_complete_memo",
-            "click .js-memo-candidate": "select_memo_candidate",
-            "blur #memo": "auto_complete_memo_related",
-            "click .js-memo-related-candidate": "select_memo_related_candidate",
-            "blur #date": "set_just_date"
+            "focus #memo": "auto_complete_memo",
+            "focus .js-memo-related": "auto_complete_memo_related",
+            "click .js-auto-complete-candidate": "select_candidate"
         },
         render: function(){
             var date,
@@ -141,64 +143,76 @@ var MMB_Backbone = {
             }
         },
         auto_complete_memo: function(e){
-            var tem = _.template($('#template-memo-auto-complete').html()),
-                vars,
-                memo_data = [],
+            var vars,
+                memo_all,
+                candidate_list = [],
                 value = $(e.target).val().trim(),
                 pattern = new RegExp(value);
 
             if(value){
-                _.forEach(MMB.memo_data, function(entry){
-                    if(pattern.test(entry.key)){
-                        memo_data.push(entry);
+                memo_all = MMB.datastore.auto_complete.query({
+                    key: 'memo'
+                });
+
+                _.forEach(memo_all, function(entry){
+                    if(pattern.test(entry.get('value'))){
+                        candidate_list.push(entry);
                     }
                 });
 
-                _.sortBy(memo_data, function(entry){
-                    return entry.count;
+                _.sortBy(candidate_list, function(entry){
+                    return entry.get('count');
                 });
             }
 
             vars = {
-                memo_data: memo_data
+                candidate_list: candidate_list
             };
-            $('.js-memo-auto-complete').fadeIn().html(tem(vars));
+            $('.auto-complete-box[data-key="memo"]').html(this.template_candidate(vars));
         },
-        select_memo_candidate: function(e){
+        select_candidate: function(e){
             e.preventDefault();
-            var memo = $(e.target).data('memo');
-            $('#memo').val(memo);
-            $('.js-memo-auto-complete').text('');
-            $('#amount').focus();
+
+            var memo = $(e.target).data('memo'),
+                key = $(e.target).data('key'),
+                value = $(e.target).data('value'),
+                $this_input = $('#' + key),
+                next_index = $('#' + key).index('.js-auto-complete') + 1,
+                $next_input = $('.js-auto-complete:eq(' + next_index + ')');
+
+            $this_input.blur().val(value);
+            $(e.target).parents('.auto-complete-box').text('');
+
+            if($next_input){
+                $next_input.focus();
+            }
+
         },
         auto_complete_memo_related: function(){
-            var record,
+            var amount_list,
                 vars,
-                related,
-                template = _.template($('#template-memo-related-auto-complete').html()),
-                types = ['amount', 'category', 'account'];
+                memo = $('#memo').val();
+
+            if( ! memo){
+                return false;
+            }
 
             // set amount
-            record = MMB.datastore.auto_complete.query({
-                type: 'memo_related',
-                memo: $('#memo').val()
-            })[0];
+            amount_list = MMB.datastore.auto_complete.query({
+                key: 'amount',
+                memo: memo
+            });
 
-            if(record){
-                _.forEach(types, function(type){
-                    related = JSON.parse(record.get('related'));
-                    _.sortBy(related[type], function(entry){
-                        return entry.count;
-                    });
+            _.sortBy(amount_list, function(entry){
+                return entry.get('count');
+            });
 
-                    vars = {
-                        type: type,
-                        target: '#' + type,
-                        list: related[type]
-                    };
-                    $('.js-' + type + '-auto-complete').html(template(vars));
-                });
+            vars = {
+                candidate_list: amount_list
             }
+
+            $('.auto-complete-box[data-key="amount"]').html(this.template_candidate(vars));
+
         },
 
         set_just_date: function(){
