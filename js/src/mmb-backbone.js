@@ -105,8 +105,17 @@ var MMB_Backbone = {
         register: function(e){
             e.preventDefault();
 
-            var date;
-            var data = MMB.util.form2json('.js-register-form');
+            var date,
+                data = MMB.util.form2json('.js-register-form');
+
+            if(data.category.split(':').length < 2){
+                alert('카테고리를 :를 이용해서 2단계로 적어 주세요.');
+                return false;
+            }else if(data.category.split(':').length > 2){
+                alert('카테고리는 2단계로만 할 수 있고 이름에 ":"를 넣을 수는 없습니다.');
+                return false;
+            }
+
             data.year = data.date.substr(0, 4);
             data.month = data.date.substr(5, 2);
             data.day = data.date.substr(8, 2);
@@ -319,7 +328,8 @@ var MMB_Backbone = {
         },
 
         show_auto_complete_box: function(el){
-            $(el).parents('.form-group').find('.auto-complete-box').fadeIn();
+            $('.auto-complete-box').hide();
+            $(el).parents('.form-group').find('.auto-complete-box').show();
         },
 
         get_about_value: function(about){
