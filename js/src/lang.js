@@ -32,6 +32,8 @@ var Lang = {
         "To account": "To account",
         "Success": "Success",
         " is added to account list. Go account setting, and set properties.": " is added to account list. Go account setting, and set properties.",
+        "Enter category to two level using colon(:).": "Enter category to two level using colon(:).",
+        "Category level can be only 2. And you cannot use colon(:) on category name.": "Category level can be only 2. And you cannot use colon(:) on category name.",
 
         // Setting
         "Setting": "Setting",
@@ -73,6 +75,7 @@ var Lang = {
         "New Name": "New Name",
         "Save": "Save",
         "This category has item. So cannot be deleted.": "This category has item. So cannot be deleted.",
+        "The category already be deleted.": "The category already be deleted.",
 
         // Import
         "Import": "Import",
@@ -106,6 +109,7 @@ var Lang = {
 
         "Sign out": "로그아웃",
 
+        // Register
         "Register": "등록",
         "Type": "종류",
         "Withdrawal": "지출",
@@ -125,6 +129,8 @@ var Lang = {
         "To account": "이체할 계좌",
         "Success": "성공",
         " is added to account list. Go account setting, and set properties.": " 계좌를 계좌 목록에 새로 추가했습니다. 계좌 설정에 가서 속성을 설정하세요.",
+        "Enter category to two level using colon(:).": "콜론(:)을 이용해 카테고리를 두 단계로 적어 주세요.",
+        "Category level can be only 2. And you cannot use colon(:) on category name.": "카테고리는 2단계를 넘어갈 수 없고, 카테고리 이름엔 콜론(:)을 넣을 수 없습니다.",
 
         // Setting
         "Setting": "설정",
@@ -167,6 +173,7 @@ var Lang = {
         "New Name": "새 이름",
         "Save": "저장",
         "This category has item. So cannot be deleted.": "이 카테고리로 등록된 내역이 있기 때문에 삭제할 수 없습니다.",
+        "The category already be deleted.": "이 카테고리는 이미 삭제됐습니다.",
 
         // Import
         "Import": "가져오기",

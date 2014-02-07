@@ -109,10 +109,10 @@ var MMB_Backbone = {
                 data = MMB.util.form2json('.js-register-form');
 
             if(data.category.split(':').length < 2){
-                alert('카테고리를 :를 이용해서 2단계로 적어 주세요.');
+                alert(polyglot.t('Enter category to two level using colon(:).'));
                 return false;
             }else if(data.category.split(':').length > 2){
-                alert('카테고리는 2단계로만 할 수 있고 이름에 ":"를 넣을 수는 없습니다.');
+                alert(polyglot.t('Category level can be only 2. And you cannot use colon(:) on category name.'));
                 return false;
             }
 
@@ -969,7 +969,7 @@ var MMB_Backbone = {
                 });
 
                 if( ! result){
-                    alert('카테고리가 이미 삭제됐음');
+                    alert(polyglot.t('The category already be deleted.'));
                     location.href = '#category/' + behavior_type + '/' + cat1;
                 }else{
                     category = result[0];
