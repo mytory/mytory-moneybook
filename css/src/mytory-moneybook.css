@@ -38,6 +38,10 @@ input[type=date] {
     padding-top: 0.5em;
 }
 
+.auto-complete-box {
+    display: none;
+}
+
 .auto-complete-box__candidate {
     padding: 0.5em;
 }

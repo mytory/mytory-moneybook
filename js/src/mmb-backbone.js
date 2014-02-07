@@ -70,8 +70,8 @@ var MMB_Backbone = {
             "click .js-behavior-type-box": "toggle_transfer_item",
             "blur #date": "set_just_date",
 
-            "keyup .js-memo-related": "auto_complete_memo_related",
-            "focus .js-memo-related": "auto_complete_memo_related",
+            "keyup .js-auto-complete": "auto_complete_memo_related",
+            "focus .js-auto-complete": "auto_complete_memo_related",
             "click .js-auto-complete-candidate": "select_candidate"
         },
         render: function(){
@@ -148,7 +148,9 @@ var MMB_Backbone = {
                 memo_list = [],
                 vars,
                 memo = $.trim($('#memo').val()),
-                memo_all = MMB.datastore.auto_complete.query(),
+                memo_all = MMB.datastore.auto_complete.query({
+                    key: 'memo'
+                }),
                 pattern = new RegExp(memo);
 
             if( ! memo){
