@@ -70,22 +70,23 @@ var MMB_Backbone = {
             "click .js-behavior-type-box": "toggle_transfer_item",
             "blur #date": "set_just_date",
 
-            "keyup #memo": "auto_complete_memo",
-            "focus #memo": "auto_complete_memo",
+            "keyup .js-memo-related": "auto_complete_memo_related",
             "focus .js-memo-related": "auto_complete_memo_related",
             "click .js-auto-complete-candidate": "select_candidate"
         },
         render: function(){
             var date,
                 vars,
+                category_list = MMB.datastore.category_list.query(),
                 category_placeholder,
                 tmp;
 
-            if(MMB.categories){
-                tmp = _.random(0, MMB.categories.length - 1);
-            }
 
-            category_placeholder = (tmp ? MMB.categories[tmp] : '');
+            tmp = _.random(0, category_list.length - 1);
+
+            if(tmp){
+                category_placeholder = category_list[tmp].get('cat1') + ":" + category_list[tmp].get('cat2');
+            }
 
             if(this.just_date){
                 date = this.just_date;
@@ -142,61 +143,41 @@ var MMB_Backbone = {
                 $('.js-transfer-item').fadeOut();
             }
         },
-        auto_complete_memo: function(e){
-            var vars,
-                memo_all,
-                candidate_list = [],
-                value = $(e.target).val().trim(),
-                pattern = new RegExp(value);
-
-            if(value){
-                memo_all = MMB.datastore.auto_complete.query({
-                    key: 'memo'
-                });
-
-                _.forEach(memo_all, function(entry){
-                    if(pattern.test(entry.get('value'))){
-                        candidate_list.push(entry);
-                    }
-                });
-
-                _.sortBy(candidate_list, function(entry){
-                    return entry.get('count');
-                });
-            }
-
-            vars = {
-                candidate_list: candidate_list
-            };
-            $('.auto-complete-box[data-key="memo"]').html(this.template_candidate(vars));
-        },
-        select_candidate: function(e){
-            e.preventDefault();
-
-            var memo = $(e.target).data('memo'),
-                key = $(e.target).data('key'),
-                value = $(e.target).data('value'),
-                $this_input = $('#' + key),
-                next_index = $('#' + key).index('.js-auto-complete') + 1,
-                $next_input = $('.js-auto-complete:eq(' + next_index + ')');
-
-            $this_input.blur().val(value);
-            $(e.target).parents('.auto-complete-box').text('');
-
-            if($next_input){
-                $next_input.focus();
-            }
-
-        },
-        auto_complete_memo_related: function(){
+        auto_complete_memo_related: function(e){
             var amount_list,
-                category_list,
+                memo_list = [],
                 vars,
-                memo = $('#memo').val();
+                memo = $.trim($('#memo').val()),
+                memo_all = MMB.datastore.auto_complete.query(),
+                pattern = new RegExp(memo);
 
             if( ! memo){
                 return false;
             }
+
+            this.show_auto_complete_box(e.target);
+
+            if( ! memo){
+                return false;
+            }
+
+            // set memo
+            _.forEach(memo_all, function(entry){
+                if(pattern.test(entry.get('value'))){
+                    memo_list.push(entry);
+                }
+            });
+
+            memo_list = _.sortBy(memo_list, function(entry){
+                return entry.get('count') * -1;
+            });
+
+            vars = {
+                candidate_list: memo_list
+            }
+
+            $('.auto-complete-box[data-key="memo"]').html(this.template_candidate(vars));
+
 
             // set amount
             amount_list = MMB.datastore.auto_complete.query({
@@ -217,91 +198,130 @@ var MMB_Backbone = {
 
             // set category
             vars = {
-                candidate_list: this.get_auto_complete_cat(memo)
+                candidate_list: this.get_auto_complete_memo_related(memo, 'category')
             }
             $('.auto-complete-box[data-key="category"]').html(this.template_candidate(vars));
 
 
             // set account
-//            vars = {
-//                candidate_list: this.get_auto_complete_account(memo)
-//            }
-//            $('.auto-complete-box[data-key="account"]').html(this.template_candidate(vars));
+            vars = {
+                candidate_list: this.get_auto_complete_memo_related(memo, 'account')
+            }
+            $('.auto-complete-box[data-key="account"]').html(this.template_candidate(vars));
 
 
             // set to_account
-//            vars = {
-//                candidate_list: this.get_auto_complete_account(memo)
-//            }
-//            $('.auto-complete-box[data-key="to_account"]').html(this.template_candidate(vars));
+            vars = {
+                candidate_list: this.get_auto_complete_memo_related(memo, 'to_account')
+            }
+            $('.auto-complete-box[data-key="to_account"]').html(this.template_candidate(vars));
 
         },
 
-        get_auto_complete_cat: function(memo){
-            var auto_complete_list,
-                cat_list_original,
-                cat_list_auto_complete = [],
+        select_candidate: function(e){
+            e.preventDefault();
+
+            var memo = $(e.target).data('memo'),
+                key = $(e.target).data('key'),
+                value = $(e.target).data('value'),
+                $this_input = $('#' + key),
+                next_index = $('#' + key).index('.js-auto-complete') + 1,
+                $next_input = $('.js-auto-complete:eq(' + next_index + ')');
+
+            $('.auto-complete-box').hide();
+
+            $this_input.val(value);
+
+            if($next_input){
+                $next_input.focus();
+            }
+        },
+
+        get_auto_complete_memo_related: function(memo, about){
+            var that = this,
+                auto_complete_list,
+                about_list_original,
+                about_list_auto_complete = [],
                 auto_complete_record,
-                cat_id;
+                about_key,
+                about_table,
+                about_auto_complete_item_key;
+
+            switch(about){
+                case 'category':
+                    about_key = 'cat_id';
+                    about_table = 'category_list';
+                    about_auto_complete_item_key = 'category';
+                    break;
+                case 'account':
+                    about_key = 'account_id';
+                    about_table = 'account_list';
+                    about_auto_complete_item_key = 'account';
+                    break;
+                case 'to_account':
+                    about_key = 'to_account_id';
+                    about_table = 'account_list';
+                    about_auto_complete_item_key = 'to_account';
+                    break;
+                // no default
+            }
 
             auto_complete_list = MMB.datastore.auto_complete.query({
-                key: 'cat_id',
+                key: about_key,
                 memo: memo
             });
 
 
-            cat_list_original = MMB.datastore.category_list.query();
+            about_list_original = MMB.datastore[about_table].query();
 
-            _.forEach(cat_list_original, function(category){
+            _.forEach(about_list_original, function(about){
                 auto_complete_record = _.find(auto_complete_list, function(record){
-                    return ( record.get('value') === category.getId() );
+                    return ( record.get('value') === about.getId() );
                 });
 
                 var push = {
                     count: ( auto_complete_record ? auto_complete_record.get('count') : 0 ),
                     memo: memo,
-                    key: 'category',
-                    value: category.get('cat1') + ':' + category.get('cat2'),
+                    key: about_auto_complete_item_key,
+                    value: that.get_about_value(about),
                     get: function(key){
                         return this[key];
                     }
                 };
 
-                cat_list_auto_complete.push(push);
+                about_list_auto_complete.push(push);
             });
 
             // order by characters asc.
-            cat_list_auto_complete = _.sortBy(cat_list_auto_complete, function(entry){
+            about_list_auto_complete = _.sortBy(about_list_auto_complete, function(entry){
                 return entry.get('value');
             });
 
             // order by count desc.
-            cat_list_auto_complete = _.sortBy(cat_list_auto_complete, function(entry){
+            about_list_auto_complete = _.sortBy(about_list_auto_complete, function(entry){
                 return entry.get('count') * -1;
             });
 
-            return cat_list_auto_complete;
+            return about_list_auto_complete;
+        },
+
+        show_auto_complete_box: function(el){
+            $(el).parents('.form-group').find('.auto-complete-box').fadeIn();
+        },
+
+        get_about_value: function(about){
+            if(about.get('cat1')){
+                return about.get('cat1') + ':' + about.get('cat2');
+            }
+            if(about.get('name')){
+                return about.get('name');
+            }
         },
 
         set_just_date: function(){
             this.just_date = $('#date').val();
-        },
-
-        select_memo_related_candidate: function(e){
-            var target = $(e.target).data('target'),
-                key = $(e.target).data('key'),
-                $next_input;
-
-            e.preventDefault();
-
-            $(target).val(key);
-            $next_input = $(e.target).parents('.form-group').next('.form-group:visible').find('input');
-            $(e.target).parent().fadeOut();
-
-            if($next_input.length > 0){
-                $next_input.focus();
-            }
         }
+
     }),
 
     View_setting: Backbone.View.extend({

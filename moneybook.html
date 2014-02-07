@@ -71,7 +71,7 @@
             <div class="form-group">
                 <label for="memo" class="col-sm-2 control-label"><%= polyglot.t('Memo') %></label>
                 <div class="col-sm-10">
-                    <input required type="text" class="form-control js-auto-complete"
+                    <input required type="text" class="form-control js-auto-complete js-memo-related"
                            id="memo" name="memo">
                 </div>
                 <div class="auto-complete-box clearfix col-sm-12" data-key="memo"></div>
@@ -105,7 +105,7 @@
                 <div class="col-sm-10">
                     <input required type="text" class="form-control js-auto-complete js-memo-related"
                            id="account" name="account"
-                           value="<%= polyglot.t('My Wallet') %>">
+                           placeholder="<%= polyglot.t('My Wallet') %>">
                     <p class="help-block"><%= polyglot.t('Account helper') %></p>
                 </div>
                 <div class="auto-complete-box clearfix col-sm-12" data-key="account"></div>
@@ -115,7 +115,7 @@
                 <div class="col-sm-10">
                     <input required disabled type="text" class="form-control js-auto-complete js-memo-related"
                            id="to-account" name="to_account"
-                           value="<%= polyglot.t('My Wallet') %>">
+                           placeholder="<%= polyglot.t('My Wallet') %>">
                     <p class="help-block"><%= polyglot.t('Account helper') %></p>
                 </div>
                 <div class="auto-complete-box clearfix col-sm-12" data-key="to-account"></div>
