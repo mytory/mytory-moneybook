@@ -802,6 +802,15 @@ var MMB_Backbone = {
                 cat1 = data.cat_name;
             }
 
+            if(/:/.test(cat1)){
+                alert(polyglot.t('Category name cannot has colon(:).'));
+                return false;
+            }
+            if(cat2 && /:/.test(cat2)){
+                alert(polyglot.t('Category name cannot has colon(:).'));
+                return false;
+            }
+
             duplication = this.check_duplication(data.behavior_type, cat1, cat2);
 
             if(duplication){
@@ -899,6 +908,11 @@ var MMB_Backbone = {
                     cat1: data.cat1_old_name
                 });
 
+                if(/:/.test(data.cat1)){
+                    alert(polyglot.t('Category name cannot has colon(:).'));
+                    return false;
+                }
+
                 _.forEach(cat1_list, function(entry){
                     entry.update({
                         cat1: data.cat1
@@ -906,6 +920,11 @@ var MMB_Backbone = {
                 });
                 location.href = '#category/list';
             }else{
+
+                if(/:/.test(data.cat2)){
+                    alert(polyglot.t('Category name cannot has colon(:).'));
+                    return false;
+                }
 
                 // cat2 수정
                 category = MMB.datastore.category_list.get(data.id);

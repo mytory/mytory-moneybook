@@ -34,6 +34,7 @@ var Lang = {
         " is added to account list. Go account setting, and set properties.": " is added to account list. Go account setting, and set properties.",
         "Enter category to two level using colon(:).": "Enter category to two level using colon(:).",
         "Category level can be only 2. And you cannot use colon(:) on category name.": "Category level can be only 2. And you cannot use colon(:) on category name.",
+        "Category name cannot has colon(:).": "Category name cannot has colon(:).",
 
         // Setting
         "Setting": "Setting",
@@ -174,6 +175,7 @@ var Lang = {
         "Save": "저장",
         "This category has item. So cannot be deleted.": "이 카테고리로 등록된 내역이 있기 때문에 삭제할 수 없습니다.",
         "The category already be deleted.": "이 카테고리는 이미 삭제됐습니다.",
+        "Category name cannot has colon(:).": "카테고리 이름에 콜론(:)이 들어가면 안 됩니다.",
 
         // Import
         "Import": "가져오기",
