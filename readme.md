@@ -35,7 +35,7 @@ Mytory Moneybook is under [GNU GENERAL PUBLIC LICENSE](http://www.gnu.org/licens
 
 Below is licenses of libraries.
 
-* Bootstrap3 : [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+* Bootstrap 3.1 : [MIT License](https://github.com/twbs/bootstrap/blob/master/LICENSE)
 * js-xls : [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
 * polyglot : [BSD License](http://airbnb.github.io/polyglot.js/polyglot.html)
 * momentjs : [MIT License](https://github.com/moment/moment#license)
