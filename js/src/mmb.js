@@ -187,6 +187,8 @@ var MMB = {
     register: function(data){
         var data2;
 
+        this.filter_data(data);
+
         data = this.update_accounts(data);
         delete data.account;
         if(data.to_account){
@@ -204,6 +206,10 @@ var MMB = {
         this.update_auto_complete_info(data);
 
         return MMB.datastore.content.insert(data);
+    },
+
+    filter_data: function(data){
+        data.amount = parseFloat(data.amount);
     },
 
     update_auto_complete_info: function(data){

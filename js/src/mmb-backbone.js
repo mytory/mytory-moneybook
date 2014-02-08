@@ -62,7 +62,7 @@ var MMB_Backbone = {
 
     View_register: Backbone.View.extend({
         el: '.body',
-        template: _.template($('#page-register').html()),
+        template: null,
         template_candidate: _.template($('#template-auto-complete-candidate').html()),
         just_date: null,
         events: {
@@ -76,7 +76,8 @@ var MMB_Backbone = {
             "click .js-auto-complete-candidate": "select_candidate"
         },
         render: function(){
-            var date,
+            var that = this,
+                date,
                 vars,
                 category_list = MMB.datastore.category_list.query(),
                 category_placeholder,
@@ -99,7 +100,16 @@ var MMB_Backbone = {
                 date: date,
                 category_placeholder: category_placeholder
             };
-            $('.body').hide().html(this.template(vars)).fadeIn();
+
+            if(this.template){
+                this.$el.html(this.template(vars));
+            }else{
+                $.get('pages/register.html', function(data){
+                    that.template = _.template(data);
+                    that.$el.html(that.template(vars));
+                });
+            }
+
             return this;
         },
         register: function(e){
@@ -1186,7 +1196,7 @@ var MMB_Backbone = {
             if(this.template){
                 this.$el.html(this.template(vars));
             }else{
-                $.get('account_list.html', function(data){
+                $.get('pages/account_list.html', function(data){
                     that.template = _.template(data);
                     that.$el.html(that.template(vars));
                 });
@@ -1217,7 +1227,7 @@ var MMB_Backbone = {
             if(this.template){
                 this.$el.html(this.template(vars));
             }else{
-                $.get('account_manage.html', function(data){
+                $.get('pages/account_manage.html', function(data){
                     that.template = _.template(data);
                     that.$el.html(that.template(vars));
                 });

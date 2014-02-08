@@ -1,0 +1,81 @@
+<div class="page-register" role="page">
+    <div class="page-header">
+        <h1><%= polyglot.t('Register') %></h1>
+    </div>
+    <div class="alert alert-success js-alert" style="display: none">
+        <%= polyglot.t('Success') %>!
+    </div>
+    <form class="form-horizontal js-register-form" role="form" action="moneybook">
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><%= polyglot.t('Type') %></label>
+            <div class="col-sm-10 js-behavior-type-box">
+                <label class="radio-inline">
+                    <input required type="radio" value="withdrawal" name="behavior_type" checked> <%= polyglot.t('Withdrawal') %>
+                </label>
+                <label class="radio-inline">
+                    <input required type="radio" value="deposit" name="behavior_type"> <%= polyglot.t('Deposit') %>
+                </label>
+                <label class="radio-inline">
+                    <input required type="radio" value="transfer" name="behavior_type"> <%= polyglot.t('Transfer') %>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="memo" class="col-sm-2 control-label"><%= polyglot.t('Memo') %></label>
+            <div class="col-sm-10">
+                <input required type="text" class="form-control js-auto-complete"
+                       id="memo" name="memo">
+            </div>
+            <div class="auto-complete-box clearfix col-sm-12" data-key="memo"></div>
+        </div>
+        <div class="form-group">
+            <label for="date" class="col-sm-2 control-label"><%= polyglot.t('Date') %></label>
+            <div class="col-sm-10">
+                <input required type="date" class="form-control" id="date" name="date" value="<%= date %>">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="amount" class="col-sm-2 control-label"><%= polyglot.t('Amount') %></label>
+            <div class="col-sm-10">
+                <input required type="tel" class="form-control js-auto-complete js-filter-candidates"
+                       id="amount" name="amount">
+            </div>
+            <div class="auto-complete-box clearfix col-sm-12" data-key="amount"></div>
+        </div>
+        <div class="form-group js-no-transfer-item">
+            <label for="category" class="col-sm-2 control-label"><%= polyglot.t('Category') %></label>
+            <div class="col-sm-10">
+                <input required type="text" class="form-control js-auto-complete js-filter-candidates"
+                       id="category" name="category"
+                       placeholder="<%= category_placeholder %>">
+                <p class="help-block"><%= polyglot.t('Category helper') %></p>
+            </div>
+            <div class="auto-complete-box clearfix col-sm-12" data-key="category"></div>
+        </div>
+        <div class="form-group">
+            <label for="account" class="col-sm-2 control-label"><%= polyglot.t('Account') %></label>
+            <div class="col-sm-10">
+                <input required type="text" class="form-control js-auto-complete js-filter-candidates"
+                       id="account" name="account"
+                       placeholder="<%= polyglot.t('My Wallet') %>">
+                <p class="help-block"><%= polyglot.t('Account helper') %></p>
+            </div>
+            <div class="auto-complete-box clearfix col-sm-12" data-key="account"></div>
+        </div>
+        <div class="form-group js-transfer-item transfer-item">
+            <label for="account" class="col-sm-2 control-label"><%= polyglot.t('To account') %></label>
+            <div class="col-sm-10">
+                <input required disabled type="text" class="form-control js-auto-complete js-filter-candidates"
+                       id="to_account" name="to_account"
+                       placeholder="<%= polyglot.t('My Wallet') %>">
+                <p class="help-block"><%= polyglot.t('Account helper') %></p>
+            </div>
+            <div class="auto-complete-box clearfix col-sm-12" data-key="to_account"></div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary"><%= polyglot.t('Register') %></button>
+            </div>
+        </div>
+    </form>
+</div>
