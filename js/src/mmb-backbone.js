@@ -75,13 +75,15 @@ var MMB_Backbone = {
             "keyup .js-filter-candidates": "filter_candidates",
             "click .js-auto-complete-candidate": "select_candidate"
         },
-        render: function(){
+        render: function(opts){
             var that = this,
                 date,
                 vars,
                 category_list = MMB.datastore.category_list.query(),
                 category_placeholder,
-                tmp;
+                tmp,
+                item_original,
+                item;
 
 
             tmp = _.random(0, category_list.length - 1);
@@ -90,7 +92,14 @@ var MMB_Backbone = {
                 category_placeholder = category_list[tmp].get('cat1') + ":" + category_list[tmp].get('cat2');
             }
 
-            if(this.just_date){
+            item = _.clone(MMB.mock);
+            if(opts.id){
+                item = this.get_item_for_form(opts.id);
+            }
+
+            if(item.get('date')){
+                date = item.get('date');
+            }else if(this.just_date){
                 date = this.just_date;
             }else{
                 date = moment().format('YYYY-MM-DD');
@@ -98,7 +107,8 @@ var MMB_Backbone = {
 
             vars = {
                 date: date,
-                category_placeholder: category_placeholder
+                category_placeholder: category_placeholder,
+                item: item
             };
 
             if(this.template){
@@ -111,6 +121,47 @@ var MMB_Backbone = {
             }
 
             return this;
+        },
+        get_item_for_form: function(id){
+            var item,
+                item_original,
+                category,
+                account,
+                to_account;
+
+            item_original = MMB.datastore.content.get(id);
+            account = MMB.datastore.account_list.get(item_original.get('account_id'));
+
+            item = {
+                behavior_type: item_original.get('behavior_type'),
+                memo: item_original.get('memo'),
+                date: item_original.get('date'),
+                amount: item_original.get('amount'),
+                account: account.get('name'),
+                get: function(name){
+                    if(this[name]){
+                        return this[name];
+                    }else{
+                        return null;
+                    }
+                }
+            }
+
+            if(item_original.get('to_account_id')){
+
+                // transfer
+                to_account = MMB.datastore.account_list.get(item_original.get('to_account_id'));
+
+                item.to_account = to_account.get('name');
+            }else{
+
+                // not transfer
+                category = MMB.datastore.category_list.get(item_original.get('cat_id'));
+                item.category = category.get('cat1') + ':' + category.get('cat2');
+            }
+
+            return item;
+
         },
         register: function(e){
             e.preventDefault();

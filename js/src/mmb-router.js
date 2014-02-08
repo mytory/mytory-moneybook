@@ -3,7 +3,7 @@ var MMB_Router = Backbone.Router.extend({
     routes: {
         "": 'start_page',
         "weekly(/:date)": 'weekly',
-        "register": 'register',
+        "register(/:id)": 'register',
         "setting": 'setting',
         "import": 'import',
         "category/list(/:behavior_type/*path)": 'category_list',
@@ -54,8 +54,10 @@ var MMB_Router = Backbone.Router.extend({
         });
     },
 
-    register: function(){
-        MMB.render('register');
+    register: function(id){
+        MMB.render('register', {
+            id: id
+        });
     },
 
     setting: function(){

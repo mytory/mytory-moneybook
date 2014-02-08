@@ -10,13 +10,19 @@
             <label class="col-sm-2 control-label"><%= polyglot.t('Type') %></label>
             <div class="col-sm-10 js-behavior-type-box">
                 <label class="radio-inline">
-                    <input required type="radio" value="withdrawal" name="behavior_type" checked> <%= polyglot.t('Withdrawal') %>
+                    <input required type="radio" value="withdrawal" name="behavior_type"
+                            <%= item.get('behavior_type') === 'withdrawal' || item.get('behavior_type') === '' ? 'checked' : '' %> >
+                    <%= polyglot.t('Withdrawal') %>
                 </label>
                 <label class="radio-inline">
-                    <input required type="radio" value="deposit" name="behavior_type"> <%= polyglot.t('Deposit') %>
+                    <input required type="radio" value="deposit" name="behavior_type"
+                            <%= item.get('behavior_type') === 'deposit' ? 'checked' : '' %> >
+                    <%= polyglot.t('Deposit') %>
                 </label>
                 <label class="radio-inline">
-                    <input required type="radio" value="transfer" name="behavior_type"> <%= polyglot.t('Transfer') %>
+                    <input required type="radio" value="transfer" name="behavior_type"
+                            <%= item.get('behavior_type') === 'transfer' ? 'checked' : '' %> >
+                    <%= polyglot.t('Transfer') %>
                 </label>
             </div>
         </div>
@@ -24,6 +30,7 @@
             <label for="memo" class="col-sm-2 control-label"><%= polyglot.t('Memo') %></label>
             <div class="col-sm-10">
                 <input required type="text" class="form-control js-auto-complete"
+                       value="<%= item.get('memo') %>"
                        id="memo" name="memo">
             </div>
             <div class="auto-complete-box clearfix col-sm-12" data-key="memo"></div>
@@ -38,6 +45,7 @@
             <label for="amount" class="col-sm-2 control-label"><%= polyglot.t('Amount') %></label>
             <div class="col-sm-10">
                 <input required type="tel" class="form-control js-auto-complete js-filter-candidates"
+                       value="<%= item.get('amount') %>"
                        id="amount" name="amount">
             </div>
             <div class="auto-complete-box clearfix col-sm-12" data-key="amount"></div>
@@ -47,6 +55,7 @@
             <div class="col-sm-10">
                 <input required type="text" class="form-control js-auto-complete js-filter-candidates"
                        id="category" name="category"
+                       value="<%= item.get('category') %>"
                        placeholder="<%= category_placeholder %>">
                 <p class="help-block"><%= polyglot.t('Category helper') %></p>
             </div>
@@ -57,6 +66,7 @@
             <div class="col-sm-10">
                 <input required type="text" class="form-control js-auto-complete js-filter-candidates"
                        id="account" name="account"
+                       value="<%= item.get('account') %>"
                        placeholder="<%= polyglot.t('My Wallet') %>">
                 <p class="help-block"><%= polyglot.t('Account helper') %></p>
             </div>
@@ -67,6 +77,7 @@
             <div class="col-sm-10">
                 <input required disabled type="text" class="form-control js-auto-complete js-filter-candidates"
                        id="to_account" name="to_account"
+                       value="<%= item.get('to_account') %>"
                        placeholder="<%= polyglot.t('My Wallet') %>">
                 <p class="help-block"><%= polyglot.t('Account helper') %></p>
             </div>
