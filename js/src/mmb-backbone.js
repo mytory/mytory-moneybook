@@ -73,7 +73,9 @@ var MMB_Backbone = {
             "keyup .js-auto-complete": "auto_complete_memo_related",
             "focus .js-auto-complete": "auto_complete_memo_related",
             "keyup .js-filter-candidates": "filter_candidates",
-            "click .js-auto-complete-candidate": "select_candidate"
+            "click .js-auto-complete-candidate": "select_candidate",
+
+            "click .js-delete-item": "delete_item"
         },
         render: function(opts){
             var that = this,
@@ -425,6 +427,17 @@ var MMB_Backbone = {
                     $(this).hide();
                 }
             });
+        },
+
+        delete_item: function(e){
+            e.preventDefault();
+
+            var id = $(e.target).data('id'),
+                item = MMB.datastore.content.get(id),
+                return_url = '#weekly/' + item.get('year') + '-' + item.get('month') + '-' + item.get('day');
+
+            item.deleteRecord();
+            location.href = return_url;
         }
 
     }),
