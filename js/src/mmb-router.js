@@ -29,7 +29,7 @@ var MMB_Router = Backbone.Router.extend({
         }
 
         $('.body').on('submit', 'form', function(){
-            $(this).find('[required]').each(function(){
+            $(this).find('[required]:visible').each(function(){
                 if($.trim($(this).val()) === ''){
                     alert(polyglot.t("Required field is missed!"));
                     $(this).focus();
