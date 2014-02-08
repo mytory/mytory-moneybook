@@ -27,6 +27,16 @@ var MMB_Router = Backbone.Router.extend({
             MMB.show_navbar();
             MMB.init_category_list();
         }
+
+        $('.body').on('submit', 'form', function(){
+            $(this).find('[required]').each(function(){
+                if($.trim($(this).val()) === ''){
+                    alert(polyglot.t("Required field is missed!"));
+                    $(this).focus();
+                    return false;
+                }
+            });
+        });
     },
 
     start_page: function(){

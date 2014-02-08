@@ -11,6 +11,7 @@ var Lang = {
         "You need to connect network.": "You need to connect network.",
 
         "Sign out": "Sign out",
+        "Required field is missed!": "Required field is missed!",
 
         // Register
         "Register": "Register",
@@ -109,6 +110,7 @@ var Lang = {
         "You need to connect network.": "인터넷에 연결돼 있는지 확인해 주세요.",
 
         "Sign out": "로그아웃",
+        "Required field is missed!": "필수 입력값을 빼먹으셨네요!",
 
         // Register
         "Register": "등록",
