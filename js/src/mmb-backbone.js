@@ -135,7 +135,7 @@ var MMB_Backbone = {
             item = {
                 behavior_type: item_original.get('behavior_type'),
                 memo: item_original.get('memo'),
-                date: item_original.get('date'),
+                date: item_original.get('year') + '-' + item_original.get('month') + '-' + item_original.get('day'),
                 amount: item_original.get('amount'),
                 account: account.get('name'),
                 get: function(name){
@@ -144,6 +144,9 @@ var MMB_Backbone = {
                     }else{
                         return null;
                     }
+                },
+                getId: function(){
+                    return item_original.getId();
                 }
             }
 
@@ -167,6 +170,7 @@ var MMB_Backbone = {
             e.preventDefault();
 
             var date,
+                item,
                 data = MMB.util.form2json('.js-register-form');
 
             if(data.category.split(':').length < 2){
@@ -186,23 +190,28 @@ var MMB_Backbone = {
             delete data.category;
             delete data.date;
 
-            MMB.register(data);
+            item = MMB.register(data);
 
-            // reset form after register.
-            window.scrollTo(0,0);
-            $('.js-alert').fadeIn();
-            setTimeout(function(){
-                $('.js-alert').fadeOut();
-            }, 5000);
-            $('.js-register-form')[0].reset();
-            if(this.just_date){
-                date = this.just_date;
+            if( ! data.id){
+
+                // reset form after register.
+                window.scrollTo(0,0);
+                $('.js-alert').fadeIn();
+                setTimeout(function(){
+                    $('.js-alert').fadeOut();
+                }, 5000);
+                $('.js-register-form')[0].reset();
+                if(this.just_date){
+                    date = this.just_date;
+                }else{
+                    date = moment().format('YYYY-MM-DD');
+                }
+                $('#date').val(date);
+                return this;
+
             }else{
-                date = moment().format('YYYY-MM-DD');
+                location.href = '#weekly/' + item.get('year') + '-' + item.get('month') + '-' + item.get('day');
             }
-            $('#date').val(date);
-
-            return this;
         },
         toggle_transfer_item: function(e){
             var value = $('[name="behavior_type"]:checked').val();
@@ -286,7 +295,6 @@ var MMB_Backbone = {
                 vars = {
                     candidate_list: this.get_auto_complete_memo_related(memo, 'to_account')
                 }
-                console.log(vars.candidate_list);
                 $('.auto-complete-box[data-key="to_account"]').html(this.template_candidate(vars));
             }
 

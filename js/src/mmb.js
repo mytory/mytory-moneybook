@@ -185,7 +185,8 @@ var MMB = {
     },
 
     register: function(data){
-        var data2;
+        var data2,
+            item;
 
         this.filter_data(data);
 
@@ -205,7 +206,20 @@ var MMB = {
         // for auto complete
         this.update_auto_complete_info(data);
 
-        return MMB.datastore.content.insert(data);
+        if( ! data.id){
+
+            // insert
+            return MMB.datastore.content.insert(data);
+
+        }else{
+
+            // update
+            item = MMB.datastore.content.get(data.id);
+            data2 = _.clone(data);
+            delete data2.id;
+            item.update(data2);
+            return item;
+        }
     },
 
     filter_data: function(data){
