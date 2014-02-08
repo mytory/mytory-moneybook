@@ -1,6 +1,8 @@
 Mytory Moneybook
 ================
 
+[Korean](readme.ko.md)
+
 Notice
 -------
 
