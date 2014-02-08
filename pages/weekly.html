@@ -1,0 +1,62 @@
+<div class="page-weekly" role="page">
+    <div class="page-header">
+        <h1><%= polyglot.t('Weekly') %></h1>
+    </div>
+    <div class="input-group">
+            <span class="input-group-btn">
+                <button class="btn btn-default js-weekly-change-days-btn" data-days="-7" type="button">-7</button>
+                <button class="btn btn-default js-weekly-change-days-btn" data-days="+7" type="button">+7</button>
+            </span>
+        <input type="date" class="form-control js-weekly-basic-date" value="<%= week_data[0].date %>">
+            <span class="input-group-btn">
+                <button class="btn btn-default js-weekly-change-date" type="button">Go!</button>
+            </span>
+    </div><!-- /input-group -->
+
+    <% _.forEach(week_data, function(data){ %>
+    <h2 class="weekly-title"><%= data.date %> <span class="weekly-day-of-the-week">(<%= data.day_of_the_week %>)</span></h2>
+    <%
+    var list = data.list;
+    if(data.list.length == 0){
+    %><p><%= polyglot.t('No content.') %></p><%
+    return true;
+    }
+    %><table class="table table-striped">
+    <colgroup>
+        <col style="width: 65%"/>
+    </colgroup>
+    <% _.forEach(data.list, function(item_set){ %>
+    <tr data-id="<%= item_set.item.getId() %>">
+        <td>
+            <%= item_set.item.get('memo') %>
+            <small class="weekly-category text-muted">
+                <% if(item_set.item.get('behavior_type') == 'deposit'){ %>
+                <span class="label label-success"><%= polyglot.t('Deposit') %></span>
+                <% } %>
+
+                <% if(item_set.item.get('behavior_type') == 'deposit' || item_set.item.get('behavior_type') == 'withdrawal'){ %>
+                <%= item_set.cat.get('cat1') %>:<%= item_set.cat.get('cat2') %>
+                <% } %>
+
+                <% if(item_set.item.get('behavior_type') == 'transfer'){ %>
+                <span class="label label-info"><%= polyglot.t('Transfer') %></span>
+                <%= item_set.account.get('name') %>
+                →
+                <%= item_set.to_account.get('name') %>
+                <% } %>
+            </small>
+        </td>
+        <td class="text-right" data-amount="<%= item_set.item.get('amount') %>">
+            <%= MMB.util.number_format(item_set.item.get('amount')) %>
+        </td>
+    </tr>
+    <% }); %>
+    <tr>
+        <td><strong><%= polyglot.t('withdrawal') %> <%= polyglot.t('Sum') %></strong></td>
+        <td class="text-right">
+            <strong><%= MMB.util.number_format(data.sum) %></strong>
+        </td>
+    </tr>
+</table><%
+    }); %>
+</div>

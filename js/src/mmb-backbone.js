@@ -653,7 +653,7 @@ var MMB_Backbone = {
 
             location.href = '#weekly/' + target_date;
         },
-        template: _.template($('#page-weekly').html()),
+        template: null,
         render: function(opts){
             var that = this,
                 i,
@@ -719,7 +719,15 @@ var MMB_Backbone = {
                 vars = {
                     week_data: week_data
                 };
-                $('.body').hide().html(this.template(vars)).fadeIn();
+
+                if(this.template){
+                    this.$el.html(this.template(vars));
+                }else{
+                    $.get('pages/weekly.html', function(data){
+                        that.template = _.template(data);
+                        that.$el.html(that.template(vars));
+                    });
+                }
 
                 return this;
             }
