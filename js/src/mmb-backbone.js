@@ -1454,17 +1454,23 @@ var MMB_Backbone = {
         },
         render: function(opt){
 
-            var that = this,
-                account_list = MMB.datastore.account_list.query();
+            var account_list = MMB.datastore.account_list.query(),
+                vars,
+                account,
+                amount;
 
-            // 이거 제대로 안 됨.
-            var vars = {
-                account: (function(opt){
-                    return _.find(account_list, function(account){
-                        return ( opt.account === account.get('name') );
-                    });
-                }(opt))
-            };
+            account = (function(opt){
+                return _.find(account_list, function(account){
+                    return ( opt.account === account.get('name') );
+                });
+            }(opt))
+
+            account_balance = MMB.get_account_balance(account.getId());
+
+            vars = {
+                account: account,
+                account_balance: account_balance
+            }
 
             MMB.util.render_ajax('pages/account_manage.html', vars, this, 'template');
         },

@@ -69,6 +69,7 @@ var Lang = {
         "Savings": "Savings",
         "Not savings": "Not savings",
         "There is no such account.": "There is no such account.",
+        "Account Balance:": "Account Balance:",
 
         // Category Setting
         "Category Setting": "Category Setting",
@@ -181,6 +182,7 @@ var Lang = {
         "Savings": "저금",
         "Not savings": "저금 아님",
         "There is no such account.": "그런 계좌는 없습니다.",
+        "Account Balance:": "계좌 잔액:",
 
         // Category Setting
         "Category Setting": "카테고리 설정",

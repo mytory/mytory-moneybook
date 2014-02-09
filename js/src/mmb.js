@@ -446,6 +446,51 @@ var MMB = {
                 });
             }
         }
+    },
+
+    get_items_about_account: function(account_id){
+
+        var account_list,
+            to_account_list;
+
+        account_list = MMB.datastore.content.query({
+            account_id: account_id
+        });
+        to_account_list = MMB.datastore.content.query({
+            to_account_id: account_id
+        });
+
+        return account_list.concat(to_account_list);
+    },
+
+    get_account_balance: function(account_id){
+        var item_list = MMB.get_items_about_account(account_id),
+            account_balance = 0;
+
+        _.forEach(item_list, function(item){
+
+            // withdrawal
+            if(item.get('behavior_type') === 'withdrawal'){
+                account_balance -= item.get('amount');
+            }
+
+            // deposit
+            if(item.get('behavior_type') === 'deposit'){
+                account_balance += item.get('amount');
+            }
+
+            // transfer out
+            if(item.get('behavior_type') === 'transfer' && item.get('account_id') === account_id){
+                account_balance -= item.get('amount');
+            }
+
+            // transfer in
+            if(item.get('behavior_type') === 'transfer' && item.get('to_account_id') === account_id){
+                account_balance += item.get('amount');
+            }
+        });
+
+        return account_balance;
     }
 
 };

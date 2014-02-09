@@ -5,6 +5,7 @@
             <%= account.get('name') ? '<small>' +  account.get('name') + '</small>': ''%>
         </h1>
     </div>
+    <p><%= polyglot.t('Account Balance:') %> <%= MMB.util.number_format(account_balance) %></p>
     <form role="form" class="js-account-update-form">
         <input name="id" type="hidden" value="<%= account.getId() %>"/>
         <div class="form-group">
