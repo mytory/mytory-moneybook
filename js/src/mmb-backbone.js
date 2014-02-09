@@ -976,7 +976,7 @@ var MMB_Backbone = {
             "click .js-category-delete": "delete"
         },
         template1: _.template($('#page-category1-update').html()),
-        template2: _.template($('#page-category2-update').html()),
+        template2: null,
         render: function(opt){
 
             if(opt.cat2 === undefined){
@@ -990,9 +990,9 @@ var MMB_Backbone = {
                     category: category
                 }));
             }else{
-                this.$el.html(this.template2({
+                this.template2 = MMB.util.render_ajax('pages/category2-update.html', {
                     category: category
-                }));
+                }, this, 'template2');
             }
         },
         save: function(e){

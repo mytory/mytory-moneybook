@@ -77,5 +77,17 @@ MMB.util = {
             data[entry.name] = $.trim(entry.value);
         });
         return data;
+    },
+
+    render_ajax: function(path, vars, view, template_key){
+
+        if(view[template_key]){
+            view.$el.html(view[template_key](vars));
+        }else{
+            $.get(path, function(html){
+                view[template_key] = _.template(html);
+                view.$el.html(view[template_key](vars));
+            });
+        }
     }
 }
