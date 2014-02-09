@@ -1,0 +1,49 @@
+<div class="page-statistics" role="page">
+    <div class="page-header">
+        <h1>
+            <%= polyglot.t('Statistics') %>
+            <small>
+                <%= year %>-<%= month %>
+            </small>
+        </h1>
+    </div>
+    <ul class="nav nav-pills">
+        <li>
+            <a href="<%= prev_month_link %>" title="prev month">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </a>
+        </li>
+        <li class="pull-right">
+            <a href="<%= next_month_link %>" title="next month">
+                <span class="glyphicon glyphicon-arrow-right"></span>
+            </a>
+        </li>
+    </ul>
+
+    <table class="table">
+        <thead>
+        <tr class="<%= balance_class %> text-<%= balance_class %>">
+            <th><%=polyglot.t('Balance')%></th>
+            <th class="text-right"><%= MMB.util.number_format(balance) %></th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th><%=polyglot.t('Withdrawal')%></th>
+                <td class="text-right"><%= MMB.util.number_format(withdrawal) %></td>
+            <tr>
+            <tr>
+                <th><%=polyglot.t('Withdrawal-like transfer')%></th>
+                <td class="text-right"><%= MMB.util.number_format(withdrawal_like_transfer) %></td>
+            <tr>
+            <tr>
+                <th><%=polyglot.t('Deposit')%></th>
+                <td class="text-right"><%= MMB.util.number_format(deposit) %></td>
+            </tr>
+            <tr>
+                <th><%=polyglot.t('Deposit-like transfer')%></th>
+                <td class="text-right"><%= MMB.util.number_format(deposit_like_transfer) %></td>
+            </tr>
+        </tbody>
+    </table>
+</div>

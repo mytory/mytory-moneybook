@@ -1097,7 +1097,7 @@ var MMB_Backbone = {
 
     View_statistics: Backbone.View.extend({
         el: '.body',
-        template: _.template($('#page-statistics').html()),
+        template: null,
         render: function(opt){
             var vars,
                 query,
@@ -1108,10 +1108,7 @@ var MMB_Backbone = {
                 next_month,
                 prev_month_link,
                 next_month_link,
-                withdrawal_and_deposit,
-                withdrawal,
-                deposit,
-                that = this;
+                statistics;
 
             prev_month = moment(opt.year + '-' + opt.month + '-01').subtract('months', 1).format('YYYY-MM').split('-');
             next_month = moment(opt.year + '-' + opt.month + '-01').add('months', 1).format('YYYY-MM').split('-');
@@ -1127,9 +1124,7 @@ var MMB_Backbone = {
             list = MMB.datastore.content.query(query);
 
             balance = this.get_balance(list);
-            withdrawal_and_deposit = this.get_withdrawal_and_deposit(list);
-            withdrawal = withdrawal_and_deposit.withdrawal;
-            deposit = withdrawal_and_deposit.deposit;
+            statistics = this.get_statistics(list);
 
             if(balance < 0){
                 balance_class = 'danger';
@@ -1142,15 +1137,17 @@ var MMB_Backbone = {
             vars = {
                 year: opt.year,
                 month: opt.month,
-                withdrawal: withdrawal,
-                deposit: deposit,
+                withdrawal: statistics.withdrawal,
+                withdrawal_like_transfer: statistics.withdrawal_like_transfer,
+                deposit: statistics.deposit,
+                deposit_like_transfer: statistics.deposit_like_transfer,
                 balance: balance,
                 balance_class: balance_class,
                 prev_month_link: prev_month_link,
                 next_month_link: next_month_link
             }
 
-            this.$el.html(this.template(vars));
+            MMB.util.render_ajax('pages/statistics.html', vars, this, 'template');
         },
 
         get_balance: function(list){
@@ -1206,7 +1203,7 @@ var MMB_Backbone = {
             return balance;
         },
 
-        get_withdrawal_and_deposit: function(list){
+        get_statistics: function(list){
 
             // 시나리오
             // 1. 그냥 수입 : 내 소유 계좌에 돈이 들어오면 수입.
@@ -1218,7 +1215,9 @@ var MMB_Backbone = {
             var account,
                 to_account,
                 withdrawal = 0,
-                deposit = 0;
+                withdrawal_like_transfer = 0,
+                deposit = 0,
+                deposit_like_transfer = 0;
 
             _.forEach(list, function(item){
                 account = MMB.datastore.account_list.get(item.get('account_id'));
@@ -1226,10 +1225,12 @@ var MMB_Backbone = {
                     to_account = MMB.datastore.account_list.get(item.get('to_account_id'));
                 }
 
+                // 그냥 지출
                 if(item.get('behavior_type') === 'withdrawal'){
                     withdrawal += item.get('amount');
                 }
 
+                // 그냥 수입
                 if(item.get('behavior_type') === 'deposit'){
                     deposit += item.get('amount');
                 }
@@ -1238,16 +1239,18 @@ var MMB_Backbone = {
                     if(account.get('owner') === 'mine' && to_account.get('owner') === 'mine'){
                         // pass
                     }else if(account.get('owner') === 'mine' && to_account.get('owner') === 'others'){
-                        withdrawal += item.get('amount');
+                        withdrawal_like_transfer += item.get('amount');
                     }else if(account.get('owner') === 'others' && to_account.get('owner') === 'mine'){
-                        deposit += item.get('amount');
+                        deposit_like_transfer += item.get('amount');
                     }
                 }
             });
 
             return {
                 withdrawal: withdrawal,
-                deposit: deposit
+                deposit: deposit,
+                withdrawal_like_transfer: withdrawal_like_transfer,
+                deposit_like_transfer: deposit_like_transfer
             };
         }
     }),
