@@ -106,7 +106,9 @@ var Lang = {
         "Balance": "Balance",
         "Withdrawal-like transfer": "Withdrawal-like transfer",
         "Deposit-like transfer": "Deposit-like transfer",
-        "Balance by account": "Balance by account"
+        "Balance by account": "Balance by account",
+        "Yearly": "Yearly",
+        "Monthly": "Monthly"
     },
     ko: {
         "Need config": "config.js 파일을 만들어야 합니다",
@@ -216,7 +218,9 @@ var Lang = {
         "Balance": "잔액",
         "Withdrawal-like transfer": "지출성 이체",
         "Deposit-like transfer": "수입성 이체",
-        "Balance by account": "계좌별 잔액"
+        "Balance by account": "계좌별 잔액",
+        "Yearly": "연도별",
+        "Monthly": "월별"
 
     }
 };
