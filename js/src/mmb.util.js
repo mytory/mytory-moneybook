@@ -81,15 +81,17 @@ MMB.util = {
 
     render_ajax: function(path, vars, view, template_key, callback){
 
+        view.$el.hide();
+
         if(view[template_key]){
-            view.$el.html(view[template_key](vars));
+            view.$el.html(view[template_key](vars)).fadeIn();
             if(callback){
                 callback();
             }
         }else{
             $.get(path, function(html){
                 view[template_key] = _.template(html);
-                view.$el.html(view[template_key](vars));
+                view.$el.html(view[template_key](vars)).fadeIn();
                 if(callback){
                     callback();
                 }
