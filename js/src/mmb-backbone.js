@@ -442,7 +442,7 @@ var MMB_Backbone = {
 
     View_setting: Backbone.View.extend({
         el: ".body",
-        template: _.template($('#page-setting').html()),
+        template: null,
         events: {
             "click .page-setting input" : "save_setting",
             "blur .page-setting input" : "save_setting",
@@ -453,7 +453,7 @@ var MMB_Backbone = {
             vars = {
                 language: MMB.get_lang()
             };
-            $('.body').hide().html(this.template(vars)).fadeIn();
+            MMB.util.render_ajax('pages/setting.html', vars, this, 'template');
             return this;
         },
         save_setting: function(){

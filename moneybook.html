@@ -58,64 +58,6 @@
     <% }) %>
 </script>
 
-<script type="text/template" id="page-setting">
-    <div class="page-setting" role="page">
-        <div class="page-header">
-            <h1><%= polyglot.t('Setting') %></h1>
-        </div>
-
-        <form class="form-horizontal js-form-setting" role="form" action="setting">
-            <div class="form-group">
-                <label class="col-sm-2 control-label"><%= polyglot.t('Language') %></label>
-                <div class="col-sm-10">
-                    <label class="radio-inline">
-                        <input type="radio" value="en" name="language" <%= MMB.if_checked(language, 'en') %> > English
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" value="ko" name="language" <%= MMB.if_checked(language, 'ko') %> > Korean 한국어
-                    </label>
-                    <p class="help-block"><%= polyglot.t('Language change info') %></p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label"></label>
-                <div class="col-sm-10">
-                    <button class="btn btn-danger" data-toggle="modal" data-target="#delete-all-data-box" onclick="return false;">
-                        <%= polyglot.t('Delete all data.') %>
-                    </button>
-                </div>
-            </div>
-        </form>
-
-
-        <!-- modal box -->
-        <div class="modal fade" id="delete-all-data-box">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title"><%= polyglot.t('Delete all data.') %></h4>
-                    </div>
-                    <div class="modal-body js-alert-body">
-                        <p><%= polyglot.t('All data will be deleted and you cannot restore it.') %></p>
-                        <p><%= polyglot.t('Enter this words to below for delete : ') %><strong>Mytory MoneyBook</strong></p>
-                        <p><input type="text"class="js-lock-delete-words"/></p>
-                        <p class="js-incorrect-words hidden"><strong><%= polyglot.t('Words are wrong.') %></strong></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">
-                            <span class="js-close-text">
-                                <%= polyglot.t('Cancel') %>
-                            </span>
-                        </button>
-                        <button type="button" class="btn btn-danger js-delete-all-data"><%= polyglot.t('Delete') %></button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
-    </div>
-</script>
-
 <script type="text/template" id="page-need-config">
     <div class="page-need-config" role="page">
         <div class="page-header">
