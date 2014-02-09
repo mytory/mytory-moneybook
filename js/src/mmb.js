@@ -388,6 +388,64 @@ var MMB = {
 
         return result[0].getId();
 
+    },
+
+    get_account_id_by_name: function(name){
+        var result = MMB.datastore.account_list.query({
+            name: name
+        });
+
+        if(result.length === 0){
+            alert(polyglot.t('There is no such account.'));
+            return false;
+        }
+
+        return result[0].getId();
+    },
+
+    update_auto_complete_record: function(memo, key, value, count){
+
+        var auto_complete,
+            new_count,
+            result;
+
+        if(count < 0){
+            auto_complete = MMB.datastore.auto_complete.query({
+                memo: memo,
+                key: key,
+                value: value
+            })[0];
+
+            new_count = auto_complete.get('count') + count;
+
+            if(new_count === 0){
+                auto_complete.deleteRecord();
+            }else{
+                auto_complete.update({
+                    count: new_count
+                });
+            }
+        }else if(count > 0){
+            result = MMB.datastore.auto_complete.query({
+                memo: memo,
+                key: key,
+                value: value
+            });
+
+            if(result.length === 0){
+                MMB.datastore.auto_complete.insert({
+                    memo: memo,
+                    key: key,
+                    value: value,
+                    count: 1
+                });
+            }else{
+                new_count = result[0].get('count') + count;
+                result[0].update({
+                    count: new_count
+                });
+            }
+        }
     }
 
 };

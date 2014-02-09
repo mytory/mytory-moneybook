@@ -69,4 +69,21 @@
         </div>
         <input class="btn btn-primary btn-block" type="submit" value="<%= polyglot.t('Save') %>"/>
     </form>
+
+    <hr/>
+
+    <h2>일괄 이동</h2>
+    <p>이 계좌의 아이템을 모두 다른 계좌로 이동합니다.</p>
+
+    <form role="form" class="js-move-to-account-form">
+        <input name="id" type="hidden" value="<%= account.getId() %>"/>
+        <div class="form-group">
+            <label for="account">이동 대상 계좌</label>
+            <input class="form-control js-filter-candidates js-move-to-account" type="text" name="account" id="account"/>
+            <div class="auto-complete-box clearfix" data-key="account"></div>
+        </div>
+        <p>
+            <input class="btn btn-block btn-default" type="submit" value="<%= polyglot.t('Move') %>"/>
+        </p>
+    </form>
 </div>

@@ -1219,8 +1219,6 @@ var MMB_Backbone = {
             statistics = this.get_statistics(list);
             by_account = this.get_by_account(list);
 
-            console.log(JSON.stringify(by_account));
-
             if(balance < 0){
                 balance_class = 'danger';
             }else if(balance === 0){
@@ -1429,8 +1427,12 @@ var MMB_Backbone = {
     View_account_update: Backbone.View.extend({
         el: '.body',
         template: null,
+        template_candidate: _.template($('#template-auto-complete-candidate').html()),
         events: {
-            "submit .js-account-update-form": "save"
+            "submit .js-account-update-form": "save",
+            "focus .js-move-to-account": "set_move_to_auto_complete",
+            "keyup .js-move-to-account": "filter_candidates",
+            "submit .js-move-to-account-form": "move_to_account"
         },
         render: function(opt){
 
@@ -1465,6 +1467,73 @@ var MMB_Backbone = {
 
             location.href = '#account/list';
 
+        },
+        set_move_to_auto_complete: function(e){
+            var data = MMB.util.form2json('.js-move-to-account-form'),
+                vars;
+
+            if( ! MMB.pages.register){
+                MMB.pages.register = new MMB_Backbone.View_register;
+            }
+
+            vars = {
+                candidate_list: MMB.pages.register.get_auto_complete_memo_related('', 'account')
+            }
+
+            $('.auto-complete-box[data-key="account"]').html(this.template_candidate(vars)).show();
+        },
+        filter_candidates: function(e){
+
+            if( ! MMB.pages.register){
+                MMB.pages.register = new MMB_Backbone.View_register;
+            }
+            MMB.pages.register.filter_candidates(e);
+        },
+        move_to_account: function(e){
+            e.preventDefault();
+
+            var data = MMB.util.form2json('.js-move-to-account-form'),
+                list = MMB.datastore.content.query({
+                    'account_id': data.id
+                }),
+                to_list = MMB.datastore.content.query({
+                    'to_account_id': data.id
+                }),
+                account_id = MMB.get_account_id_by_name(data.account);
+
+            if(account_id === false){
+                return false;
+            }
+
+            _.forEach(list, function(item){
+                var auto_complete,
+                    new_count,
+                    result;
+
+                MMB.update_auto_complete_record(item.get('memo'), 'account_id', item.get('account_id'), -1);
+                MMB.update_auto_complete_record(item.get('memo'), 'account_id', account_id, +1);
+
+                // update item
+                item.update({
+                    account_id: account_id
+                });
+            });
+
+            _.forEach(to_list, function(item){
+                var auto_complete,
+                    new_count,
+                    result;
+
+                MMB.update_auto_complete_record(item.get('memo'), 'to_account_id', item.get('to_account_id'), -1);
+                MMB.update_auto_complete_record(item.get('memo'), 'to_account_id', account_id, +1);
+
+                // update item
+                item.update({
+                    to_account_id: account_id
+                });
+            });
+
+            alert(polyglot.t('Complete'));
         }
     }),
 

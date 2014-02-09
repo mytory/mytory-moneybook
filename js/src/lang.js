@@ -68,6 +68,7 @@ var Lang = {
         "Whether savings": "Whether savings",
         "Savings": "Savings",
         "Not savings": "Not savings",
+        "There is no such account.": "There is no such account.",
 
         // Category Setting
         "Category Setting": "Category Setting",
@@ -82,6 +83,8 @@ var Lang = {
         "Save": "Save",
         "This category has item. So cannot be deleted.": "This category has item. So cannot be deleted.",
         "The category already be deleted.": "The category already be deleted.",
+        "Move": "Move",
+        "There is no such category.": "There is no such category.",
 
         // Import
         "Import": "Import",
@@ -174,6 +177,7 @@ var Lang = {
         "Whether savings": "저금 여부",
         "Savings": "저금",
         "Not savings": "저금 아님",
+        "There is no such account.": "그런 계좌는 없습니다.",
 
         // Category Setting
         "Category Setting": "카테고리 설정",
@@ -189,6 +193,8 @@ var Lang = {
         "This category has item. So cannot be deleted.": "이 카테고리로 등록된 내역이 있기 때문에 삭제할 수 없습니다.",
         "The category already be deleted.": "이 카테고리는 이미 삭제됐습니다.",
         "Category name cannot has colon(:).": "카테고리 이름에 콜론(:)이 들어가면 안 됩니다.",
+        "Move": "이동",
+        "There is no such category.": "그런 카테고리는 없습니다.",
 
         // Import
         "Import": "가져오기",
