@@ -112,16 +112,10 @@ var MMB_Backbone = {
                 item: item
             };
 
-            if(this.template){
-                this.$el.html(this.template(vars));
-                this.toggle_transfer_item();
-            }else{
-                $.get('pages/register.html', function(data){
-                    that.template = _.template(data);
-                    that.$el.html(that.template(vars));
-                    that.toggle_transfer_item();
-                });
-            }
+            MMB.util.render_ajax('pages/register.html', vars, this, 'template', function(){
+                that.toggle_transfer_item();
+            });
+
             return this;
         },
         get_item_for_form: function(id){
@@ -796,14 +790,7 @@ var MMB_Backbone = {
                     week_data: week_data
                 };
 
-                if(this.template){
-                    this.$el.html(this.template(vars));
-                }else{
-                    $.get('pages/weekly.html', function(data){
-                        that.template = _.template(data);
-                        that.$el.html(that.template(vars));
-                    });
-                }
+                MMB.util.render_ajax('pages/weekly.html', vars, this, 'template');
 
                 return this;
             }
@@ -1277,14 +1264,7 @@ var MMB_Backbone = {
                 account_list: MMB.datastore.account_list.query()
             };
 
-            if(this.template){
-                this.$el.html(this.template(vars));
-            }else{
-                $.get('pages/account_list.html', function(data){
-                    that.template = _.template(data);
-                    that.$el.html(that.template(vars));
-                });
-            }
+            MMB.util.render_ajax('pages/account_list.html', vars, this, 'template');
         }
     }),
 
@@ -1308,14 +1288,7 @@ var MMB_Backbone = {
                 }(opt))
             };
 
-            if(this.template){
-                this.$el.html(this.template(vars));
-            }else{
-                $.get('pages/account_manage.html', function(data){
-                    that.template = _.template(data);
-                    that.$el.html(that.template(vars));
-                });
-            }
+            MMB.util.render_ajax('pages/account_manage.html', vars, this, 'template');
         },
         save: function(e){
             var data,
