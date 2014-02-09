@@ -22,10 +22,10 @@
 
     <table class="table">
         <thead>
-        <tr class="<%= balance_class %> text-<%= balance_class %>">
-            <th><%=polyglot.t('Balance')%></th>
-            <th class="text-right"><%= MMB.util.number_format(balance) %></th>
-        </tr>
+            <tr class="<%= balance_class %> text-<%= balance_class %>">
+                <th><%=polyglot.t('Balance')%></th>
+                <th class="text-right"><%= MMB.util.number_format(balance) %></th>
+            </tr>
         </thead>
         <tbody>
             <tr>
@@ -48,6 +48,19 @@
                 <th><%=polyglot.t('Savings')%></th>
                 <td class="text-right"><%= MMB.util.number_format(savings) %></td>
             </tr>
+        </tbody>
+    </table>
+
+    <h2><%= polyglot.t('Balance by account') %></h2>
+    
+    <table class="table">
+        <tbody>
+            <% _.forEach(by_account, function(account_balance){ %>
+                <tr>
+                    <th><%= account_balance.name %></th>
+                    <td class="text-right"><%= MMB.util.number_format(account_balance.amount) %></td>
+                <tr>
+            <% });%>
         </tbody>
     </table>
 </div>

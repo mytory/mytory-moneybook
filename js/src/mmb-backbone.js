@@ -1199,7 +1199,8 @@ var MMB_Backbone = {
                 next_month,
                 prev_month_link,
                 next_month_link,
-                statistics;
+                statistics,
+                by_account;
 
             prev_month = moment(opt.year + '-' + opt.month + '-01').subtract('months', 1).format('YYYY-MM').split('-');
             next_month = moment(opt.year + '-' + opt.month + '-01').add('months', 1).format('YYYY-MM').split('-');
@@ -1216,6 +1217,9 @@ var MMB_Backbone = {
 
             balance = this.get_balance(list);
             statistics = this.get_statistics(list);
+            by_account = this.get_by_account(list);
+
+            console.log(JSON.stringify(by_account));
 
             if(balance < 0){
                 balance_class = 'danger';
@@ -1234,6 +1238,7 @@ var MMB_Backbone = {
                 deposit_like_transfer: statistics.deposit_like_transfer,
                 savings: statistics.savings,
                 balance: balance,
+                by_account: by_account,
                 balance_class: balance_class,
                 prev_month_link: prev_month_link,
                 next_month_link: next_month_link
@@ -1364,6 +1369,44 @@ var MMB_Backbone = {
                 deposit_like_transfer: deposit_like_transfer,
                 savings: savings
             };
+        },
+
+        get_by_account: function(list){
+            var item_list = list ? list : MMB.datastore.content.query(),
+                account,
+                by_account = {};
+
+            _.forEach(item_list, function(item){
+
+                if( ! by_account[item.get('account_id')]){
+                    account = MMB.datastore.account_list.get(item.get('account_id'));
+                    by_account[account.getId()] = {
+                        name: account.get('name'),
+                        amount: 0
+                    }
+                }
+
+                if( item.get('to_account_id') && ! by_account[item.get('to_account_id')]){
+                    account = MMB.datastore.account_list.get(item.get('to_account_id'));
+                    by_account[account.getId()] = {
+                        name: account.get('name'),
+                        amount: 0
+                    }
+                }
+
+                if(item.get('behavior_type') === 'withdrawal'){
+                    by_account[item.get('account_id')].amount -= item.get('amount');
+                }
+                if(item.get('behavior_type') === 'deposit'){
+                    by_account[item.get('account_id')].amount += item.get('amount');
+                }
+                if(item.get('behavior_type') === 'transfer'){
+                    by_account[item.get('account_id')].amount -= item.get('amount');
+                    by_account[item.get('to_account_id')].amount += item.get('amount');
+                }
+            });
+
+            return by_account;
         }
     }),
 
