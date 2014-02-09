@@ -363,6 +363,31 @@ var MMB = {
         getId: function(){
             return '';
         }
+    },
+
+    get_cat_id_by_category: function(category_name){
+        var cat = category_name.split(':'),
+            result;
+
+        if(category_name.split(':').length < 2){
+            alert(polyglot.t('Enter category to two level using colon(:).'));
+            return false;
+        }else if(category_name.split(':').length > 2){
+            alert(polyglot.t('Category level can be only 2. And you cannot use colon(:) on category name.'));
+            return false;
+        }
+        result = MMB.datastore.category_list.query({
+            cat1: cat[0],
+            cat2: cat[1]
+        });
+
+        if(result.length === 0){
+            alert(polyglot.t('There is no such category.'));
+            return false;
+        }
+
+        return result[0].getId();
+
     }
 
 };

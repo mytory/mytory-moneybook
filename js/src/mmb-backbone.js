@@ -421,6 +421,8 @@ var MMB_Backbone = {
             $candidates.each(function(){
                 if( ! regex.test($(this).data('value'))){
                     $(this).hide();
+                }else{
+                    $(this).show();
                 }
             });
         },
@@ -960,10 +962,14 @@ var MMB_Backbone = {
         el: '.body',
         events: {
             "submit .js-category-update-form": "save",
-            "click .js-category-delete": "delete"
+            "click .js-category-delete": "delete",
+            "focus .js-move-to-category": "set_move_to_auto_complete",
+            "keyup .js-move-to-category": "filter_candidates",
+            "submit .js-move-to-category-form": "move_to_category"
         },
         template1: _.template($('#page-category1-update').html()),
         template2: null,
+        template_candidate: _.template($('#template-auto-complete-candidate').html()),
         render: function(opt){
 
             if(opt.cat2 === undefined){
@@ -1091,7 +1097,79 @@ var MMB_Backbone = {
                     }
                 }
             }
+        },
+        move_to_category: function(e){
+            e.preventDefault();
 
+            var data = MMB.util.form2json('.js-move-to-category-form'),
+                list = MMB.datastore.content.query({
+                    'cat_id': data.id
+                }),
+                cat_id = MMB.get_cat_id_by_category(data.category);
+
+            if(cat_id === false){
+                return false;
+            }
+
+            _.forEach(list, function(entry){
+                var auto_complete,
+                    new_count;
+
+                // minus
+                auto_complete = MMB.datastore.auto_complete.query({
+                    memo: entry.get('memo'),
+                    key: 'cat_id',
+                    value: entry.get('cat_id')
+                });
+
+                new_count = auto_complete.get('count') - 1;
+
+                auto_complete.update({
+                    count: new_count
+                });
+
+                // plus
+                auto_complete = MMB.datastore.auto_complete.query({
+                    memo: entry.get('memo'),
+                    key: 'cat_id',
+                    value: cat_id
+                });
+
+                new_count = auto_complete.get('count') + 1;
+
+                auto_complete.update({
+                    count: new_count
+                });
+
+                // update item
+                entry.update({
+                    cat_id: cat_id
+                });
+            });
+
+            alert(polyglot.t('Complete'));
+        },
+        set_move_to_auto_complete: function(e){
+            var data = MMB.util.form2json('.js-move-to-category-form'),
+                vars,
+                view_register;
+
+            if( ! MMB.pages.register){
+                MMB.pages.register = new MMB_Backbone.View_register;
+            }
+
+            vars = {
+                candidate_list: MMB.pages.register.get_auto_complete_memo_related('', 'category', data.behavior_type)
+            }
+
+            $('.auto-complete-box[data-key="category"]').html(this.template_candidate(vars)).show();
+        },
+        filter_candidates: function(e){
+
+            if( ! MMB.pages.register){
+                MMB.pages.register = new MMB_Backbone.View_register;
+            }
+            MMB.pages.register.filter_candidates(e);
         }
     }),
 

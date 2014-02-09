@@ -19,8 +19,8 @@
         <input name="id" type="hidden" value="<%= category.getId() %>"/>
         <input id="cat1" name="cat1" type="hidden" value="<%= category.get('cat1') %>"/>
         <div class="form-group">
-            <label class="control-label col-xs-2" for="cat2"><%=polyglot.t('Name')%></label>
-            <div class="col-xs-10">
+            <label class="control-label col-xs-3" for="cat2"><%=polyglot.t('Name')%></label>
+            <div class="col-xs-9">
                 <input class="form-control" type="text" name="cat2" id="cat2" value="<%= category.get('cat2') %>"/>
             </div>
         </div>
@@ -29,6 +29,23 @@
         </p>
     </form>
 
+    <h2>일괄 이동</h2>
+    <p>이 카테고리의 아이템을 모두 다른 카테고리로 이동합니다.</p>
+
+    <form role="form" class="js-move-to-category-form">
+        <input name="behavior_type" type="hidden" value="<%= category.get('behavior_type') %>"/>
+        <input name="id" type="hidden" value="<%= category.getId() %>"/>
+        <div class="form-group">
+            <label for="category">이동 대상 카테고리</label>
+            <input class="form-control js-filter-candidates js-move-to-category" type="text" name="category" id="category"/>
+            <div class="auto-complete-box clearfix" data-key="category"></div>
+        </div>
+        <p>
+            <input class="btn btn-block btn-default" type="submit" value="<%= polyglot.t('Move') %>"/>
+        </p>
+    </form>
+
+    <h2 class="text-right">삭제</h2>
     <a class="btn btn-danger pull-right js-category-delete" href="#"
        data-cat1="<%= category.get('cat1') %>"
        data-cat2="<%= category.get('cat2') %>"
