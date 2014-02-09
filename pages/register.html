@@ -1,9 +1,13 @@
 <div class="page-register" role="page">
     <div class="page-header">
-        <h1><%= polyglot.t('Register') %></h1>
+        <% if( ! item.getId()){ %>
+            <h1><%= polyglot.t('Register') %></h1>
+        <% } else { %>
+            <h1><%= polyglot.t('Update') %></h1>
+        <% } %>
     </div>
     <div class="alert alert-success js-alert" style="display: none">
-        <%= polyglot.t('Success') %>!
+        <%= polyglot.t('Complete') %>!
     </div>
     <form class="form-horizontal js-register-form" role="form" action="moneybook">
         <% if(item.getId()){ %>
@@ -88,7 +92,9 @@
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary btn-lg btn-block"><%= polyglot.t('Register') %></button>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                    <%= item.getId() ? polyglot.t('Update') : polyglot.t('Register') %>
+                </button>
             </div>
         </div>
     </form>
