@@ -1206,10 +1206,12 @@ var MMB_Backbone = {
         get_statistics: function(list){
 
             // 시나리오
-            // 1. 그냥 수입 : 내 소유 계좌에 돈이 들어오면 수입.
-            // 2. 그냥 지출 : 내 소유 계좌에서 돈이 나가면 지출.
-            // 3. 돈 갚는다 : 내 소유 계좌에서 돈이 나가고(지출), 다른 사람 소유 계좌에 돈이 들어간다(아무 일 없음).
-            // 4. 돈 빌린다 : 내 소유 계좌에 돈이 들어오고(수입), 다른 사람 소유 계좌에서 돈이 빠진다(아무 일 없음).
+            // 1. 그냥 수입      : 수입 - 내 소유 계좌에 돈이 들어오면 수입.
+            // 2. 그냥 지출      : 지출 - 내 소유 계좌에서 돈이 나가면 지출.
+            // 3. 돈 갚는다      : 지출성 이체 - 내 소유 계좌에서 다른 사람 소유 계좌로 돈이 나간다.
+            // 4. 돈 빌린다      : 수입성 이체 - 다른 사람 소유 계좌에서 내 소유 계좌로 돈이 들어온다.
+            // 5. 돈 꿔준다      : 지출성 이체 - 잔액에 포함되던 내 돈이 잔액에 포함 안 된다.
+            // 6. 돈 돌려 받는다 : 수입성 이체 - 잔액에 표시 안 되던 내 돈이 잔액에 표시된다.
             // 5. 그냥 내 계좌 사이 이체 : 수입 지출에 카운트되면 안 된다.
 
             var account,
@@ -1237,10 +1239,22 @@ var MMB_Backbone = {
 
                 if(item.get('behavior_type') === 'transfer'){
                     if(account.get('owner') === 'mine' && to_account.get('owner') === 'mine'){
-                        // pass
+                        if(account.get('in_balance') === 'yes' && to_account.get('in_balance') === 'no'){
+
+                            // 돈 꿔준다.
+                            withdrawal_like_transfer += item.get('amount');
+                        }else if(account.get('in_balance') === 'no' && to_account.get('in_balance') === 'yes'){
+
+                            // 돈 돌려 받는다.
+                            deposit_like_transfer += item.get('amount');
+                        }
                     }else if(account.get('owner') === 'mine' && to_account.get('owner') === 'others'){
+
+                        // 돈 갚는다.
                         withdrawal_like_transfer += item.get('amount');
                     }else if(account.get('owner') === 'others' && to_account.get('owner') === 'mine'){
+
+                        // 돈 빌린다.
                         deposit_like_transfer += item.get('amount');
                     }
                 }
