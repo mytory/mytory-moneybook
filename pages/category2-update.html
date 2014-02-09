@@ -46,11 +46,13 @@
     </form>
 
     <h2 class="text-right">삭제</h2>
-    <a class="btn btn-danger pull-right js-category-delete" href="#"
-       data-cat1="<%= category.get('cat1') %>"
-       data-cat2="<%= category.get('cat2') %>"
-       data-behavior-type="<%= category.get('behavior_type') %>">
-        <span class="glyphicon glyphicon-remove"></span>
-        '<%= category.get('cat2') %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
-    </a>
+    <p class="pull-right">
+        <a class="btn btn-danger js-category-delete" href="#"
+           data-cat1="<%= category.get('cat1') %>"
+           data-cat2="<%= category.get('cat2') %>"
+           data-behavior-type="<%= category.get('behavior_type') %>">
+            <span class="glyphicon glyphicon-remove"></span>
+            '<%= category.get('cat2') %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
+        </a>
+    </p>
 </div>

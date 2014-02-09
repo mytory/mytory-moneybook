@@ -1043,7 +1043,7 @@ var MMB_Backbone = {
                 item_list = [],
                 category,
                 result,
-                cannot_delete_message = 'This category has item. So cannot be deleted.';
+                cannot_delete_message = 'This has item. So cannot be deleted.';
 
 
             if( ! cat2){
@@ -1432,7 +1432,8 @@ var MMB_Backbone = {
             "submit .js-account-update-form": "save",
             "focus .js-move-to-account": "set_move_to_auto_complete",
             "keyup .js-move-to-account": "filter_candidates",
-            "submit .js-move-to-account-form": "move_to_account"
+            "submit .js-move-to-account-form": "move_to_account",
+            "click .js-account-delete": "delete"
         },
         render: function(opt){
 
@@ -1534,6 +1535,32 @@ var MMB_Backbone = {
             });
 
             alert(polyglot.t('Complete'));
+        },
+
+        delete: function(e){
+            e.preventDefault();
+
+            var account_id = $(e.target).data('id'),
+                cannot_delete_message = 'This has item. So cannot be deleted.',
+                list,
+                to_list;
+
+            list = MMB.datastore.content.query({
+                account_id: account_id
+            });
+
+            to_list = MMB.datastore.content.query({
+                to_account_id: account_id
+            });
+
+            if(list.length + to_list.length > 0){
+                alert(polyglot.t(cannot_delete_message));
+                return false;
+            }
+
+            MMB.datastore.account_list.get(account_id).deleteRecord();
+
+            location.href = "#account/list";
         }
     }),
 
