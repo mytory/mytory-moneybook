@@ -84,7 +84,6 @@ var MMB_Backbone = {
                 category_list = MMB.datastore.category_list.query(),
                 category_placeholder,
                 tmp,
-                item_original,
                 item;
 
 
@@ -115,13 +114,14 @@ var MMB_Backbone = {
 
             if(this.template){
                 this.$el.html(this.template(vars));
+                this.toggle_transfer_item();
             }else{
                 $.get('pages/register.html', function(data){
                     that.template = _.template(data);
                     that.$el.html(that.template(vars));
+                    that.toggle_transfer_item();
                 });
             }
-
             return this;
         },
         get_item_for_form: function(id){
@@ -175,10 +175,10 @@ var MMB_Backbone = {
                 item,
                 data = MMB.util.form2json('.js-register-form');
 
-            if(data.category.split(':').length < 2){
+            if(data.category && data.category.split(':').length < 2){
                 alert(polyglot.t('Enter category to two level using colon(:).'));
                 return false;
-            }else if(data.category.split(':').length > 2){
+            }else if(data.category && data.category.split(':').length > 2){
                 alert(polyglot.t('Category level can be only 2. And you cannot use colon(:) on category name.'));
                 return false;
             }
@@ -186,10 +186,12 @@ var MMB_Backbone = {
             data.year = data.date.substr(0, 4);
             data.month = data.date.substr(5, 2);
             data.day = data.date.substr(8, 2);
-            data.cat1 = data.category.split(':')[0];
-            data.cat2 = data.category.split(':')[1] ? data.category.split(':')[1] : '';
 
-            delete data.category;
+            if(data.category){
+                data.cat1 = data.category.split(':')[0];
+                data.cat2 = data.category.split(':')[1] ? data.category.split(':')[1] : '';
+                delete data.category;
+            }
             delete data.date;
 
             item = MMB.register(data);
