@@ -44,3 +44,4 @@ Below is licenses of libraries.
 * jQuery : [MIT License](https://github.com/jquery/jquery/blob/master/MIT-LICENSE.txt)
 * Underscore : [MIT License](http://documentcloud.github.io/underscore/docs/underscore.html)
 * Backbone : [MIT License](http://backbonejs.org/docs/backbone.html)
+* CSSLoad.net : [completely free to use](http://cssload.net/en/terms_of_use)

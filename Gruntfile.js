@@ -29,7 +29,8 @@ module.exports = function(grunt) {
                 src: [
                     'css/src/bootstrap.css',
                     'css/src/bootstrap-theme.css',
-                    'css/src/mytory-moneybook.css'
+                    'css/src/mytory-moneybook.css',
+                    'css/src/spinner.css'
                 ],
                 dest: 'css/production.css'
             }
