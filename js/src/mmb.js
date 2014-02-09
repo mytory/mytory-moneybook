@@ -226,6 +226,37 @@ var MMB = {
         data.amount = parseFloat(data.amount);
     },
 
+    delete_auto_complete_info: function(item){
+        var result,
+            targets,
+            data;
+
+        data = item.getFields();
+        targets = ['memo', 'amount', 'account_id', 'cat_id', 'to_account_id'];
+
+        _.forEach(targets, function(key){
+            if( ! data[key]){
+                return true;
+            }
+
+            result = MMB.datastore.auto_complete.query({
+                memo: data.memo,
+                key: key,
+                value: data[key]
+            });
+
+            if(result[0].get('count') === 1){
+                result[0].deleteRecord();
+            }else{
+                result[0].update({
+                    count: result[0].get('count') - 1
+                });
+            }
+        });
+
+        return this;
+    },
+
     update_auto_complete_info: function(data){
         var result,
             targets;

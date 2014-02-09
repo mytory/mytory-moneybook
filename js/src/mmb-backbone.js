@@ -438,6 +438,8 @@ var MMB_Backbone = {
                 item = MMB.datastore.content.get(id),
                 return_url = '#weekly/' + item.get('year') + '-' + item.get('month') + '-' + item.get('day');
 
+            MMB.delete_auto_complete_info(item);
+
             item.deleteRecord();
             location.href = return_url;
         }
