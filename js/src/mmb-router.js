@@ -13,6 +13,7 @@ var MMB_Router = Backbone.Router.extend({
         "statistics": 'statistics',
         "statistics/:year": 'statistics',
         "statistics/:year/:month": 'statistics',
+        "transition": "transition",
         "account/list": "account_list",
         "account/add": "account_add",
         "account/update/*path": "account_update"
@@ -114,6 +115,12 @@ var MMB_Router = Backbone.Router.extend({
             month: month
         };
         MMB.render('statistics', vars);
+    },
+
+    transition: function(year){
+        MMB.render('transition', {
+            year: year
+        })
     },
 
     account_list: function(){

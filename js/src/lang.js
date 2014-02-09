@@ -110,7 +110,9 @@ var Lang = {
         "Balance by account": "Balance by account",
         "Yearly": "Yearly",
         "Monthly": "Monthly",
-        "Whole": "Whole"
+        "Whole": "Whole",
+        "Result": "Result",
+        "Transition": "Transition"
     },
     ko: {
         "Need config": "config.js 파일을 만들어야 합니다",
@@ -224,7 +226,9 @@ var Lang = {
         "Balance by account": "계좌별 잔액",
         "Yearly": "연도별",
         "Monthly": "월별",
-        "Whole": "전체"
+        "Whole": "전체",
+        "Result": "결과",
+        "Transition": "추이"
 
     }
 };

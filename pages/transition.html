@@ -1,0 +1,47 @@
+<div class="page-statistics" role="page">
+    <div class="page-header">
+        <h1>
+            <%= polyglot.t('Transition') %>
+            <small>
+                <%= year ? year : '' %>
+            </small>
+        </h1>
+    </div>
+    <ul class="nav nav-pills">
+        <% if(prev){ %>
+        <li>
+            <a href="<%= prev %>" title="prev year">
+                <span class="glyphicon glyphicon-arrow-left"></span>
+            </a>
+        </li>
+        <% } %>
+        <% if(next){ %>
+        <li>
+            <a href="<%= next %>" title="next year">
+                <span class="glyphicon glyphicon-arrow-right"></span>
+            </a>
+        </li>
+        <% } %>
+        <li>
+            <a href="#transition/<%= current_year %>">
+                <%= current_year %>
+            </a>
+        </li>
+        <li>
+            <a href="#transition">
+                <%= polyglot.t('Whole') %>
+            </a>
+        </li>
+    </ul>
+
+    <table class="table">
+        <tbody>
+            <% _.forEach(list, function(row){ %>
+                <tr>
+                    <th><%= row.time %></th>
+                    <td class="text-right"><%= MMB.util.number_format(row.amount) %></td>
+                <tr>
+            <% }); %>
+        </tbody>
+    </table>
+</div>

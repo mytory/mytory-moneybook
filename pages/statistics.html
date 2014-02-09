@@ -1,7 +1,7 @@
 <div class="page-statistics" role="page">
     <div class="page-header">
         <h1>
-            <%= polyglot.t('Statistics') %>
+            <%= polyglot.t('Result') %>
             <small>
                 <%= year ? year : '' %><%= month ? '-' + month : ''%>
             </small>
@@ -15,7 +15,7 @@
                 </a>
             </li>
         <% } %>
-        <% if(prev_month_link){ %>
+        <% if(next_month_link){ %>
             <li>
                 <a href="<%= next_month_link %>" title="next month">
                     <span class="glyphicon glyphicon-arrow-right"></span>
