@@ -1220,10 +1220,10 @@ var MMB_Backbone = {
                 next_link = '#statistics/' + next;
             }
 
-            query = {
-                year: opt.year
-            };
-
+            query = {};
+            if(opt.year){
+                query.year = opt.year;
+            }
             if(opt.month){
                 query.month = opt.month;
             }

@@ -3,21 +3,25 @@
         <h1>
             <%= polyglot.t('Statistics') %>
             <small>
-                <%= year %><%= month ? '-' + month : ''%>
+                <%= year ? year : '' %><%= month ? '-' + month : ''%>
             </small>
         </h1>
     </div>
     <ul class="nav nav-pills">
-        <li>
-            <a href="<%= prev_month_link %>" title="prev month">
-                <span class="glyphicon glyphicon-arrow-left"></span>
-            </a>
-        </li>
-        <li>
-            <a href="<%= next_month_link %>" title="next month">
-                <span class="glyphicon glyphicon-arrow-right"></span>
-            </a>
-        </li>
+        <% if(prev_month_link){ %>
+            <li>
+                <a href="<%= prev_month_link %>" title="prev month">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                </a>
+            </li>
+        <% } %>
+        <% if(prev_month_link){ %>
+            <li>
+                <a href="<%= next_month_link %>" title="next month">
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                </a>
+            </li>
+        <% } %>
         <li>
             <a href="#statistics/<%= current_year %>">
                 <%= polyglot.t('Yearly') %>
@@ -26,6 +30,11 @@
         <li>
             <a href="#statistics/<%= current_year %>/<%= current_month %>">
                 <%= polyglot.t('Monthly') %>
+            </a>
+        </li>
+        <li>
+            <a href="#statistics">
+                <%= polyglot.t('Whole') %>
             </a>
         </li>
     </ul>

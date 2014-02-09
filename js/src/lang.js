@@ -108,7 +108,8 @@ var Lang = {
         "Deposit-like transfer": "Deposit-like transfer",
         "Balance by account": "Balance by account",
         "Yearly": "Yearly",
-        "Monthly": "Monthly"
+        "Monthly": "Monthly",
+        "Whole": "Whole"
     },
     ko: {
         "Need config": "config.js 파일을 만들어야 합니다",
@@ -220,7 +221,8 @@ var Lang = {
         "Deposit-like transfer": "수입성 이체",
         "Balance by account": "계좌별 잔액",
         "Yearly": "연도별",
-        "Monthly": "월별"
+        "Monthly": "월별",
+        "Whole": "전체"
 
     }
 };
