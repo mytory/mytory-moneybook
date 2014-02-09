@@ -10,7 +10,9 @@ var MMB_Router = Backbone.Router.extend({
         "category/add/:behavior_type": 'category1_add',
         "category/add/:behavior_type/*path": 'category2_add',
         "category/update/:behavior_type/*path": 'category_update',
-        "statistics/whole(/:year/:month)": 'statistics_whole',
+        "statistics": 'statistics',
+        "statistics/:year": 'statistics',
+        "statistics/:year/:month": 'statistics',
         "account/list": "account_list",
         "account/add": "account_add",
         "account/update/*path": "account_update"
@@ -105,12 +107,13 @@ var MMB_Router = Backbone.Router.extend({
         });
     },
 
-    statistics_whole: function(year, month){
-        MMB.render('statistics', {
+    statistics: function(year, month){
+        var vars = {
             key: 'whole_info',
-            year: (year ? year : 'whole'),
-            month: (month ? month : 'whole')
-        });
+            year: year,
+            month: month
+        };
+        MMB.render('statistics', vars);
     },
 
     account_list: function(){

@@ -3,7 +3,7 @@
         <h1>
             <%= polyglot.t('Statistics') %>
             <small>
-                <%= year %>-<%= month %>
+                <%= year %><%= month ? '-' + month : ''%>
             </small>
         </h1>
     </div>
@@ -13,9 +13,19 @@
                 <span class="glyphicon glyphicon-arrow-left"></span>
             </a>
         </li>
-        <li class="pull-right">
+        <li>
             <a href="<%= next_month_link %>" title="next month">
                 <span class="glyphicon glyphicon-arrow-right"></span>
+            </a>
+        </li>
+        <li>
+            <a href="#statistics/<%= current_year %>">
+                <%= polyglot.t('Yearly') %>
+            </a>
+        </li>
+        <li>
+            <a href="#statistics/<%= current_year %>/<%= current_month %>">
+                <%= polyglot.t('Monthly') %>
             </a>
         </li>
     </ul>
