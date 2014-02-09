@@ -18,7 +18,7 @@ Develop TODO list
 * number format 설정
 * 주간 보기에서 날짜 기억했다가 다시 주간 보기 누르면 이전에 보던 화면으로 돌아가게 하기
 * 일별 통계 보기(수입/지출/수입성 이체/지출성 이체)
-* category2-update에서 render_ajax 함수가 왜 두 번에 한 번 꼴로 호출되는지 확인해 본다. 원래는 한 번 호출된 다음엔 template이 변수에 저장돼서 호출 안 돼야 하는 건데.
+* category2-update의 render_ajax 함수 안에서 ajax 호출이 왜 두 번에 한 번 꼴로 일어나는지 확인해 본다. 원래는 한 번 호출된 다음엔 template이 변수에 저장돼서 호출 안 돼야 하는 건데.
 
 
 완료
