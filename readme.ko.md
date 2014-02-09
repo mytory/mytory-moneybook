@@ -37,13 +37,11 @@ Mytory Moneybook은 단순하고 강력한 웹앱입니다. 데스크탑과 스�
 
 ![](images/create-app.png)
 
-그리고 나서 앱 설정 항목을 다 채우면 됩니다. 
-
-OAuth redirect URIs에는 Public 폴더에 있는 `moneybook.html`의 공개 링크(Public link)를 복사해서 넣습니다. Add 버튼을 꼭 눌러 줘야 합니다.
+OAuth redirect URIs에 Public 폴더에 있는 `moneybook.html`의 공개 링크(Public link)를 복사해서 넣습니다. Add 버튼을 꼭 눌러 줘야 합니다.
 
 ![](images/app-setting.png)
 
-설정 페이지에 있는 App Key를 복사해서, `config.js` 파일에 있는 `app_key` 항목을 덮어 씁니다.
+그 뒤 설정 페이지에 있는 App Key를 복사해서, `config.js` 파일에 있는 `app_key` 항목을 덮어 씁니다.
 
 
 LICENSE
