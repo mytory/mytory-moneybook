@@ -316,7 +316,8 @@ var MMB = {
             this_account = MMB.datastore.account_list.insert({
                 name: account_name,
                 owner: 'mine',
-                in_balance: 'yes'
+                in_balance: 'yes',
+                whether_savings: 'no'
             });
 
             alert( account_name + polyglot.t(" is added to account list. Go account setting, and set properties."));

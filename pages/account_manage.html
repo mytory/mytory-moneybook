@@ -47,6 +47,26 @@
                 </label>
             </div>
         </div>
+
+        <div class="form-group">
+            <label>
+                <%= polyglot.t('Whether savings') %>
+            </label>
+            <div class="radio">
+                <label>
+                    <input required type="radio" name="whether_savings" id="whether_savings_yes" value="yes"
+                    <%= account.get('whether_savings') == 'yes' ? 'checked' : '' %> />
+                    <%= polyglot.t('Savings') %>
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+                    <input required type="radio" name="whether_savings" id="whether_savings_no" value="no"
+                    <%= account.get('whether_savings') == 'no' ? 'checked' : '' %>/>
+                    <%= polyglot.t('Not savings') %>
+                </label>
+            </div>
+        </div>
         <input class="btn btn-primary btn-block" type="submit" value="<%= polyglot.t('Save') %>"/>
     </form>
 </div>

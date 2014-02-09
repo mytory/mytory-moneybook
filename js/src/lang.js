@@ -65,6 +65,9 @@ var Lang = {
         "Is in Balance": "Is in Balance",
         "yes": "yes",
         "no": "no",
+        "Whether savings": "Whether savings",
+        "Savings": "Savings",
+        "Not savings": "Not savings",
 
         // Category Setting
         "Category Setting": "Category Setting",
@@ -167,6 +170,9 @@ var Lang = {
         "Is in Balance": "잔액에 포함할지",
         "yes": "포함함",
         "no": "포함 안 함",
+        "Whether savings": "저금 여부",
+        "Savings": "저금",
+        "Not savings": "저금 아님",
 
         // Category Setting
         "Category Setting": "카테고리 설정",
