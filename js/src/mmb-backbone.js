@@ -1141,6 +1141,7 @@ var MMB_Backbone = {
                 withdrawal_like_transfer: statistics.withdrawal_like_transfer,
                 deposit: statistics.deposit,
                 deposit_like_transfer: statistics.deposit_like_transfer,
+                savings: statistics.savings,
                 balance: balance,
                 balance_class: balance_class,
                 prev_month_link: prev_month_link,
@@ -1219,7 +1220,8 @@ var MMB_Backbone = {
                 withdrawal = 0,
                 withdrawal_like_transfer = 0,
                 deposit = 0,
-                deposit_like_transfer = 0;
+                deposit_like_transfer = 0,
+                savings = 0;
 
             _.forEach(list, function(item){
                 account = MMB.datastore.account_list.get(item.get('account_id'));
@@ -1239,7 +1241,11 @@ var MMB_Backbone = {
 
                 if(item.get('behavior_type') === 'transfer'){
                     if(account.get('owner') === 'mine' && to_account.get('owner') === 'mine'){
-                        if(account.get('in_balance') === 'yes' && to_account.get('in_balance') === 'no'){
+                        if(to_account.get('whether_savings') === 'yes'){
+
+                            // 저금
+                            savings += item.get('amount');
+                        }else if(account.get('in_balance') === 'yes' && to_account.get('in_balance') === 'no'){
 
                             // 돈 꿔준다.
                             withdrawal_like_transfer += item.get('amount');
@@ -1264,7 +1270,8 @@ var MMB_Backbone = {
                 withdrawal: withdrawal,
                 deposit: deposit,
                 withdrawal_like_transfer: withdrawal_like_transfer,
-                deposit_like_transfer: deposit_like_transfer
+                deposit_like_transfer: deposit_like_transfer,
+                savings: savings
             };
         }
     }),
