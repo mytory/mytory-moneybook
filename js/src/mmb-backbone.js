@@ -1113,33 +1113,46 @@ var MMB_Backbone = {
 
             _.forEach(list, function(entry){
                 var auto_complete,
-                    new_count;
+                    new_count,
+                    result;
 
                 // minus
                 auto_complete = MMB.datastore.auto_complete.query({
                     memo: entry.get('memo'),
                     key: 'cat_id',
                     value: entry.get('cat_id')
-                });
+                })[0];
 
                 new_count = auto_complete.get('count') - 1;
 
-                auto_complete.update({
-                    count: new_count
-                });
+                if(new_count === 0){
+                    auto_complete.deleteRecord();
+                }else{
+                    auto_complete.update({
+                        count: new_count
+                    });
+                }
 
                 // plus
-                auto_complete = MMB.datastore.auto_complete.query({
+                result = MMB.datastore.auto_complete.query({
                     memo: entry.get('memo'),
                     key: 'cat_id',
                     value: cat_id
                 });
 
-                new_count = auto_complete.get('count') + 1;
-
-                auto_complete.update({
-                    count: new_count
-                });
+                if(result.length === 0){
+                    MMB.datastore.auto_complete.insert({
+                        memo: entry.get('memo'),
+                        key: 'cat_id',
+                        value: cat_id,
+                        count: 1
+                    });
+                }else{
+                    new_count = result[0].get('count') + 1;
+                    result[0].update({
+                        count: new_count
+                    });
+                }
 
                 // update item
                 entry.update({
