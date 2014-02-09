@@ -1599,13 +1599,14 @@ var MMB_Backbone = {
 
             // 이거 제대로 안 됨.
             var vars = {
-                account: MMB.mock
+                account: MMB.mock,
+                account_balance: null
             };
 
             if(this.template){
                 this.$el.html(this.template(vars));
             }else{
-                $.get('account_manage.html', function(data){
+                $.get('pages/account_manage.html', function(data){
                     that.template = _.template(data);
                     that.$el.html(that.template(vars));
                 });

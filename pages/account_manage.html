@@ -5,7 +5,16 @@
             <%= account.get('name') ? '<small>' +  account.get('name') + '</small>': ''%>
         </h1>
     </div>
-    <p><%= polyglot.t('Account Balance:') %> <%= MMB.util.number_format(account_balance) %></p>
+    <% if(account_balance !== null){ %>
+        <div class="panel panel-<%= account_balance >= 0 ? 'success' : 'danger' %>">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <%= polyglot.t('Account Balance:') %>
+                    <span class="pull-right"><%= MMB.util.number_format(account_balance) %></span>
+                </h3>
+            </div>
+        </div>
+    <% } %>
     <form role="form" class="js-account-update-form">
         <input name="id" type="hidden" value="<%= account.getId() %>"/>
         <div class="form-group">
