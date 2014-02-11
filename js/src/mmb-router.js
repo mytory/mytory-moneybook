@@ -44,7 +44,6 @@ var MMB_Router = Backbone.Router.extend({
         });
 
         $('.body').on('keyup', 'input[type="number"], input[type="tel"], .type-number', function(){
-            console.log($(this).val(), $(this).val().replace(/[^0-9]/g, ''));
             $(this).val($(this).val().replace(/[^0-9]/g, ''));
         });
     },
