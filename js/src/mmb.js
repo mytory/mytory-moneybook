@@ -558,6 +558,10 @@ var MMB = {
             return year;
         });
         return year_list;
+    },
+
+    show_loader: function(){
+        $('.body').html($('#loader').html());
     }
 
 };

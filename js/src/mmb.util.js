@@ -81,7 +81,7 @@ MMB.util = {
 
     render_ajax: function(path, vars, view, template_key, callback){
 
-        view.$el.hide();
+        MMB.show_loader();
 
         if(view[template_key]){
             view.$el.html(view[template_key](vars)).fadeIn();

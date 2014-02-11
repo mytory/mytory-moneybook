@@ -22,6 +22,7 @@ var MMB_Router = Backbone.Router.extend({
 
     initialize: function(){
 
+        MMB.show_loader();
         MMB.set_polyglot();
         MMB.network_enabled = MMB.check_dropbox();
         Backbone.history.start();
