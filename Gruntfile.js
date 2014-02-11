@@ -18,7 +18,7 @@ module.exports = function(grunt) {
                     'js/src/mytory-moneybook-category.js',
                     'js/src/mmb-router.js',
                     'js/src/mmb-backbone.js',
-                    'js/src/view-transition.js',
+                    'js/src/view-*.js',
                     'js/src/mmb.js',
                     'js/src/mmb.util.js',
                     'js/src/mytory-moneybook.js',

@@ -1,8 +1,5 @@
-[role=page] {
+[data-role="page"] {
     display: none;
-}
-[role=page]:first-child {
-    display: block;
 }
 .xls-drop-area {
     width: 100%;

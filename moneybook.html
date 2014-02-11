@@ -29,12 +29,12 @@
         </div>
     </div>
 </div>
-<div class="body col-sm-12">
-</div>
 
-<!-- templates -->
+<div class="body col-sm-12" data-role="page"></div>
+<div class="page-search-form col-sm-12" data-role="page"></div>
 
-<script type="text/template" id="loader">
+<div class="page-loader col-sm-12" data-role="page">
+
     <div class="windows8 center-block" style="margin-top: 90px">
         <div class="wBall" id="wBall_1">
             <div class="wInnerBall">
@@ -60,8 +60,10 @@
     <div class="text-center" style="margin-top: 20px">
         Loading...
     </div>
-</script>
 
+</div>
+
+<!-- templates -->
 <script type="text/template" id="navbar">
 
     <ul class="nav nav-tabs">
@@ -80,6 +82,7 @@
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">기타 <b class="caret"></b></a>
             <ul class="dropdown-menu">
+                <li><a href="#search/form"><%= polyglot.t('Search') %></a></li>
                 <li><a href="#import"><%= polyglot.t('Import') %></a></li>
                 <li><a href="#setting"><%= polyglot.t('Setting') %></a></li>
                 <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>

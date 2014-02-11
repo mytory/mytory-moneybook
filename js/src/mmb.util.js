@@ -84,6 +84,7 @@ MMB.util = {
         MMB.show_loader();
 
         if(view[template_key]){
+            $('[data-role="page"]').hide();
             view.$el.html(view[template_key](vars)).fadeIn();
             if(callback){
                 callback();
@@ -91,6 +92,7 @@ MMB.util = {
         }else{
             $.get(path, function(html){
                 view[template_key] = _.template(html);
+                $('[data-role="page"]').hide();
                 view.$el.html(view[template_key](vars)).fadeIn();
                 if(callback){
                     callback();

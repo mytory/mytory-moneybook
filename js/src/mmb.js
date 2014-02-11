@@ -130,6 +130,7 @@ var MMB = {
         }
         $('.js-navbar li.active').removeClass('active');
         $('[href="' + location.hash + '"]').parents('li').addClass('active');
+        $('.page-loader').hide();
     },
     show_start_page: function(){
         if( ! MMB_Config){
@@ -561,7 +562,7 @@ var MMB = {
     },
 
     show_loader: function(){
-        $('.body').html($('#loader').html());
+        $('.page-loader').show();
     },
 
     add_lang_class_to_body: function(){
