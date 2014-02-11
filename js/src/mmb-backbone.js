@@ -236,6 +236,8 @@ var MMB_Backbone = {
                 pattern = new RegExp(memo),
                 behavior_type = $('[name="behavior_type"]:checked').val();
 
+            this.toggle_transfer_item();
+
             if( ! memo){
                 return false;
             }
