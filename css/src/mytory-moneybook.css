@@ -45,3 +45,13 @@ input[type=date] {
 .auto-complete-box__candidate {
     padding: 0.5em;
 }
+
+.lang-ko,
+.lang-en {
+    display: none;
+}
+
+body.body-lang-ko .lang-ko,
+body.body-lang-en .lang-en {
+    display: block;
+}
