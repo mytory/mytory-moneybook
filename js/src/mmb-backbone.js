@@ -144,7 +144,7 @@ var MMB_Backbone = {
                 getId: function(){
                     return item_original.getId();
                 }
-            }
+            };
 
             if(item_original.get('to_account_id')){
 
@@ -189,6 +189,8 @@ var MMB_Backbone = {
             delete data.date;
 
             item = MMB.register(data);
+
+            MMB.print_balance_panel();
 
             if( ! data.id){
 
@@ -261,7 +263,7 @@ var MMB_Backbone = {
 
             vars = {
                 candidate_list: memo_list
-            }
+            };
 
             $('.auto-complete-box[data-key="memo"]').html(this.template_candidate(vars));
 
@@ -278,7 +280,7 @@ var MMB_Backbone = {
 
             vars = {
                 candidate_list: amount_list
-            }
+            };
 
             $('.auto-complete-box[data-key="amount"]').html(this.template_candidate(vars));
 
@@ -287,21 +289,21 @@ var MMB_Backbone = {
                 // set category
                 vars = {
                     candidate_list: this.get_auto_complete_memo_related(memo, 'category', behavior_type)
-                }
+                };
                 $('.auto-complete-box[data-key="category"]').html(this.template_candidate(vars));
             }else{
 
                 // set to_account
                 vars = {
                     candidate_list: this.get_auto_complete_memo_related(memo, 'to_account')
-                }
+                };
                 $('.auto-complete-box[data-key="to_account"]').html(this.template_candidate(vars));
             }
 
             // set account
             vars = {
                 candidate_list: this.get_auto_complete_memo_related(memo, 'account')
-            }
+            };
             $('.auto-complete-box[data-key="account"]').html(this.template_candidate(vars));
 
         },
@@ -343,7 +345,7 @@ var MMB_Backbone = {
                     about_auto_complete_item_key = 'category';
                     about_list_original_query = {
                         behavior_type: behavior_type
-                    }
+                    };
                     break;
                 case 'account':
                     about_key = 'account_id';
@@ -439,6 +441,7 @@ var MMB_Backbone = {
             MMB.delete_auto_complete_info(item);
 
             item.deleteRecord();
+            MMB.print_balance_panel();
             location.href = return_url;
         }
 
@@ -1030,7 +1033,7 @@ var MMB_Backbone = {
                     cat2: data.cat2
                 });
 
-                location.href = '#category/list/' + category.get('behavior_type') + '/' + category.get('cat1')
+                location.href = '#category/list/' + category.get('behavior_type') + '/' + category.get('cat1');
             }
         },
         delete: function(e){
