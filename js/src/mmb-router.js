@@ -31,6 +31,7 @@ var MMB_Router = Backbone.Router.extend({
             MMB.add_lang_class_to_body();
             MMB.show_navbar();
             MMB.init_category_list();
+            MMB.print_balance_panel();
         }
 
         $('.body').on('submit', 'form', function(){

@@ -570,73 +570,88 @@ var MMB = {
 
     get_statistics: function(list){
 
-            // 시나리오
-            // 1. 그냥 수입      : 수입 - 내 소유 계좌에 돈이 들어오면 수입.
-            // 2. 그냥 지출      : 지출 - 내 소유 계좌에서 돈이 나가면 지출.
-            // 3. 돈 갚는다      : 지출성 이체 - 내 소유 계좌에서 다른 사람 소유 계좌로 돈이 나간다.
-            // 4. 돈 빌린다      : 수입성 이체 - 다른 사람 소유 계좌에서 내 소유 계좌로 돈이 들어온다.
-            // 5. 돈 꿔준다      : 지출성 이체 - 잔액에 포함되던 내 돈이 잔액에 포함 안 된다.
-            // 6. 돈 돌려 받는다 : 수입성 이체 - 잔액에 표시 안 되던 내 돈이 잔액에 표시된다.
-            // 5. 그냥 내 계좌 사이 이체 : 수입 지출에 카운트되면 안 된다.
+        // 시나리오
+        // 1. 그냥 수입      : 수입 - 내 소유 계좌에 돈이 들어오면 수입.
+        // 2. 그냥 지출      : 지출 - 내 소유 계좌에서 돈이 나가면 지출.
+        // 3. 돈 갚는다      : 지출성 이체 - 내 소유 계좌에서 다른 사람 소유 계좌로 돈이 나간다.
+        // 4. 돈 빌린다      : 수입성 이체 - 다른 사람 소유 계좌에서 내 소유 계좌로 돈이 들어온다.
+        // 5. 돈 꿔준다      : 지출성 이체 - 잔액에 포함되던 내 돈이 잔액에 포함 안 된다.
+        // 6. 돈 돌려 받는다 : 수입성 이체 - 잔액에 표시 안 되던 내 돈이 잔액에 표시된다.
+        // 5. 그냥 내 계좌 사이 이체 : 수입 지출에 카운트되면 안 된다.
 
-            var account,
-                to_account,
-                withdrawal = 0,
-                withdrawal_like_transfer = 0,
-                deposit = 0,
-                deposit_like_transfer = 0,
-                savings = 0;
+        var account,
+            to_account,
+            withdrawal = 0,
+            withdrawal_like_transfer = 0,
+            deposit = 0,
+            deposit_like_transfer = 0,
+            savings = 0;
 
-            _.forEach(list, function(item){
-                account = MMB.datastore.account_list.get(item.get('account_id'));
-                if(item.get('to_account_id')){
-                    to_account = MMB.datastore.account_list.get(item.get('to_account_id'));
-                }
+        _.forEach(list, function(item){
+            account = MMB.datastore.account_list.get(item.get('account_id'));
+            if(item.get('to_account_id')){
+                to_account = MMB.datastore.account_list.get(item.get('to_account_id'));
+            }
 
-                // 그냥 지출
-                if(item.get('behavior_type') === 'withdrawal'){
-                    withdrawal += item.get('amount');
-                }
+            // 그냥 지출
+            if(item.get('behavior_type') === 'withdrawal'){
+                withdrawal += item.get('amount');
+            }
 
-                // 그냥 수입
-                if(item.get('behavior_type') === 'deposit'){
-                    deposit += item.get('amount');
-                }
+            // 그냥 수입
+            if(item.get('behavior_type') === 'deposit'){
+                deposit += item.get('amount');
+            }
 
-                if(item.get('behavior_type') === 'transfer'){
-                    if(account.get('owner') === 'mine' && to_account.get('owner') === 'mine'){
-                        if(to_account.get('whether_savings') === 'yes'){
+            if(item.get('behavior_type') === 'transfer'){
+                if(account.get('owner') === 'mine' && to_account.get('owner') === 'mine'){
+                    if(to_account.get('whether_savings') === 'yes'){
 
-                            // 저금
-                            savings += item.get('amount');
-                        }else if(account.get('in_balance') === 'yes' && to_account.get('in_balance') === 'no'){
+                        // 저금
+                        savings += item.get('amount');
+                    }else if(account.get('in_balance') === 'yes' && to_account.get('in_balance') === 'no'){
 
-                            // 돈 꿔준다.
-                            withdrawal_like_transfer += item.get('amount');
-                        }else if(account.get('in_balance') === 'no' && to_account.get('in_balance') === 'yes'){
-
-                            // 돈 돌려 받는다.
-                            deposit_like_transfer += item.get('amount');
-                        }
-                    }else if(account.get('owner') === 'mine' && to_account.get('owner') === 'others'){
-
-                        // 돈 갚는다.
+                        // 돈 꿔준다.
                         withdrawal_like_transfer += item.get('amount');
-                    }else if(account.get('owner') === 'others' && to_account.get('owner') === 'mine'){
+                    }else if(account.get('in_balance') === 'no' && to_account.get('in_balance') === 'yes'){
 
-                        // 돈 빌린다.
+                        // 돈 돌려 받는다.
                         deposit_like_transfer += item.get('amount');
                     }
-                }
-            });
+                }else if(account.get('owner') === 'mine' && to_account.get('owner') === 'others'){
 
-            return {
-                withdrawal: withdrawal,
-                deposit: deposit,
-                withdrawal_like_transfer: withdrawal_like_transfer,
-                deposit_like_transfer: deposit_like_transfer,
-                savings: savings
-            };
+                    // 돈 갚는다.
+                    withdrawal_like_transfer += item.get('amount');
+                }else if(account.get('owner') === 'others' && to_account.get('owner') === 'mine'){
+
+                    // 돈 빌린다.
+                    deposit_like_transfer += item.get('amount');
+                }
+            }
+        });
+
+        return {
+            withdrawal: withdrawal,
+            deposit: deposit,
+            withdrawal_like_transfer: withdrawal_like_transfer,
+            deposit_like_transfer: deposit_like_transfer,
+            savings: savings
+        };
+    },
+
+    print_balance_panel: function(){
+        var list,
+            balance;
+        if( ! MMB.datastore.content){
+            setTimeout(MMB.print_balance_panel, 100);
+            return false;
         }
+        list = MMB.datastore.content.query();
+        balance = MMB.get_balance(list);
+        $('.js-balance-panel .js-balance').text(MMB.util.number_format(balance));
+        if($('.js-balance-panel').is(':not(":visible")')){
+            $('.js-balance-panel').show();
+        }
+    }
 
 };
