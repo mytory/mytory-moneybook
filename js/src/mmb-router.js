@@ -28,6 +28,7 @@ var MMB_Router = Backbone.Router.extend({
         Backbone.history.start();
 
         if(MMB.network_enabled){
+            MMB.add_lang_class_to_body();
             MMB.show_navbar();
             MMB.init_category_list();
         }

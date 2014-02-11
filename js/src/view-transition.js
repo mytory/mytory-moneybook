@@ -5,7 +5,8 @@ MMB_Backbone.View_transition = Backbone.View.extend({
         var item_list,
             year_list,
             vars,
-            list = [];
+            list = [],
+            statistics;
 
         if( ! opt.year){
 
@@ -15,18 +16,26 @@ MMB_Backbone.View_transition = Backbone.View.extend({
                 item_list = MMB.datastore.content.query({
                     year: year
                 });
+                statistics = MMB.get_statistics(item_list);
                 list.push({
                     time: year,
-                    amount: MMB.get_balance(item_list)
+                    withdrawal: statistics.withdrawal,
+                    withdrawal_like_transfer: statistics.withdrawal_like_transfer,
+                    withdrawal_like: statistics.withdrawal + statistics.withdrawal_like_transfer,
+                    deposit: statistics.deposit,
+                    deposit_like_transfer: statistics.deposit_like_transfer,
+                    deposit_like: statistics.deposit + statistics.deposit_like_transfer,
+                    balance: MMB.get_balance(item_list)
                 });
+            });
+
+            list = _.sortBy(list, function(entry){
+                return -entry.time;
             });
 
             // yearly
             vars = {
-                prev: null,
-                next: null,
-                year: null,
-                current_year: moment().format('YYYY'),
+                year: opt.year,
                 list: list
             };
 

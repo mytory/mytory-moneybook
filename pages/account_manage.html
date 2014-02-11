@@ -1,7 +1,9 @@
 <div class="page-account-list" role="page">
     <div class="page-header">
         <h1>
-            <%= polyglot.t('Account Setting') %>
+            <a href="#account/list">
+                <%= polyglot.t('Account Setting') %>
+            </a>
             <%= account.get('name') ? '<small>' +  account.get('name') + '</small>': ''%>
         </h1>
     </div>
