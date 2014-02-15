@@ -1,6 +1,5 @@
 node_modules
 .idea
-deploy
 js/production.js
 js/production.min.js
 css/production.css
