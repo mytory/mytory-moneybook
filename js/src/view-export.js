@@ -4,7 +4,8 @@ MMB_Backbone.View_export = Backbone.View.extend({
     render: function(){
         var item_list = MMB.datastore.content.query(),
             list = [],
-            item_set;
+            item_set,
+            category;
 
         _.forEach(item_list, function(item){
             item_set = {
@@ -17,7 +18,8 @@ MMB_Backbone.View_export = Backbone.View.extend({
                 to_account: ''
             };
             if(item.get('cat_id')){
-                item_set.category = MMB.datastore.category_list.get(item.get('cat_id')).get('name');
+                category = MMB.datastore.category_list.get(item.get('cat_id'));
+                item_set.category = category.get('cat1') + ':' + category.get('cat2');
             }
             if(item.get('to_account_id')){
                 item_set.to_account = MMB.datastore.account_list.get(item.get('to_account_id')).get('name');
