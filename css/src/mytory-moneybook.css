@@ -53,3 +53,7 @@ body.body-lang-ko .lang-ko,
 body.body-lang-en .lang-en {
     display: block;
 }
+.plain-a, .plain-a:hover {
+    text-decoration: none;
+    color: #333;
+}
