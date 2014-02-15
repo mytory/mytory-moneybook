@@ -101,20 +101,22 @@ var MMB = {
         var that = this,
             table_ready = true;
 
-        _.forEach(MMB.datastore, function(table){
-            if( ! table){
-                table_ready = false;
+        if(page_name !== 'need_config' && page_name !== 'dropbox_sign_in' && page_name !== 'no_network'){
+            _.forEach(MMB.datastore, function(table){
+                if( ! table){
+                    table_ready = false;
+                    return false;
+                }
+            });
+
+            if( ! table_ready){
+                setTimeout(function(){
+                    that.render(page_name, vars);
+                }, 200);
                 return false;
             }
-        });
-
-        if( ! table_ready){
-            setTimeout(function(){
-                that.render(page_name, vars);
-            }, 200);
-            return false;
         }
-
+            
         if(
             MMB_Config && this.dropbox_ok ||
                 page_name == 'need_config' ||
@@ -124,24 +126,15 @@ var MMB = {
             if(this.pages[page_name]){
                 this.pages[page_name].render(vars);
             }else{
-                this.pages[page_name] = new MMB_Backbone['View_' + page_name];
+                this.pages[page_name] = new MMB_Backbone['View_' + page_name]();
                 this.pages[page_name].render(vars);
             }
+            this.pages[page_name].$el.fadeIn();
         }
+
         $('.js-navbar li.active').removeClass('active');
         $('[href="' + location.hash + '"]').parents('li').addClass('active');
         $('.page-loader').hide();
-    },
-    show_start_page: function(){
-        if( ! MMB_Config){
-            this.render('need_config');
-        }else if( ! navigator.onLine){
-            this.render('no_network');
-        }else if( ! this.dropbox_ok){
-            this.render('dropbox_sign_in');
-        }else{
-            this.render('weekly');
-        }
     },
     if_checked: function(db_value, field_value){
         if(db_value == field_value){
@@ -156,7 +149,7 @@ var MMB = {
             return false;
         }
         var category_list = MMB.datastore.category_list.query();
-        if(category_list.length == 0){
+        if(category_list.length === 0){
             MMB.insert_ex_category_list();
         }
     },

@@ -128,7 +128,7 @@ var MMB_Router = Backbone.Router.extend({
     transition: function(year){
         MMB.render('transition', {
             year: year
-        })
+        });
     },
 
     account_list: function(){

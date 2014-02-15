@@ -95,7 +95,7 @@
                 <li><a href="#setting"><%= polyglot.t('Setting') %></a></li>
                 <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
                 <li><a href="#account/list"><%= polyglot.t('Account Setting') %></a></li>
-                <li><a href="#sign-out" class="js-sign-out"><%= polyglot.t('Sign out') %></a></li>
+                <li><a href="#" class="js-sign-out"><%= polyglot.t('Sign out') %></a></li>
             </ul>
         </li>
     </ul>
@@ -115,206 +115,190 @@
 </script>
 
 <script type="text/template" id="page-need-config">
-    <div class="page-need-config" role="page">
-        <div class="page-header">
-            <h1><%= polyglot.t('Need config') %></h1>
-        </div>
-        <p class="help-block"><%= polyglot.t('Configfile create help') %></p>
+    <div class="page-header">
+        <h1><%= polyglot.t('Need config') %></h1>
     </div>
+    <p class="help-block"><%= polyglot.t('Configfile create help') %></p>
 </script>
 
 <script type="text/template" id="page-dropbox-sign-in">
-    <div class="page-dropbox-sign-in" role="page">
-        <div class="page-header">
-            <h1><%= polyglot.t('Dropbox sign in') %></h1>
-        </div>
-        <p class="help-block"><%= polyglot.t('You need to sign in by dropbox account.') %></p>
-        <p>
-            <button class="js-dropbox-sign-in btn btn-primary"><%= polyglot.t('Dropbox sign in') %></button>
-        </p>
+    <div class="page-header">
+        <h1><%= polyglot.t('Dropbox sign in') %></h1>
     </div>
+    <p class="help-block"><%= polyglot.t('You need to sign in by dropbox account.') %></p>
+    <p>
+        <button class="js-dropbox-sign-in btn btn-primary"><%= polyglot.t('Dropbox sign in') %></button>
+    </p>
 </script>
 
 <script type="text/template" id="page-no-network">
-    <div class="page-no-network" role="page">
-        <div class="page-header">
-            <h1><%= polyglot.t('No network') %></h1>
-        </div>
-        <p class="help-block"><%= polyglot.t('You need to connect network.') %></p>
+    <div class="page-header">
+        <h1><%= polyglot.t('No network') %></h1>
     </div>
+    <p class="help-block"><%= polyglot.t('You need to connect network.') %></p>
 </script>
 
 <script type="text/template" id="page-import">
-    <div class="page-import" role="page">
-        <div class="page-header">
-            <h1><%= polyglot.t('Import') %></h1>
-        </div>
-        <div class="alert alert-info js-msg fade hidden">test</div>
-        <form class="form-horizontal js-form-setting" role="form">
-            <div class="form-group">
-                <label class="col-sm-2 control-label"><%= polyglot.t('Excel type') %></label>
-                <div class="col-sm-10">
-                    <label class="radio-inline">
-                        <input type="radio" value="1" name="excel_type" checked >
-                        <%= polyglot.t('Naver Moneybook') %>
-                    </label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label class="col-sm-2 control-label"><%= polyglot.t('Excel file') %></label>
-                <div class="col-sm-10">
-                    <div class="xls-drop-area">
-                        <%= polyglot.t('Drop xls file to below.') %>
-                    </div>
-                </div>
-            </div>
-        </form>
+    <div class="page-header">
+        <h1><%= polyglot.t('Import') %></h1>
     </div>
+    <div class="alert alert-info js-msg fade hidden">test</div>
+    <form class="form-horizontal js-form-setting" role="form">
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><%= polyglot.t('Excel type') %></label>
+            <div class="col-sm-10">
+                <label class="radio-inline">
+                    <input type="radio" value="1" name="excel_type" checked >
+                    <%= polyglot.t('Naver Moneybook') %>
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label"><%= polyglot.t('Excel file') %></label>
+            <div class="col-sm-10">
+                <div class="xls-drop-area">
+                    <%= polyglot.t('Drop xls file to below.') %>
+                </div>
+            </div>
+        </div>
+    </form>
 </script>
 
 <script type="text/template" id="page-category-list-level1">
-    <div class="page-category-list" role="page">
-        <div class="page-header">
-            <h1><%= polyglot.t('Category Setting') %></h1>
-        </div>
+    <div class="page-header">
+        <h1><%= polyglot.t('Category Setting') %></h1>
+    </div>
 
-        <h2><%= polyglot.t('Withdrawal') %></h2>
-        <div class="list-group">
-            <a class="list-group-item" href="#category/add/withdrawal">
-                <%=polyglot.t('Add Category')%>
-                <span class="glyphicon glyphicon-plus pull-right"></span>
+    <h2><%= polyglot.t('Withdrawal') %></h2>
+    <div class="list-group">
+        <a class="list-group-item" href="#category/add/withdrawal">
+            <%=polyglot.t('Add Category')%>
+            <span class="glyphicon glyphicon-plus pull-right"></span>
+        </a>
+        <% _.forEach(cats.withdrawal, function(entry){ %>
+            <a class="list-group-item" href="#category/list/withdrawal/<%=entry%>">
+                <%= entry %>
+                <span class="glyphicon glyphicon-chevron-right pull-right"></span>
             </a>
-            <% _.forEach(cats.withdrawal, function(entry){ %>
-                <a class="list-group-item" href="#category/list/withdrawal/<%=entry%>">
-                    <%= entry %>
-                    <span class="glyphicon glyphicon-chevron-right pull-right"></span>
-                </a>
-            <% }) %>
-        </div>
+        <% }) %>
+    </div>
 
-        <h2><%= polyglot.t('Deposit') %></h2>
-        <div class="list-group">
-            <a class="list-group-item" href="#category/add/deposit">
-                <%=polyglot.t('Add Category')%>
-                <span class="glyphicon glyphicon-plus pull-right"></span>
+    <h2><%= polyglot.t('Deposit') %></h2>
+    <div class="list-group">
+        <a class="list-group-item" href="#category/add/deposit">
+            <%=polyglot.t('Add Category')%>
+            <span class="glyphicon glyphicon-plus pull-right"></span>
+        </a>
+        <% _.forEach(cats.deposit, function(entry){ %>
+            <a class="list-group-item" href="#category/list/deposit/<%= entry %>">
+                <%= entry %>
+                <span class="glyphicon glyphicon-chevron-right pull-right"></span>
             </a>
-            <% _.forEach(cats.deposit, function(entry){ %>
-                <a class="list-group-item" href="#category/list/deposit/<%= entry %>">
-                    <%= entry %>
-                    <span class="glyphicon glyphicon-chevron-right pull-right"></span>
-                </a>
-            <% }) %>
-        </div>
+        <% }) %>
     </div>
 </script>
 
 <script type="text/template" id="page-category-list-level2">
-    <div class="page-category-list" role="page">
-        <div class="page-header">
-            <h1>
-                <%= parent %>
-                <small><a class="glyphicon glyphicon-pencil" href="#category/update/<%= behavior_type %>/<%= parent %>"></a></small>
-            </h1>
-        </div>
+    <div class="page-header">
+        <h1>
+            <%= parent %>
+            <small><a class="glyphicon glyphicon-pencil" href="#category/update/<%= behavior_type %>/<%= parent %>"></a></small>
+        </h1>
+    </div>
 
-        <ol class="breadcrumb">
-            <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
-            <li><%= parent %></li>
-        </ol>
+    <ol class="breadcrumb">
+        <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
+        <li><%= parent %></li>
+    </ol>
 
-        <div class="list-group">
-            <a class="list-group-item" href="#category/add/<%= behavior_type %>/<%= parent %>">
-                <%=polyglot.t('Add Category')%>
-                <span class="glyphicon glyphicon-plus pull-right"></span>
-            </a>
-            <% _.forEach(cats, function(entry){ %>
-            <a class="list-group-item" href="#category/update/<%= behavior_type %>/<%= parent %>:<%= entry %>">
-                <%= entry %>
-                <span class="glyphicon glyphicon-pencil pull-right"></span>
-            </a>
-            <% }) %>
-        </div>
+    <div class="list-group">
+        <a class="list-group-item" href="#category/add/<%= behavior_type %>/<%= parent %>">
+            <%=polyglot.t('Add Category')%>
+            <span class="glyphicon glyphicon-plus pull-right"></span>
+        </a>
+        <% _.forEach(cats, function(entry){ %>
+        <a class="list-group-item" href="#category/update/<%= behavior_type %>/<%= parent %>:<%= entry %>">
+            <%= entry %>
+            <span class="glyphicon glyphicon-pencil pull-right"></span>
+        </a>
+        <% }) %>
     </div>
 </script>
 
 <script type="text/template" id="page-category-add">
-    <div class="page-category-add">
-        <div class="page-header">
-            <h1>
-                <%= title %>
-            </h1>
-        </div>
-
-        <ol class="breadcrumb">
-            <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
-            <li><%= title %></li>
-        </ol>
-
-        <form role="form" class="form-horizontal js-category-add-form">
-            <input name="cat_level" type="hidden" value="<%= cat_level %>"/>
-            <input name="behavior_type" type="hidden" value="<%= behavior_type %>"/>
-            <% if(parent) { %>
-                <input name="parent" type="hidden" value="<%= parent %>"/>
-            <% } %>
-            <div class="form-group">
-                <label class="control-label col-xs-2" for="cat_name">
-                    <%= polyglot.t('Name') %>
-                </label>
-                <div class="col-xs-10">
-                    <input class="form-control" type="text" name="cat_name" id="cat_name"/>
-                </div>
-            </div>
-            <div class="alert alert-warning alert-dismissable js-alert" style="display: none">
-                <strong><%= polyglot.t('Warning') %>!</strong>
-                <%= polyglot.t("Category is already exist.") %>
-            </div>
-            <p>
-                <input class="btn btn-primary btn-block" type="submit" value="<%= polyglot.t('Add') %>"/>
-            </p>
-        </form>
+    <div class="page-header">
+        <h1>
+            <%= title %>
+        </h1>
     </div>
+
+    <ol class="breadcrumb">
+        <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
+        <li><%= title %></li>
+    </ol>
+
+    <form role="form" class="form-horizontal js-category-add-form">
+        <input name="cat_level" type="hidden" value="<%= cat_level %>"/>
+        <input name="behavior_type" type="hidden" value="<%= behavior_type %>"/>
+        <% if(parent) { %>
+            <input name="parent" type="hidden" value="<%= parent %>"/>
+        <% } %>
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="cat_name">
+                <%= polyglot.t('Name') %>
+            </label>
+            <div class="col-xs-10">
+                <input class="form-control" type="text" name="cat_name" id="cat_name"/>
+            </div>
+        </div>
+        <div class="alert alert-warning alert-dismissable js-alert" style="display: none">
+            <strong><%= polyglot.t('Warning') %>!</strong>
+            <%= polyglot.t("Category is already exist.") %>
+        </div>
+        <p>
+            <input class="btn btn-primary btn-block" type="submit" value="<%= polyglot.t('Add') %>"/>
+        </p>
+    </form>
 </script>
 
 <script type="text/template" id="page-category1-update">
-    <div class="page-category1-update">
-        <div class="page-header">
-            <h1>
-                <%= category.get('cat1') %> <%= polyglot.t('update') %>
-            </h1>
-        </div>
-
-        <ol class="breadcrumb">
-            <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
-            <li>
-                <a href="#category/list/<%=category.get('behavior_type')%>/<%=category.get('cat1')%>">
-                    <%= category.get('cat1') %>
-                </a>
-                <%= polyglot.t('update') %>
-            </li>
-        </ol>
-
-
-        <form role="form" class="form-horizontal js-category-update-form">
-            <input id="old_name" name="cat1_old_name" type="hidden" value="<%=category.get('cat1')%>"/>
-            <div class="form-group">
-                <label class="control-label col-xs-2" for="cat1"><%=polyglot.t('Name')%></label>
-                <div class="col-xs-10">
-                    <input class="form-control col-xs-10" type="text" name="cat1" id="cat1" value="<%=category.get('cat1')%>"/>
-                </div>
-            </div>
-            <p>
-                <input class="btn btn-block btn-primary" type="submit" value="<%= polyglot.t('Save') %>"/>
-            </p>
-        </form>
-
-        <a class="btn btn-danger pull-right js-category-delete" href="#"
-                data-cat1="<%= category.get('cat1') %>"
-                data-cat2=""
-                data-behavior-type="<%= category.get('behavior_type') %>">
-            <span class="glyphicon glyphicon-remove"></span>
-            '<%= category.get('cat1') %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
-        </a>
+    <div class="page-header">
+        <h1>
+            <%= category.get('cat1') %> <%= polyglot.t('update') %>
+        </h1>
     </div>
+
+    <ol class="breadcrumb">
+        <li><a href="#category/list"><%= polyglot.t('Category Setting') %></a></li>
+        <li>
+            <a href="#category/list/<%=category.get('behavior_type')%>/<%=category.get('cat1')%>">
+                <%= category.get('cat1') %>
+            </a>
+            <%= polyglot.t('update') %>
+        </li>
+    </ol>
+
+
+    <form role="form" class="form-horizontal js-category-update-form">
+        <input id="old_name" name="cat1_old_name" type="hidden" value="<%=category.get('cat1')%>"/>
+        <div class="form-group">
+            <label class="control-label col-xs-2" for="cat1"><%=polyglot.t('Name')%></label>
+            <div class="col-xs-10">
+                <input class="form-control col-xs-10" type="text" name="cat1" id="cat1" value="<%=category.get('cat1')%>"/>
+            </div>
+        </div>
+        <p>
+            <input class="btn btn-block btn-primary" type="submit" value="<%= polyglot.t('Save') %>"/>
+        </p>
+    </form>
+
+    <a class="btn btn-danger pull-right js-category-delete" href="#"
+            data-cat1="<%= category.get('cat1') %>"
+            data-cat2=""
+            data-behavior-type="<%= category.get('behavior_type') %>">
+        <span class="glyphicon glyphicon-remove"></span>
+        '<%= category.get('cat1') %>' <%=polyglot.t('Category')%> <%=polyglot.t('Delete')%>
+    </a>
 </script>
 
 <script src="config.js"></script>

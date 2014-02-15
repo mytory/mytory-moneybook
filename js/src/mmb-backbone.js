@@ -1,7 +1,7 @@
 var MMB_Backbone = {
 
     View_navbar: Backbone.View.extend({
-        el: '#navbar-collapse',
+        el: '.js-navbar',
         template: _.template($('#navbar').html()),
         events: {
             "click .js-sign-out": "sign_out"
@@ -16,7 +16,7 @@ var MMB_Backbone = {
             return this;
         },
         render: function(){
-            $('.js-navbar').html(this.template());
+            this.$el.html(this.template());
             return this;
         }
     }),
@@ -44,14 +44,8 @@ var MMB_Backbone = {
             "click .js-dropbox-sign-in": "dropbox_sign_in"
         },
         dropbox_sign_in: function(){
-            MMB.dropbox_client = new Dropbox.Client({key: MMB_Config.app_key});
-
             // Try to finish OAuth authorization.
-            MMB.dropbox_client.authenticate({interactive: true}, function (error) {
-                if (error) {
-                    alert('Authentication error: ' + error);
-                }
-            });
+            MMB.dropbox_client.authenticate();
             return this;
         },
         render: function(){
