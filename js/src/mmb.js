@@ -753,6 +753,51 @@ var MMB = {
 
     get_date: function(item){
         return item.get('year') + '-' + item.get('month') + '-' + item.get('day');
+    },
+
+    get_account_yearly_balance: function(account_id){
+
+        var year_list = MMB.get_year_list(),
+            item_list,
+            item_list2,
+            balance = 0,
+            account_yearly_balance = {};
+
+        _.forEach(year_list, function(year){
+            item_list = MMB.datastore.content.query({
+                year: year,
+                account_id: account_id
+            });
+            item_list2 = MMB.datastore.content.query({
+                year: year,
+                to_account_id: account_id
+            });
+            item_list = item_list.concat(item_list2);
+            _.forEach(item_list, function(item){
+
+                switch(item.get('behavior_type')){
+                    case 'withdrawal':
+                        balance -= item.get('amount');
+                        break;
+
+                    case 'deposit':
+                        balance += item.get('amount');
+                        break;
+
+                    case 'transfer':
+                        if(item.get('account_id') === account_id){
+                            balance -= item.get('amount');
+                        }
+                        if(item.get('to_account_id') === account_id){
+                            balance += item.get('amount');
+                        }
+                    // no default
+                }
+            });
+            account_yearly_balance[year] = balance;
+        });
+
+        return account_yearly_balance;
     }
 
 };

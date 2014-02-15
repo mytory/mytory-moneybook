@@ -118,6 +118,7 @@ var Lang = {
         "Asset": "Asset",
         "Dept": "Dept",
         "Pure asset": "Pure asset",
+        "By Account": "By Account",
 
         // Search
         "Search": "Search",
@@ -244,6 +245,7 @@ var Lang = {
         "Asset": "자산",
         "Dept": "부채",
         "Pure asset": "순자산",
+        "By Account": "계좌별",
 
         // Search
         "Search": "검색",

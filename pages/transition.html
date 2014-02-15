@@ -22,5 +22,19 @@
             <%= polyglot.t('Pure asset') %>
             <span class="pull-right"><%= MMB.util.number_format(row.pure_asset) %></span>
         </li>
+        <li class="list-group-item list-group-item-info">
+            <%= polyglot.t('By Account') %>
+        </li>
+        <% _.forEach(account_yearly_balance, function(entry){
+            if( ! entry.yearly_balance[row.time]){
+                return true;
+            } %>
+            <li class="list-group-item">
+                <%= entry.account_name %>
+                <span class="pull-right">
+                    <%= MMB.util.number_format(entry.yearly_balance[row.time]) %>
+                </span>
+            </li>
+        <% }); %>
     </ul>
 <% }); %>
