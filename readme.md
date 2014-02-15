@@ -3,13 +3,6 @@ Mytory Moneybook
 
 [Korean](readme.ko.md)
 
-Notice
--------
-
-This project is on develop.
-
-If you want to use, go to [mytory moneybook service page](https://dl.dropboxusercontent.com/u/15546257/moneybook/moneybook.html).
-
 Introduce
 ---------
 
@@ -20,15 +13,34 @@ This app save data to dropbox. Set dropbox access, and use.
 Get start
 ---------
 
-First, create dropbox app on [this page](https://www.dropbox.com/developers/apps/create). See below. Enter app name you want.
+You can use this app, by two way.
+
+
+### Web Service
+
+You can use this app on [mytory moneybook service page](https://dl.dropboxusercontent.com/u/15546257/moneybook/moneybook.html). This is just my Dropbox Public link. This link is for my own purpose. But you can use. 
+
+I never see your data. Data will be saved to your dropbox datastore.
+
+
+### Installation your Dropbox Public folder.
+
+First, [Enable Dropbox Public folder](https://www.dropbox.com/enable_public_folder).
+
+Second, create dropbox app on [this page](https://www.dropbox.com/developers/apps/create). See below. Enter app name you want.
 
 ![](images/create-app.png)
 
-And, fill settings of app. You have to enter `moneybook.html` file dropbox public link to OAuth redirect URIs. And don't forget click Add button.
+And, You have to enter `moneybook.html` file's dropbox public link to OAuth redirect URIs field. And don't forget click Add button.
 
 ![](images/app-setting.png)
 
 In setting page, copy App key. Next, go to Mytory Moneybook's `config.js`. Enter App key.
+
+Connect to public link of `moneybook.html` using web browser. And use! Simple!
+
+I recommend google chrome or mobile browser. This app only support modern browser.
+
 
 LICENSE
 -------
