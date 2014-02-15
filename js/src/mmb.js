@@ -12,6 +12,7 @@ var MMB = {
         account_list: null,
         category_list: null
     },
+    version: MMB_Config.version,
     router: null,
     check_dropbox: function(){
         var datastoreManager;

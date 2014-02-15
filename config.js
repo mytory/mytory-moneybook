@@ -4,5 +4,6 @@
  * You must fill dropbox public url to 'OAuth redirect URIs' on app setting.
  */
 var MMB_Config = {
-    app_key: 'gvpjeh3nzqz0m19'
+    app_key: 'gvpjeh3nzqz0m19',
+    version: '1.0'
 };
