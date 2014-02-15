@@ -6,31 +6,33 @@
 
 <p><%= polyglot.t('Copy below. Paste it to excel.') %></p>
 
-<div class="table-responsive">
-    <table class="table table-condensed">
-        <thead>
-        <tr>
-            <th><%= polyglot.t('date') %></th>
-            <th><%= polyglot.t('behavior type') %></th>
-            <th><%= polyglot.t('memo') %></th>
-            <th><%= polyglot.t('amount') %></th>
-            <th><%= polyglot.t('category') %></th>
-            <th><%= polyglot.t('account') %></th>
-            <th><%= polyglot.t('to account') %></th>
-        </tr>
-        </thead>
-        <tbody>
-        <% _.forEach(list, function(item_set){ %>
-            <tr>
-                <td><%= item_set.date %></td>
-                <td><%= item_set.behavior_type %></td>
-                <td><%= item_set.memo %></td>
-                <td><%= item_set.amount %></td>
-                <td><%= item_set.category %></td>
-                <td><%= item_set.account %></td>
-                <td><%= item_set.to_account %></td>
-            </tr>
-        <% }); %>
-        </tbody>
-    </table>
-</div>
+<textarea style="width: 100%; height: 400px"><%=
+    polyglot.t('date') 
+    + "\t" +
+    polyglot.t('behavior type') 
+    + "\t" +
+    polyglot.t('memo') 
+    + "\t" +
+    polyglot.t('amount') 
+    + "\t" +
+    polyglot.t('category') 
+    + "\t" +
+    polyglot.t('account') 
+    + "\t" +
+    polyglot.t('to account') 
+%>
+<% _.forEach(list, function(item_set){ %><%=
+    item_set.date 
+    + "\t" +
+    item_set.behavior_type 
+    + "\t" +
+    item_set.memo 
+    + "\t" +
+    item_set.amount 
+    + "\t" +
+    item_set.category 
+    + "\t" +
+    item_set.account 
+    + "\t" +
+    item_set.to_account %>
+<% }); %></textarea>

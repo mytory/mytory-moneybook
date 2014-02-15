@@ -35,4 +35,4 @@ MMB_Backbone.View_export = Backbone.View.extend({
             list: list
         }, this, "template");
     }
-})
+});

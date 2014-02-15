@@ -267,7 +267,7 @@ var Lang = {
         // Export
         "transfer": "이체",
         "Export": "내보내기",
-        "Copy below. Paste it to excel.": "아래 표를 복사한 뒤 엑셀에 붙여 넣으세요.",
+        "Copy below. Paste it to excel.": "아래를 복사한 뒤 엑셀에 붙여 넣으세요.",
         "date": "날짜",
         "behavior type": "종류",
         "memo": "내역",
