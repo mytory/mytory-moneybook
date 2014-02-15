@@ -678,7 +678,7 @@ var MMB = {
         return list;
     },
 
-    get_withwrawal_sum: function(list){
+    get_withdrawal_sum: function(list){
         var sum = 0;
 
         _.forEach(list, function(item){

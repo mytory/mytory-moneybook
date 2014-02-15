@@ -28,7 +28,7 @@ MMB_Backbone.View_search = Backbone.View.extend({
             result.reverse();
 
             list = MMB.get_item_set_list(result);
-            sum = MMB.get_withwrawal_sum(result);
+            sum = MMB.get_withdrawal_sum(result);
 
             MMB.util.render_ajax("pages/search.html", {
                 list: list,
