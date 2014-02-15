@@ -21,44 +21,45 @@
     %><p><%= polyglot.t('No content.') %></p><%
     return true;
     }
-    %><table class="table table-striped">
-    <colgroup>
-        <col style="width: 65%"/>
-    </colgroup>
-    <% _.forEach(data.list, function(item_set){ %>
-    <tr data-id="<%= item_set.item.getId() %>">
-        <td>
-            <a href="#register/<%= item_set.item.getId() %>">
-                <%= item_set.item.get('memo') %>
-            </a>
-            <small class="weekly-category text-muted">
-                <% if(item_set.item.get('behavior_type') == 'deposit'){ %>
-                    <span class="label label-success"><%= polyglot.t('Deposit') %></span>
-                <% } %>
+    %>
+    <table class="table table-striped">
+        <colgroup>
+            <col style="width: 65%"/>
+        </colgroup>
+        <% _.forEach(data.list, function(item_set){ %>
+            <tr data-id="<%= item_set.item.getId() %>">
+                <td>
+                    <a href="#register/<%= item_set.item.getId() %>">
+                        <%= item_set.item.get('memo') %>
+                    </a>
+                    <small class="weekly-category text-muted">
+                        <% if(item_set.item.get('behavior_type') == 'deposit'){ %>
+                            <span class="label label-success"><%= polyglot.t('Deposit') %></span>
+                        <% } %>
 
-                <% if(item_set.item.get('behavior_type') == 'deposit' || item_set.item.get('behavior_type') == 'withdrawal'){ %>
-                    <%= item_set.cat.get('cat1') %>:<%= item_set.cat.get('cat2') %>
-                <% } %>
+                        <% if(item_set.item.get('behavior_type') == 'deposit' || item_set.item.get('behavior_type') == 'withdrawal'){ %>
+                            <%= item_set.cat.get('cat1') %>:<%= item_set.cat.get('cat2') %>
+                        <% } %>
 
-                <% if(item_set.item.get('behavior_type') == 'transfer'){ %>
-                    <span class="label label-info"><%= polyglot.t('Transfer') %></span>
-                    <%= item_set.account.get('name') %>
-                    →
-                    <%= item_set.to_account.get('name') %>
-                <% } %>
-            </small>
-        </td>
-        <td class="text-right" data-amount="<%= item_set.item.get('amount') %>">
-            <%= MMB.util.number_format(item_set.item.get('amount')) %>
-        </td>
-    </tr>
+                        <% if(item_set.item.get('behavior_type') == 'transfer'){ %>
+                            <span class="label label-info"><%= polyglot.t('Transfer') %></span>
+                            <%= item_set.account.get('name') %>
+                            →
+                            <%= item_set.to_account.get('name') %>
+                        <% } %>
+                    </small>
+                </td>
+                <td class="text-right" data-amount="<%= item_set.item.get('amount') %>">
+                    <%= MMB.util.number_format(item_set.item.get('amount')) %>
+                </td>
+            </tr>
+        <% }); %>
+        <tr>
+            <td><strong><%= polyglot.t('withdrawal') %> <%= polyglot.t('Sum') %></strong></td>
+            <td class="text-right">
+                <strong><%= MMB.util.number_format(data.sum) %></strong>
+            </td>
+        </tr>
+    </table>
     <% }); %>
-    <tr>
-        <td><strong><%= polyglot.t('withdrawal') %> <%= polyglot.t('Sum') %></strong></td>
-        <td class="text-right">
-            <strong><%= MMB.util.number_format(data.sum) %></strong>
-        </td>
-    </tr>
-</table><%
-    }); %>
 </div>

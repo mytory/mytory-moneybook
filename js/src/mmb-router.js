@@ -19,7 +19,6 @@ var MMB_Router = Backbone.Router.extend({
         "account/update/*path": "account_update",
         "search/form": "search_form",
         "search/query/:query": "search_query"
-
     },
 
     initialize: function(){
@@ -148,6 +147,12 @@ var MMB_Router = Backbone.Router.extend({
 
     search_form: function(){
         MMB.render('search_form');
+    },
+
+    search_query: function(query){
+        MMB.render('search_query', {
+            query: query
+        });
     }
 
 });

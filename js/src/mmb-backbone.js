@@ -765,24 +765,8 @@ var MMB_Backbone = {
                     day_of_the_week = moment(opts.date, 'YYYY-MM-DD').subtract('days', i).format('dd');
                     sum = 0;
 
-                    _.forEach(result, function(item){
-                        if(item.get('behavior_type') === 'withdrawal'){
-                            sum += item.get('amount');
-                        }
-
-                        item_set = {
-                            item: item,
-                            account: MMB.datastore.account_list.get(item.get('account_id'))
-                        };
-
-                        if(item.get('cat_id')){
-                            item_set.cat = MMB.datastore.category_list.get(item.get('cat_id'));
-                        }
-                        if(item.get('to_account_id')){
-                            item_set.to_account = MMB.datastore.account_list.get(item.get('to_account_id'));
-                        }
-                        list.push(item_set);
-                    });
+                    list = MMB.get_item_set_list(result);
+                    sum = MMB.get_withwrawal_sum(result);
 
                     week_data.push({
                         date: date,

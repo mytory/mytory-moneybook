@@ -653,6 +653,45 @@ var MMB = {
         if($('.js-balance-panel').is(':not(":visible")')){
             $('.js-balance-panel').show();
         }
+    },
+
+    get_item_set_list: function(result){
+        var list = [],
+            item_set;
+
+        _.forEach(result, function(item){
+
+            item_set = {
+                item: item,
+                account: MMB.datastore.account_list.get(item.get('account_id'))
+            };
+
+            if(item.get('cat_id')){
+                item_set.cat = MMB.datastore.category_list.get(item.get('cat_id'));
+            }
+            if(item.get('to_account_id')){
+                item_set.to_account = MMB.datastore.account_list.get(item.get('to_account_id'));
+            }
+            list.push(item_set);
+        });
+
+        return list;
+    },
+
+    get_withwrawal_sum: function(list){
+        var sum = 0;
+
+        _.forEach(list, function(item){
+            if(item.get('behavior_type') === 'withdrawal'){
+                sum += item.get('amount');
+            }
+        });
+
+        return sum;
+    },
+
+    get_date: function(item){
+        return item.get('year') + '-' + item.get('month') + '-' + item.get('day');
     }
 
 };

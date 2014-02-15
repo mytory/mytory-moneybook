@@ -118,7 +118,8 @@ var Lang = {
 
         // Search
         "Search": "Search",
-        "Query": "Query"
+        "Query": "Query",
+        "Search Result": "Search Result"
     },
     ko: {
         "Need config": "config.js 파일을 만들어야 합니다",
@@ -240,7 +241,8 @@ var Lang = {
 
         // Search
         "Search": "검색",
-        "Query": "검색어"
+        "Query": "검색어",
+        "Search Result": "검색 결과"
 
     }
 };
