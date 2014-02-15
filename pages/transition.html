@@ -11,15 +11,15 @@
     <h2><%= row.time %></h2>
     <ul class="list-group">
         <li class="list-group-item">
-            <%= polyglot.t('Asset') %>:
-            <span class="pull-right"><%= MMB.util.number_format(row.mine) %></span>
+            <%= polyglot.t('Asset') %>
+            <span class="pull-right"><%= MMB.util.number_format(row.asset) %></span>
         </li>
         <li class="list-group-item">
-            <%= polyglot.t('Dept') %>:
-            <span class="pull-right"><%= MMB.util.number_format(row.others) %></span>
+            <%= polyglot.t('Dept') %>
+            <span class="pull-right"><%= MMB.util.number_format(row.dept) %></span>
         </li>
         <li class="list-group-item">
-            <%= polyglot.t('Pure asset') %>:
+            <%= polyglot.t('Pure asset') %>
             <span class="pull-right"><%= MMB.util.number_format(row.pure_asset) %></span>
         </li>
     </ul>

@@ -550,7 +550,7 @@ var MMB = {
         return balance;
     },
 
-    get_mine_and_others: function(list){
+    get_asset_and_dept: function(list){
         // 시나리오
         // 1. 그냥 수입 : 내 자산이다.
         // 2. 그냥 지출 : 내 자산에서 뺀다.
@@ -559,8 +559,8 @@ var MMB = {
         // 5. 내 계좌에서 친구 빌려줌 계좌로 이체 : 자산 변동 없다.
         // 6. 적금 : 자산 변동 없다.
 
-        var mine = 0,
-            others = 0,
+        var asset = 0,
+            dept = 0,
             pure_asset,
             account,
             to_account;
@@ -574,35 +574,35 @@ var MMB = {
 
             switch(item.get('behavior_type')){
                 case 'withdrawal':
-                    mine -= item.get('amount');
+                    asset -= item.get('amount');
                     break;
 
                 case 'deposit':
-                    mine += item.get('amount');
+                    asset += item.get('amount');
                     break;
 
                 case 'transfer':
 
                     // 빚 갚음
                     if(account.get('owner') === 'mine' && to_account.get('owner') === 'others'){
-                        mine -= item.get('amount');
-                        others -= item.get('amount');
+                        asset -= item.get('amount');
+                        dept -= item.get('amount');
                     }
 
                     // 빚냄
                     if(account.get('owner') === 'others' && to_account.get('owner') === 'mine'){
-                        mine += item.get('amount');
-                        others += item.get('amount');
+                        asset += item.get('amount');
+                        dept += item.get('amount');
                     }
                 // no default
             }
         });
 
-        pure_asset = mine - others;
+        pure_asset = asset - dept;
 
         return {
-            mine: mine,
-            others: others,
+            asset: asset,
+            dept: dept,
             pure_asset: pure_asset
         };
 

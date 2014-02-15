@@ -6,8 +6,8 @@ MMB_Backbone.View_transition = Backbone.View.extend({
             year_list,
             vars,
             list = [],
-            mine = 0,
-            others = 0,
+            asset = 0,
+            dept = 0,
             pure_asset = 0;
 
         if( ! opt.year){
@@ -15,20 +15,19 @@ MMB_Backbone.View_transition = Backbone.View.extend({
             year_list = MMB.get_year_list();
 
             _.forEach(year_list, function(year){
-                var mine_and_others,
-                    balance;
+                var asset_and_dept;
 
                 item_list = MMB.datastore.content.query({
                     year: year
                 });
-                mine_and_others = MMB.get_mine_and_others(item_list);
-                mine += mine_and_others.mine;
-                others += mine_and_others.others;
-                pure_asset += mine_and_others.pure_asset;
+                asset_and_dept = MMB.get_asset_and_dept(item_list);
+                asset += asset_and_dept.asset;
+                dept += asset_and_dept.dept;
+                pure_asset += asset_and_dept.pure_asset;
                 list.push({
                     time: year,
-                    mine: mine,
-                    others: others,
+                    asset: asset,
+                    dept: dept,
                     pure_asset: pure_asset
                 });
             });
