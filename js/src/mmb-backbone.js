@@ -45,6 +45,7 @@ var MMB_Backbone = {
         },
         dropbox_sign_in: function(){
             // Try to finish OAuth authorization.
+            MMB.dropbox_client.reset();
             MMB.dropbox_client.authenticate();
             return this;
         },
