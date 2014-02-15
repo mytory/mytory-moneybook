@@ -1,5 +1,5 @@
 MMB_Backbone.View_transition = Backbone.View.extend({
-    el: '.body',
+    el: '.page-transition',
     template: null,
     render: function(opt){
         var item_list,
