@@ -114,7 +114,11 @@ var Lang = {
         "Monthly": "Monthly",
         "Whole": "Whole",
         "Result": "Result",
-        "Transition": "Transition"
+        "Transition": "Transition",
+
+        // Search
+        "Search": "Search",
+        "Query": "Query"
     },
     ko: {
         "Need config": "config.js 파일을 만들어야 합니다",
@@ -232,7 +236,11 @@ var Lang = {
         "Monthly": "월별",
         "Whole": "전체",
         "Result": "결과",
-        "Transition": "추이"
+        "Transition": "추이",
+
+        // Search
+        "Search": "검색",
+        "Query": "검색어"
 
     }
 };
