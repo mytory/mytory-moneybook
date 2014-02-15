@@ -218,6 +218,9 @@ var MMB = {
             item = MMB.datastore.content.get(data.id);
             data2 = _.clone(data);
             delete data2.id;
+            if( ! data2.to_account_id){
+                data2.to_account_id = null;
+            }
             item.update(data2);
             return item;
         }
@@ -545,6 +548,64 @@ var MMB = {
         });
 
         return balance;
+    },
+
+    get_mine_and_others: function(list){
+        // 시나리오
+        // 1. 그냥 수입 : 내 자산이다.
+        // 2. 그냥 지출 : 내 자산에서 뺀다.
+        // 3. 은행에서 내 계좌로 이체(대출) : 빚이 늘어난다.
+        // 4. 내 계좌에서 은행으로 이체(대출 상환) : 자산은 변동할 필요 없고 빚이 줄어든다.
+        // 5. 내 계좌에서 친구 빌려줌 계좌로 이체 : 자산 변동 없다.
+        // 6. 적금 : 자산 변동 없다.
+
+        var mine = 0,
+            others = 0,
+            pure_asset,
+            account,
+            to_account;
+
+        _.forEach(list, function(item){
+
+            account = MMB.datastore.account_list.get(item.get('account_id'));
+            if(item.get('to_account_id')){
+                to_account = MMB.datastore.account_list.get(item.get('to_account_id'));
+            }
+
+            switch(item.get('behavior_type')){
+                case 'withdrawal':
+                    mine -= item.get('amount');
+                    break;
+
+                case 'deposit':
+                    mine += item.get('amount');
+                    break;
+
+                case 'transfer':
+
+                    // 빚 갚음
+                    if(account.get('owner') === 'mine' && to_account.get('owner') === 'others'){
+                        mine -= item.get('amount');
+                        others -= item.get('amount');
+                    }
+
+                    // 빚냄
+                    if(account.get('owner') === 'others' && to_account.get('owner') === 'mine'){
+                        mine += item.get('amount');
+                        others += item.get('amount');
+                    }
+                // no default
+            }
+        });
+
+        pure_asset = mine - others;
+
+        return {
+            mine: mine,
+            others: others,
+            pure_asset: pure_asset
+        };
+
     },
 
     get_year_list: function(){

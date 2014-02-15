@@ -115,6 +115,9 @@ var Lang = {
         "Whole": "Whole",
         "Result": "Result",
         "Transition": "Transition",
+        "Asset": "Asset",
+        "Dept": "Dept",
+        "Pure asset": "Pure asset",
 
         // Search
         "Search": "Search",
@@ -238,6 +241,9 @@ var Lang = {
         "Whole": "전체",
         "Result": "결과",
         "Transition": "추이",
+        "Asset": "자산",
+        "Dept": "부채",
+        "Pure asset": "순자산",
 
         // Search
         "Search": "검색",

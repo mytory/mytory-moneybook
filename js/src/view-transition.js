@@ -6,26 +6,30 @@ MMB_Backbone.View_transition = Backbone.View.extend({
             year_list,
             vars,
             list = [],
-            statistics;
+            mine = 0,
+            others = 0,
+            pure_asset = 0;
 
         if( ! opt.year){
 
             year_list = MMB.get_year_list();
 
             _.forEach(year_list, function(year){
+                var mine_and_others,
+                    balance;
+
                 item_list = MMB.datastore.content.query({
                     year: year
                 });
-                statistics = MMB.get_statistics(item_list);
+                mine_and_others = MMB.get_mine_and_others(item_list);
+                mine += mine_and_others.mine;
+                others += mine_and_others.others;
+                pure_asset += mine_and_others.pure_asset;
                 list.push({
                     time: year,
-                    withdrawal: statistics.withdrawal,
-                    withdrawal_like_transfer: statistics.withdrawal_like_transfer,
-                    withdrawal_like: statistics.withdrawal + statistics.withdrawal_like_transfer,
-                    deposit: statistics.deposit,
-                    deposit_like_transfer: statistics.deposit_like_transfer,
-                    deposit_like: statistics.deposit + statistics.deposit_like_transfer,
-                    balance: MMB.get_balance(item_list)
+                    mine: mine,
+                    others: others,
+                    pure_asset: pure_asset
                 });
             });
 

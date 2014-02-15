@@ -11,32 +11,16 @@
     <h2><%= row.time %></h2>
     <ul class="list-group">
         <li class="list-group-item">
-            <%= polyglot.t('Withdrawal') %>:
-            <span class="pull-right"><%= MMB.util.number_format(row.withdrawal) %></span>
+            <%= polyglot.t('Asset') %>:
+            <span class="pull-right"><%= MMB.util.number_format(row.mine) %></span>
         </li>
         <li class="list-group-item">
-            <%= polyglot.t('Deposit') %>:
-            <span class="pull-right"><%= MMB.util.number_format(row.deposit) %></span>
+            <%= polyglot.t('Dept') %>:
+            <span class="pull-right"><%= MMB.util.number_format(row.others) %></span>
         </li>
         <li class="list-group-item">
-            <%= polyglot.t('Withdrawal-like transfer') %>:
-            <span class="pull-right"><%= MMB.util.number_format(row.withdrawal_like_transfer) %></span>
-        </li>
-        <li class="list-group-item">
-            <%= polyglot.t('Deposit-like transfer') %>:
-            <span class="pull-right"><%= MMB.util.number_format(row.deposit_like_transfer) %></span>
-        </li>
-        <li class="list-group-item">
-            <%= polyglot.t('Withdrawal-like') %>:
-            <span class="pull-right"><%= MMB.util.number_format(row.withdrawal_like) %></span>
-        </li>
-        <li class="list-group-item">
-            <%= polyglot.t('Deposit-like') %>:
-            <span class="pull-right"><%= MMB.util.number_format(row.deposit_like) %></span>
-        </li>
-        <li class="list-group-item">
-            <%= polyglot.t('Balance') %>:
-            <span class="pull-right"><%= MMB.util.number_format(row.balance) %></span>
+            <%= polyglot.t('Pure asset') %>:
+            <span class="pull-right"><%= MMB.util.number_format(row.pure_asset) %></span>
         </li>
     </ul>
 <% }); %>

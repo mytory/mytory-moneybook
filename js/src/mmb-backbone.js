@@ -1153,8 +1153,7 @@ var MMB_Backbone = {
         },
         set_move_to_auto_complete: function(e){
             var data = MMB.util.form2json('.js-move-to-category-form'),
-                vars,
-                view_register;
+                vars;
 
             if( ! MMB.pages.register){
                 MMB.pages.register = new MMB_Backbone.View_register;
