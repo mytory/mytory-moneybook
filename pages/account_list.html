@@ -8,8 +8,13 @@
             <span class="glyphicon glyphicon-plus pull-right"></span>
         </a>
         <% _.forEach(account_list, function(entry){ %>
-            <a class="list-group-item" href="#account/update/<%= entry.get('name') %>">
-                <%= entry.get('name') %>
+            <a class="list-group-item clearfix" href="#account/update/<%= entry.get('name') %>">
+                <span class="pull-left">
+                    <%= entry.get('name') %>
+                    <br/>
+                    <small class="text-muted"><%= MMB.util.number_format(MMB.get_account_balance(entry.getId())) %></small>
+                </span>
+
                 <span class="glyphicon glyphicon-pencil pull-right"></span>
             </a>
         <% }); %>
