@@ -123,7 +123,19 @@ var Lang = {
         // Search
         "Search": "Search",
         "Query": "Query",
-        "Search Result": "Search Result"
+        "Search Result": "Search Result",
+
+        // Export
+        "transfer": "transfer",
+        "Export": "Export",
+        "Copy below. Paste it to excel.": "Copy below. Paste it to excel.",
+        "date": "date",
+        "behavior type": "behavior type",
+        "memo": "memo",
+        "amount": "amount",
+        "category": "category",
+        "account": "account",
+        "to account": "to account"
     },
     ko: {
         "Need config": "config.js 파일을 만들어야 합니다",
@@ -156,7 +168,7 @@ var Lang = {
         "Account": "계좌",
         "My Wallet": "내 지갑",
         "Account helper": "새 계좌를 입력하면 새로 계좌를 만들고 저장하게 됩니다.",
-        "To account": "이체할 계좌",
+        "To account": "대상 계좌",
         "Success": "성공",
         "Complete": "완료",
         " is added to account list. Go account setting, and set properties.": " 계좌를 계좌 목록에 새로 추가했습니다. 계좌 설정에 가서 속성을 설정하세요.",
@@ -250,7 +262,19 @@ var Lang = {
         // Search
         "Search": "검색",
         "Query": "검색어",
-        "Search Result": "검색 결과"
+        "Search Result": "검색 결과",
+
+        // Export
+        "transfer": "이체",
+        "Export": "내보내기",
+        "Copy below. Paste it to excel.": "아래 표를 복사한 뒤 엑셀에 붙여 넣으세요.",
+        "date": "날짜",
+        "behavior type": "종류",
+        "memo": "내역",
+        "amount": "금액",
+        "category": "분류",
+        "account": "계좌",
+        "to account": "대상 계좌"
 
     }
 };

@@ -17,7 +17,8 @@ var MMB_Router = Backbone.Router.extend({
         "account/list": "account_list",
         "account/add": "account_add",
         "account/update/*path": "account_update",
-        "search(/*path)": "search"
+        "search(/*path)": "search",
+        "export": "export"
     },
 
     initialize: function(){
@@ -148,6 +149,10 @@ var MMB_Router = Backbone.Router.extend({
         MMB.render('search', {
             query: query
         });
+    },
+
+    export: function(){
+        MMB.render('export');
     }
 
 });

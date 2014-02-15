@@ -1,0 +1,36 @@
+<div class="page-header">
+    <h1>
+        <%= polyglot.t('Export') %>
+    </h1>
+</div>
+
+<p><%= polyglot.t('Copy below. Paste it to excel.') %></p>
+
+<div class="table-responsive">
+    <table class="table table-condensed">
+        <thead>
+        <tr>
+            <th><%= polyglot.t('date') %></th>
+            <th><%= polyglot.t('behavior type') %></th>
+            <th><%= polyglot.t('memo') %></th>
+            <th><%= polyglot.t('amount') %></th>
+            <th><%= polyglot.t('category') %></th>
+            <th><%= polyglot.t('account') %></th>
+            <th><%= polyglot.t('to account') %></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% _.forEach(list, function(item_set){ %>
+            <tr>
+                <td><%= item_set.date %></td>
+                <td><%= item_set.behavior_type %></td>
+                <td><%= item_set.memo %></td>
+                <td><%= item_set.amount %></td>
+                <td><%= item_set.category %></td>
+                <td><%= item_set.account %></td>
+                <td><%= item_set.to_account %></td>
+            </tr>
+        <% }); %>
+        </tbody>
+    </table>
+</div>
