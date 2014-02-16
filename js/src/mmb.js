@@ -9,6 +9,7 @@ var MMB = {
     connection: null,
     datastore: {
         content: null,
+        month_status: null,
         auto_complete: null,
         account_list: null,
         category_list: null
@@ -41,6 +42,7 @@ var MMB = {
                     MMB.connection = datastore;
 
                     MMB.datastore.content = datastore.getTable('moneybook_content');
+                    MMB.datastore.month_status = datastore.getTable('moneybook_month_status');
                     MMB.datastore.auto_complete = datastore.getTable('moneybook_auto_complete');
                     MMB.datastore.account_list = datastore.getTable('moneybook_account_list');
                     MMB.datastore.category_list = datastore.getTable('moneybook_category_list');
@@ -764,6 +766,44 @@ var MMB = {
         return item.get('year') + '-' + item.get('month') + '-' + item.get('day');
     },
 
+    get_by_account: function(list){
+        var item_list = list ? list : MMB.datastore.content.query(),
+            account,
+            by_account = {};
+
+        _.forEach(item_list, function(item){
+
+            if( ! by_account[item.get('account_id')]){
+                account = MMB.datastore.account_list.get(item.get('account_id'));
+                by_account[account.getId()] = {
+                    name: account.get('name'),
+                    amount: 0
+                };
+            }
+
+            if( item.get('to_account_id') && ! by_account[item.get('to_account_id')]){
+                account = MMB.datastore.account_list.get(item.get('to_account_id'));
+                by_account[account.getId()] = {
+                    name: account.get('name'),
+                    amount: 0
+                };
+            }
+
+            if(item.get('behavior_type') === 'withdrawal'){
+                by_account[item.get('account_id')].amount -= item.get('amount');
+            }
+            if(item.get('behavior_type') === 'deposit'){
+                by_account[item.get('account_id')].amount += item.get('amount');
+            }
+            if(item.get('behavior_type') === 'transfer'){
+                by_account[item.get('account_id')].amount -= item.get('amount');
+                by_account[item.get('to_account_id')].amount += item.get('amount');
+            }
+        });
+
+        return by_account;
+    },
+
     get_account_yearly_balance: function(account_id){
 
         var year_list = MMB.get_year_list(),
@@ -807,6 +847,75 @@ var MMB = {
         });
 
         return account_yearly_balance;
+    },
+
+    update_month_status: function(year, month){
+        var item_list,
+            statistics,
+            by_account,
+            result,
+            data;
+
+        item_list = MMB.datastore.content.query({
+            year: year,
+            month: month
+        });
+        statistics = MMB.get_statistics(item_list);
+        by_account = MMB.get_by_account(item_list);
+
+        /**
+         * 통계엔 다음을 저장한다.
+         *
+         * 해당월 지출 변동분
+         * 해당월 지출성 이체 변동분
+         * 해당월 수입 변동분
+         * 해당월 수입성 이체 변동분
+         * 해당월 저금 변동분
+         * 해당월 계좌별 금액 변동분
+         * 해당월 자산 변동분
+         * 해당월 부채 변동분
+         */
+
+        data = _.clone(statistics);
+        _.forEach(by_account, function(entry){
+            data['account_' + entry.account_id] = entry.amount;
+        });
+
+        data.year = year;
+        data.month = month;
+
+        result = MMB.datastore.month_status.query({
+            year: year,
+            month: month
+        });
+
+        if(result.length > 0){
+            result[0].deleteRecord();
+        }
+        MMB.datastore.month_status.insert(data);
+    },
+
+    update_all_month_status: function(){
+        var item_list = MMB.datastore.content.query(),
+            year_month = [],
+            result;
+
+        _.forEach(item_list, function(item){
+            result = _.find(year_month, function(entry){
+                return ( item.get('year') === entry.year ) && ( item.get('month') ===  entry.month );
+            });
+            if( ! result){
+                year_month.push({
+                    year: item.get('year'),
+                    month: item.get('month')
+                });
+            }
+        });
+
+        _.forEach(year_month, function(year_month){
+            MMB.update_month_status(year_month.year, year_month.month);
+        });
+
     }
 
 };

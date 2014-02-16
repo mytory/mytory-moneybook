@@ -44,7 +44,7 @@ MMB_Backbone.View_statistics = Backbone.View.extend({
 
         balance = this.get_balance(list);
         statistics = MMB.get_statistics(list);
-        by_account = this.get_by_account(list);
+        by_account = MMB.get_by_account(list);
 
         if(balance < 0){
             balance_class = 'danger';
@@ -78,43 +78,6 @@ MMB_Backbone.View_statistics = Backbone.View.extend({
 
     get_balance: function(list){
         return MMB.get_balance(list);
-    },
-
-    get_by_account: function(list){
-        var item_list = list ? list : MMB.datastore.content.query(),
-            account,
-            by_account = {};
-
-        _.forEach(item_list, function(item){
-
-            if( ! by_account[item.get('account_id')]){
-                account = MMB.datastore.account_list.get(item.get('account_id'));
-                by_account[account.getId()] = {
-                    name: account.get('name'),
-                    amount: 0
-                };
-            }
-
-            if( item.get('to_account_id') && ! by_account[item.get('to_account_id')]){
-                account = MMB.datastore.account_list.get(item.get('to_account_id'));
-                by_account[account.getId()] = {
-                    name: account.get('name'),
-                    amount: 0
-                };
-            }
-
-            if(item.get('behavior_type') === 'withdrawal'){
-                by_account[item.get('account_id')].amount -= item.get('amount');
-            }
-            if(item.get('behavior_type') === 'deposit'){
-                by_account[item.get('account_id')].amount += item.get('amount');
-            }
-            if(item.get('behavior_type') === 'transfer'){
-                by_account[item.get('account_id')].amount -= item.get('amount');
-                by_account[item.get('to_account_id')].amount += item.get('amount');
-            }
-        });
-
-        return by_account;
     }
+
 })
