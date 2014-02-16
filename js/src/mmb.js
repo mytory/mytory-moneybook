@@ -6,6 +6,7 @@ var MMB = {
     dropbox_ok: false,
     moneybook: null,
     datastoreManager: null,
+    connection: null,
     datastore: {
         content: null,
         auto_complete: null,
@@ -36,6 +37,8 @@ var MMB = {
                     if (error) {
                         alert('Error opening default datastore: ' + error);
                     }
+
+                    MMB.connection = datastore;
 
                     MMB.datastore.content = datastore.getTable('moneybook_content');
                     MMB.datastore.auto_complete = datastore.getTable('moneybook_auto_complete');
@@ -113,7 +116,7 @@ var MMB = {
             if( ! table_ready){
                 setTimeout(function(){
                     that.render(page_name, vars);
-                }, 200);
+                }, 100);
                 return false;
             }
         }
@@ -146,7 +149,7 @@ var MMB = {
     },
     init_category_list: function(){
         if( ! MMB.datastore.category_list){
-            setTimeout(MMB.init_category_list, 200);
+            setTimeout(MMB.init_category_list, 100);
             return false;
         }
         var category_list = MMB.datastore.category_list.query();
@@ -617,7 +620,19 @@ var MMB = {
     },
 
     show_loader: function(){
+        var seconds = 0,
+            update_seconds;
+
+        update_seconds = function(){
+            if($('.page-loader').is(':hidden')){
+                return false;
+            }
+            $('.js-seconds').text(seconds);
+            seconds++;
+            setTimeout(update_seconds, 1000);
+        };
         $('.page-loader').show();
+        update_seconds();
     },
 
     add_lang_class_to_body: function(){
