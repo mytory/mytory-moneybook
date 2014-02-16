@@ -4,5 +4,5 @@ js/production.js
 js/production.min.js
 css/production.css
 css/production.min.css
-images/src
+images/*.png
 mytory-moneybook.zip
