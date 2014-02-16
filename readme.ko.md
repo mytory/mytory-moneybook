@@ -35,11 +35,11 @@ Mytory Moneybook은 단순하고 강력한 웹앱입니다. 데스크탑과 스�
 
 다음으로 [이 페이지](https://www.dropbox.com/developers/apps/create)에서 드롭박스 앱을 만듭니다. 아래 이미지를 참고하세요. 이름은 아무거나 넣으면 됩니다.
 
-![](images/create-app.png)
+![](images/src/create-app.png)
 
 OAuth redirect URIs에는 Public 폴더에 있는 `moneybook.html`의 공개 링크(Public link)를 복사해서 넣습니다. Add 버튼을 꼭 눌러 줘야 합니다.
 
-![](images/app-setting.png)
+![](images/src/app-setting.png)
 
 그 뒤 설정 페이지에 있는 App Key를 복사해서, `config.js` 파일에 있는 `app_key` 항목을 덮어 씁니다.
 

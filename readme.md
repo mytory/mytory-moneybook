@@ -29,11 +29,11 @@ First, [Enable Dropbox Public folder](https://www.dropbox.com/enable_public_fold
 
 Second, create dropbox app on [this page](https://www.dropbox.com/developers/apps/create). See below. Enter app name you want.
 
-![](images/create-app.png)
+![](images/src/create-app.png)
 
 And, You have to enter `moneybook.html` file's dropbox public link to OAuth redirect URIs field. And don't forget click Add button.
 
-![](images/app-setting.png)
+![](images/src/app-setting.png)
 
 In setting page, copy App key. Next, go to Mytory Moneybook's `config.js`. Enter App key.
 
