@@ -776,6 +776,7 @@ var MMB = {
             if( ! by_account[item.get('account_id')]){
                 account = MMB.datastore.account_list.get(item.get('account_id'));
                 by_account[account.getId()] = {
+                    account_id: account.getId(),
                     name: account.get('name'),
                     amount: 0
                 };
@@ -784,6 +785,7 @@ var MMB = {
             if( item.get('to_account_id') && ! by_account[item.get('to_account_id')]){
                 account = MMB.datastore.account_list.get(item.get('to_account_id'));
                 by_account[account.getId()] = {
+                    account_id: account.getId(),
                     name: account.get('name'),
                     amount: 0
                 };
