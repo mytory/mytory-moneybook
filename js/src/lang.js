@@ -101,6 +101,7 @@ var Lang = {
         "withdrawal": "withdrawal",
         "Sum": "Sum",
         "->": "→",
+        "Show type: ": "Show type: ",
 
         // Statistics
         "Statistics": "Statistics",
@@ -242,6 +243,7 @@ var Lang = {
         "withdrawal": "지출",
         "Sum": "합계",
         "->": "→",
+        "Show type: ": "볼 종류: ",
 
         // Statistics
         "Statistics": "통계",

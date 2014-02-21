@@ -1,8 +1,14 @@
 MMB_Backbone.View_weekly = Backbone.View.extend({
     el: ".page-weekly",
+    visible_behavior_type: [
+        'withdrawal',
+        'deposit',
+        'transfer'
+    ],
     events: {
         "click .js-weekly-change-date": "change_date",
-        "click .js-weekly-change-days-btn": "change_days"
+        "click .js-weekly-change-days-btn": "change_days",
+        "click .js-visible-behavior-type": "show_select_behavior_type"
     },
     change_date: function(){
         location.href = '#weekly/' + $('.js-weekly-basic-date').val();
@@ -68,7 +74,8 @@ MMB_Backbone.View_weekly = Backbone.View.extend({
             }
 
             vars = {
-                week_data: week_data
+                week_data: week_data,
+                visible_behavior_type: this.visible_behavior_type
             };
 
             MMB.util.render_ajax('pages/weekly.html', vars, this, 'template', function(){
@@ -77,6 +84,15 @@ MMB_Backbone.View_weekly = Backbone.View.extend({
 
             return this;
         }
+    },
 
+    show_select_behavior_type: function(){
+        var visible_behavior_type = [];
+        $('.js-weekly-table .js-item-row').hide();
+        this.$el.find('.js-visible-behavior-type input:checked').each(function(){
+            $('.js-weekly-table .js-item-row[data-behavior-type="' + $(this).val() + '"]').show();
+            visible_behavior_type.push($(this).val());
+        });
+        this.visible_behavior_type = visible_behavior_type;
     }
 });

@@ -18,6 +18,25 @@
         <button class="btn btn-default js-weekly-change-date" type="button">Go!</button>
     </span>
 </div><!-- /input-group -->
+<form class="form-inline" role="form">
+    <div class="form-group js-visible-behavior-type">
+        <label class="control-label">
+            <%= polyglot.t('Show type: ') %>
+        </label>
+        <label class="checkbox-inline">
+            <input type="checkbox" value="withdrawal" <%= visible_behavior_type.indexOf('withdrawal') > -1 ? "checked" : '' %> > 
+            <%= polyglot.t('Withdrawal') %>
+        </label>
+        <label class="checkbox-inline">
+            <input type="checkbox" value="deposit" <%= visible_behavior_type.indexOf('deposit') > -1 ? "checked" : '' %>> 
+            <%= polyglot.t('Deposit') %>
+        </label>
+        <label class="checkbox-inline">
+            <input type="checkbox" value="transfer" <%= visible_behavior_type.indexOf('transfer') > -1 ? "checked" : '' %>> 
+            <%= polyglot.t('Transfer') %>
+        </label>
+    </div>
+</form>
 
 <% _.forEach(week_data, function(data){ %>
 <h2 class="weekly-title"><%= data.date %> <span class="weekly-day-of-the-week">(<%= data.day_of_the_week %>)</span></h2>
@@ -33,7 +52,10 @@ return true;
         <col style="width: 65%"/>
     </colgroup>
     <% _.forEach(data.list, function(item_set){ %>
-        <tr data-id="<%= item_set.item.getId() %>" data-behavior-type="<%= item_set.item.get('behavior_type') %>">
+        <tr data-id="<%= item_set.item.getId() %>" 
+            data-behavior-type="<%= item_set.item.get('behavior_type') %>"
+            <%= visible_behavior_type.indexOf(item_set.item.get('behavior_type')) === -1 ? "style='display: none'" : "" %> 
+            class="js-item-row">
             <td>
                 <a href="#register/<%= item_set.item.getId() %>">
                     <%= item_set.item.get('memo') %>
