@@ -1,5 +1,15 @@
 moneybook.html
 config.js
+pages/account_list.html
+pages/account_manage.html
+pages/category2-update.html
+pages/export.html
+pages/register.html
+pages/search.html
+pages/setting.html
+pages/statistics.html
+pages/transition.html
+pages/weekly.html
 js/production.js
 css/production.min.css
 fonts/glyphicons-halflings-regular.eot
