@@ -5,5 +5,5 @@
  */
 var MMB_Config = {
     app_key: 'gvpjeh3nzqz0m19',
-    version: '1.0'
+    version: '1.0.1'
 };
