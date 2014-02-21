@@ -2,7 +2,7 @@
 rm -rf ~/dropbox/Public/moneybook/*
 
 rm mytory-moneybook.zip
-zip mytory-moneybook.zip moneybook.html config.js readme.md readme.ko.md pages/* js/production.js js/xls.js js/xlsworker.js css/production.min.css fonts/* images/icon4.png
+zip mytory-moneybook.zip moneybook.html moneybook.manifest config.js readme.md readme.ko.md pages/* js/production.js js/xls.js js/xlsworker.js css/production.min.css fonts/* images/icon4.png
 
 mkdir ~/dropbox/Public/moneybook/css
 cp css/production.min.css ~/dropbox/Public/moneybook/css/
@@ -19,4 +19,4 @@ cp js/production.js js/xls.js js/xlsworker.js ~/dropbox/Public/moneybook/js/
 mkdir ~/dropbox/Public/moneybook/images
 cp images/*.png ~/dropbox/Public/moneybook/images
 
-cp -r mytory-moneybook.zip moneybook.html readme.ko.md readme.md config.js ~/dropbox/Public/moneybook/
+cp -r mytory-moneybook.zip moneybook.html moneybook.manifest readme.ko.md readme.md config.js ~/dropbox/Public/moneybook/
