@@ -55,6 +55,7 @@ var Lang = {
         "Delete": "Delete",
         "Words are wrong.": "Words are wrong.",
         "Close": "Close",
+        "Korean": "한국어",
 
         // Account Setting
         "Add Account": "Add Account",
@@ -99,6 +100,7 @@ var Lang = {
         "No content.": "No content.",
         "withdrawal": "withdrawal",
         "Sum": "Sum",
+        "->": "→",
 
         // Statistics
         "Statistics": "Statistics",
@@ -193,6 +195,7 @@ var Lang = {
         "Delete": "삭제",
         "Words are wrong.": "단어가 틀립니다.",
         "Close": "닫기",
+        "Korean": "한국어",
 
         // Account Setting
         "Add Account": "계좌 추가",
@@ -238,6 +241,7 @@ var Lang = {
         "No content.": "사용 내역이 없습니다.",
         "withdrawal": "지출",
         "Sum": "합계",
+        "->": "→",
 
         // Statistics
         "Statistics": "통계",

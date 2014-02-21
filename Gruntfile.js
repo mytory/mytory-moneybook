@@ -66,14 +66,8 @@ module.exports = function(grunt) {
             generate: {
                 options: {
                     basePath: './',
-                    cache: [],
                     network: ['*'],
-                    fallback: [],
-                    exclude: [],
-                    preferOnline: true,
-                    verbose: true,
                     timestamp: true,
-                    hash: true,
                     master: ['moneybook.html']
                 },
                 src: [

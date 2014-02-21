@@ -47,7 +47,7 @@ return true;
                     <% if(item_set.item.get('behavior_type') == 'transfer'){ %>
                         <span class="label label-info"><%= polyglot.t('Transfer') %></span>
                         <%= item_set.account.get('name') %>
-                        →
+                        <%= polyglot.t('->')%>
                         <%= item_set.to_account.get('name') %>
                     <% } %>
                 </small>

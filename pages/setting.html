@@ -11,7 +11,7 @@
                     <input type="radio" value="en" name="language" <%= MMB.if_checked(language, 'en') %> > English
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" value="ko" name="language" <%= MMB.if_checked(language, 'ko') %> > Korean 한국어
+                    <input type="radio" value="ko" name="language" <%= MMB.if_checked(language, 'ko') %> > Korean <%= polyglot.t('Korean') %>
                 </label>
                 <p class="help-block"><%= polyglot.t('Language change info') %></p>
             </div>
