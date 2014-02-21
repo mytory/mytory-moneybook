@@ -4,7 +4,6 @@ module.exports = function(grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
-
         concat: {
             dist: {
                 src: [
@@ -63,10 +62,39 @@ module.exports = function(grunt) {
             }
         },
 
+        manifest: {
+            generate: {
+                options: {
+                    basePath: './',
+                    cache: [],
+                    network: ['*'],
+                    fallback: [],
+                    exclude: [],
+                    preferOnline: true,
+                    verbose: true,
+                    timestamp: true,
+                    hash: true,
+                    master: ['moneybook.html']
+                },
+                src: [
+                    'moneybook.html',
+                    'config.js',
+                    'pages/*.html',
+                    'js/production.js',
+                    'js/xls.js',
+                    'js/xlsworker.js',
+                    'css/production.min.css',
+                    'fonts/*',
+                    'images/icon4.png'
+                ],
+                dest: 'manifest.appcache'
+            }
+        },
+
         watch: {
             scripts: {
-                files: ['js/*.js', 'js/src/*.js', 'css/src/*.css', 'images/src/*'],
-                tasks: ['concat', 'uglify', 'cssmin', 'imagemin'],
+                files: ['*.html', 'pages/*.html', '*.js', 'js/*.js', 'js/src/*.js', 'css/src/*.css', 'images/src/*'],
+                tasks: ['concat', 'manifest', 'uglify', 'cssmin', 'imagemin'],
                 options: {
                     spawn: false
                 }
@@ -80,9 +108,10 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-imagemin');
+    grunt.loadNpmTasks('grunt-manifest');
     grunt.loadNpmTasks('grunt-contrib-watch');
 
     // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
-    grunt.registerTask('default', ['concat', 'uglify', 'cssmin', 'imagemin', 'watch']);
+    grunt.registerTask('default', ['concat', 'manifest', 'uglify', 'cssmin', 'imagemin', 'watch']);
 
 };
