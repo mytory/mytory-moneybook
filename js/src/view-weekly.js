@@ -10,7 +10,13 @@ MMB_Backbone.View_weekly = Backbone.View.extend({
     change_days: function(e){
         var current = $('.js-weekly-basic-date').val(),
             days = $(e.target).data('days'),
+            target_date;
+
+        if(days === 'today'){
+            target_date = moment().format('YYYY-MM-DD');
+        }else{
             target_date = moment(current, 'YYYY-MM-DD').add('days', days).format('YYYY-MM-DD');
+        }
 
         location.href = '#weekly/' + target_date;
     },
@@ -29,7 +35,7 @@ MMB_Backbone.View_weekly = Backbone.View.extend({
         if(opts === undefined || opts.date === undefined){
             opts = {
                 date: moment().format('YYYY-MM-DD')
-            }
+            };
         }
 
         if( ! MMB.datastore.content){
@@ -65,7 +71,9 @@ MMB_Backbone.View_weekly = Backbone.View.extend({
                 week_data: week_data
             };
 
-            MMB.util.render_ajax('pages/weekly.html', vars, this, 'template');
+            MMB.util.render_ajax('pages/weekly.html', vars, this, 'template', function(){
+                $('.js-weekly-table:last').after($('.js-date-nav').clone());
+            });
 
             return this;
         }

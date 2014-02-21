@@ -57,3 +57,7 @@ body.body-lang-en .lang-en {
     text-decoration: none;
     color: #333;
 }
+
+.date-nav {
+    margin-bottom: 1em;
+}
