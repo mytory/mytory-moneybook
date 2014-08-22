@@ -771,6 +771,8 @@ var MMB_Backbone = {
 
             account.update(data_without_id);
 
+            MMB.print_balance_panel();
+
             location.href = '#account/list';
 
         },
